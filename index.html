@@ -1196,6 +1196,46 @@ html[dir="rtl"] .quiz-result p { font-family: 'Noto Naskh Arabic', serif; }
 }
 .quiz-promo p { font-size: 0.85rem; margin-top: 0.5rem; }
 
+/* ── QUIZ RECOMMENDATION CARD ── */
+.quiz-rec {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background: var(--bg-white);
+  border: 1px solid var(--gold-light);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem auto 0;
+  max-width: 420px;
+  text-align: left;
+}
+html[dir="rtl"] .quiz-rec { text-align: right; flex-direction: row-reverse; }
+.quiz-rec img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.quiz-rec-body { flex: 1; }
+.quiz-rec-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 0.15rem;
+}
+.quiz-rec-price {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.85rem;
+  color: var(--amber);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.65rem;
+}
+.quiz-rec .btn-dark {
+  font-size: 0.7rem;
+  padding: 0.5rem 1.1rem;
+  letter-spacing: 0.15em;
+}
+
 /* ── CHRONICLE ── */
 .chronicle { padding: 6rem 2rem; background: var(--cream-light); }
 .chronicle-header { text-align: center; max-width: 700px; margin: 0 auto 2rem; }
@@ -1987,7 +2027,7 @@ html[dir="rtl"] .whatsapp-float { right: auto; left: 2rem; align-items: flex-sta
   text-align: center;
   padding: 2rem 1rem;
 }
-.confirmation-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+.confirmation-icon { width: 64px; height: 64px; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; background: #1a3a2a; border-radius: 50%; }
 .confirmation-box h3 {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.8rem;
@@ -2159,11 +2199,10 @@ input.invalid, select.invalid { border-color: var(--rose); }
 <nav id="navbar">
   <a href="#" class="nav-logo">LAMYSK AURA</a>
   <ul class="nav-links">
-    <li><a href="#bio" data-i18n="nav_about">À Propos</a></li>
-    <li><a href="#brand" data-i18n="nav_story">Notre Univers</a></li>
     <li><a href="#selection" data-i18n="nav_selection">La Sélection</a></li>
-    <li><a href="#chronicle" data-i18n="nav_chronicle">Chronique</a></li>
+    <li><a href="#ecrins" data-i18n="nav_ecrins">Coffrets</a></li>
     <li><a href="#quiz" data-i18n="nav_diagnostic">Diagnostic</a></li>
+    <li><a href="#bio" data-i18n="nav_about">À Propos</a></li>
     <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
   </ul>
   <div class="nav-cart" onclick="toggleCart()">
@@ -2178,11 +2217,10 @@ input.invalid, select.invalid { border-color: var(--rose); }
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
   <button class="mobile-close" onclick="toggleMobile()">&times;</button>
-  <a href="#bio" onclick="toggleMobile()" data-i18n="nav_about">À Propos</a>
-  <a href="#brand" onclick="toggleMobile()" data-i18n="nav_story">Notre Univers</a>
   <a href="#selection" onclick="toggleMobile()" data-i18n="nav_selection">La Sélection</a>
-  <a href="#chronicle" onclick="toggleMobile()" data-i18n="nav_chronicle">Chronique</a>
+  <a href="#ecrins" onclick="toggleMobile()" data-i18n="nav_ecrins">Coffrets</a>
   <a href="#quiz" onclick="toggleMobile()" data-i18n="nav_diagnostic">Diagnostic</a>
+  <a href="#bio" onclick="toggleMobile()" data-i18n="nav_about">À Propos</a>
   <a href="#contact" onclick="toggleMobile()" data-i18n="nav_contact">Contact</a>
 </div>
 
@@ -2230,84 +2268,6 @@ input.invalid, select.invalid { border-color: var(--rose); }
   <h2 data-i18n="ecrins_title">L'expérience parfum complète — réunie dans un écrin</h2>
   <p data-i18n="ecrins_sub">Le parfum parfait ne se porte pas. Il se compose.</p>
   <a href="#ecrins" class="btn btn-primary" data-i18n="ecrins_cta">Voir les Coffrets</a>
-</section>
-
-<!-- BIO -->
-<section class="bio" id="bio">
-  <div class="bio-grid container">
-    <div class="bio-visual reveal">
-      <div class="bio-img-main"></div>
-      <div class="bio-accent"></div>
-    </div>
-    <div class="bio-content reveal">
-      <span class="section-label" data-i18n="bio_label">À Propos</span>
-      <h2 class="section-title" data-i18n="bio_title">L'Âme <em>Authentique</em></h2>
-      <div class="bio-text">
-        <p class="highlight" data-i18n="bio_highlight">Certains héritages ne se transmettent pas en mots. Ils se respirent.</p>
-        <p data-i18n="bio_p1">Le mien tient entre les plis d'un caftan, le bois d'un vieux meuble en cèdre et l'air doux d'une maison marocaine en été. Ma grand-mère n'était pas parfumeuse — elle incarnait un parfum.</p>
-        <p data-i18n="bio_p2">Ce parfum racontait sa vie : les grandes Eaux de Cologne françaises d'un côté, les trésors de l'Orient de l'autre — dahn al oud, bakhour, musc blanc. Et entre les deux, le Maroc intime : eau de fleur d'oranger, serghina, loban.</p>
-        <p data-i18n="bio_p3">Aujourd'hui, ce rêve a un nom : <strong>LAMYSK AURA</strong> — une galerie olfactive où je réunis des parfums rares et artisanaux, choisis pour leur âme.</p>
-      </div>
-      <p class="bio-signature" data-i18n="bio_signature">Bienvenue dans mon monde. Bienvenue dans l'Aura.</p>
-    </div>
-  </div>
-</section>
-
-<!-- BRAND TABS -->
-<section class="brand-section" id="brand">
-  <div class="brand-tabs">
-    <span class="section-label" data-i18n="brand_label">Notre Univers</span>
-    <div class="tab-nav" style="margin-top:1rem;">
-      <button class="tab-btn active" onclick="switchTab(this, 'sillage')" data-i18n="tab_sillage">Sillage</button>
-      <button class="tab-btn" onclick="switchTab(this, 'philosophy')" data-i18n="tab_philosophy">Philosophie</button>
-      <button class="tab-btn" onclick="switchTab(this, 'promise')" data-i18n="tab_promise">Promesse</button>
-    </div>
-
-    <div class="tab-content active" id="sillage">
-      <h3 data-i18n="sillage_title">LAMYSK AURA n'a pas été créée. Elle s'est imposée.</h3>
-      <p data-i18n="sillage_p1">Née de l'obsession d'une exploratrice olfactive, elle existe au croisement de la découverte et de la dévotion.</p>
-      <p data-i18n="sillage_p2">Nous ne créons pas de parfums, nous les curons. Nous cherchons les créateurs les plus discrets et sincères — ceux qui ont choisi la profondeur plutôt que la visibilité.</p>
-      <p class="tagline">LAMYSK AURA · Your Niche Fragrance Home</p>
-    </div>
-
-    <div class="tab-content" id="philosophy">
-      <h3 data-i18n="philo_title">Un parfum n'est jamais un simple produit</h3>
-      <p data-i18n="philo_p1">C'est une rencontre. Entre un lieu et un souvenir. Entre une matière première et une émotion. Entre un créateur et celle qui le portera comme un selham précieux.</p>
-      <p data-i18n="philo_p2">Notre sélection ne suit aucune tendance. Elle ne suit qu'une seule exigence : l'émotion. Chaque parfum doit raconter quelque chose de vrai.</p>
-      <p class="tagline">LAMYSK AURA · Your Niche Fragrance Home</p>
-    </div>
-
-    <div class="tab-content" id="promise">
-      <h3 data-i18n="promise_title">Révéler le parfum qui était déjà le vôtre</h3>
-      <p data-i18n="promise_p1">Chercher ce que d'autres ignorent. Porter ce qu'on ne trouve pas ailleurs. Chaque pièce de notre sélection laisse une empreinte — pas juste sur la peau, mais dans la mémoire.</p>
-      <p style="font-weight:500; text-align:center; margin-top:1.5rem;" data-i18n="promise_p2">C'est notre promesse.</p>
-    </div>
-  </div>
-</section>
-
-<!-- VALUES -->
-<section class="values reveal" id="values">
-  <div class="values-header">
-    <span class="section-label" data-i18n="values_label">Nos Valeurs</span>
-    <h2 class="section-title" style="margin-top:0.8rem;" data-i18n="values_title">Trois Piliers de <em>Vérité</em></h2>
-  </div>
-  <div class="values-grid">
-    <div class="value-card">
-      <div class="value-num">01</div>
-      <h4 data-i18n="val1_title">Authenticité</h4>
-      <p data-i18n="val1_text">Chaque parfum existe parce qu'il est vrai. Vrai dans ses origines, ses matières, les mains qui l'ont créé.</p>
-    </div>
-    <div class="value-card">
-      <div class="value-num">02</div>
-      <h4 data-i18n="val2_title">Rareté</h4>
-      <p data-i18n="val2_text">Pas rare par exclusivité. Rare parce que certaines choses ne se produisent pas en masse. Le confidentiel, le discrètement extraordinaire.</p>
-    </div>
-    <div class="value-card">
-      <div class="value-num">03</div>
-      <h4 data-i18n="val3_title">Révélation</h4>
-      <p data-i18n="val3_text">Le bon parfum ne s'annonce pas. Il vous dévoile. Notre rôle n'est pas de vous vendre un parfum — c'est de vous aider à trouver celui qui a toujours été le vôtre.</p>
-    </div>
-  </div>
 </section>
 
 <!-- THE SELECTION -->
@@ -2736,6 +2696,84 @@ input.invalid, select.invalid { border-color: var(--rose); }
   </div>
 </section>
 
+<!-- BIO -->
+<section class="bio" id="bio">
+  <div class="bio-grid container">
+    <div class="bio-visual reveal">
+      <div class="bio-img-main"></div>
+      <div class="bio-accent"></div>
+    </div>
+    <div class="bio-content reveal">
+      <span class="section-label" data-i18n="bio_label">À Propos</span>
+      <h2 class="section-title" data-i18n="bio_title">L'Âme <em>Authentique</em></h2>
+      <div class="bio-text">
+        <p class="highlight" data-i18n="bio_highlight">Certains héritages ne se transmettent pas en mots. Ils se respirent.</p>
+        <p data-i18n="bio_p1">Le mien tient entre les plis d'un caftan, le bois d'un vieux meuble en cèdre et l'air doux d'une maison marocaine en été. Ma grand-mère n'était pas parfumeuse — elle incarnait un parfum.</p>
+        <p data-i18n="bio_p2">Ce parfum racontait sa vie : les grandes Eaux de Cologne françaises d'un côté, les trésors de l'Orient de l'autre — dahn al oud, bakhour, musc blanc. Et entre les deux, le Maroc intime : eau de fleur d'oranger, serghina, loban.</p>
+        <p data-i18n="bio_p3">Aujourd'hui, ce rêve a un nom : <strong>LAMYSK AURA</strong> — une galerie olfactive où je réunis des parfums rares et artisanaux, choisis pour leur âme.</p>
+      </div>
+      <p class="bio-signature" data-i18n="bio_signature">Bienvenue dans mon monde. Bienvenue dans l'Aura.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BRAND TABS -->
+<section class="brand-section" id="brand">
+  <div class="brand-tabs">
+    <span class="section-label" data-i18n="brand_label">Notre Univers</span>
+    <div class="tab-nav" style="margin-top:1rem;">
+      <button class="tab-btn active" onclick="switchTab(this, 'sillage')" data-i18n="tab_sillage">Sillage</button>
+      <button class="tab-btn" onclick="switchTab(this, 'philosophy')" data-i18n="tab_philosophy">Philosophie</button>
+      <button class="tab-btn" onclick="switchTab(this, 'promise')" data-i18n="tab_promise">Promesse</button>
+    </div>
+
+    <div class="tab-content active" id="sillage">
+      <h3 data-i18n="sillage_title">LAMYSK AURA n'a pas été créée. Elle s'est imposée.</h3>
+      <p data-i18n="sillage_p1">Née de l'obsession d'une exploratrice olfactive, elle existe au croisement de la découverte et de la dévotion.</p>
+      <p data-i18n="sillage_p2">Nous ne créons pas de parfums, nous les curons. Nous cherchons les créateurs les plus discrets et sincères — ceux qui ont choisi la profondeur plutôt que la visibilité.</p>
+      <p class="tagline" data-i18n="brand_tagline">Galerie olfactive — Maroc</p>
+    </div>
+
+    <div class="tab-content" id="philosophy">
+      <h3 data-i18n="philo_title">Un parfum n'est jamais un simple produit</h3>
+      <p data-i18n="philo_p1">C'est une rencontre. Entre un lieu et un souvenir. Entre une matière première et une émotion. Entre un créateur et celle qui le portera comme un selham précieux.</p>
+      <p data-i18n="philo_p2">Notre sélection ne suit aucune tendance. Elle ne suit qu'une seule exigence : l'émotion. Chaque parfum doit raconter quelque chose de vrai.</p>
+      <p class="tagline" data-i18n="brand_tagline">Galerie olfactive — Maroc</p>
+    </div>
+
+    <div class="tab-content" id="promise">
+      <h3 data-i18n="promise_title">Révéler le parfum qui était déjà le vôtre</h3>
+      <p data-i18n="promise_p1">Chercher ce que d'autres ignorent. Porter ce qu'on ne trouve pas ailleurs. Chaque pièce de notre sélection laisse une empreinte — pas juste sur la peau, mais dans la mémoire.</p>
+      <p style="font-weight:500; text-align:center; margin-top:1.5rem;" data-i18n="promise_p2">C'est notre promesse.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values reveal" id="values">
+  <div class="values-header">
+    <span class="section-label" data-i18n="values_label">Nos Valeurs</span>
+    <h2 class="section-title" style="margin-top:0.8rem;" data-i18n="values_title">Trois Piliers de <em>Vérité</em></h2>
+  </div>
+  <div class="values-grid">
+    <div class="value-card">
+      <div class="value-num">01</div>
+      <h4 data-i18n="val1_title">Authenticité</h4>
+      <p data-i18n="val1_text">Chaque parfum existe parce qu'il est vrai. Vrai dans ses origines, ses matières, les mains qui l'ont créé.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-num">02</div>
+      <h4 data-i18n="val2_title">Rareté</h4>
+      <p data-i18n="val2_text">Pas rare par exclusivité. Rare parce que certaines choses ne se produisent pas en masse. Le confidentiel, le discrètement extraordinaire.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-num">03</div>
+      <h4 data-i18n="val3_title">Révélation</h4>
+      <p data-i18n="val3_text">Le bon parfum ne s'annonce pas. Il vous dévoile. Notre rôle n'est pas de vous vendre un parfum — c'est de vous aider à trouver celui qui a toujours été le vôtre.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ABSOLUS BANNER -->
 <section class="absolus-banner">
   <span class="section-label">Les Absolus</span>
@@ -2826,11 +2864,11 @@ input.invalid, select.invalid { border-color: var(--rose); }
       <h3 id="profileTitle"></h3>
       <p id="profileDesc"></p>
       <div class="quiz-promo">
-        <h4 data-i18n="promo_label">Votre Carte Fidélité</h4>
+        <h4 data-i18n="promo_label">Code Découverte</h4>
         <div class="code" id="promoCode"></div>
-        <p style="font-family:'Cormorant Garamond',serif;color:var(--text-muted);font-size:0.9rem;" data-i18n="promo_desc">15% sur votre premier achat · Valable 30 jours</p>
+        <p style="font-family:'Cormorant Garamond',serif;color:var(--text-muted);font-size:0.9rem;" data-i18n="promo_desc">15% de réduction · Valable 30 jours</p>
       </div>
-      <a href="#selection" class="btn btn-dark" style="margin-top:1rem;" data-i18n="quiz_explore">Découvrir Votre Coffret</a>
+      <div id="quizRec"></div>
     </div>
   </div>
 </section>
@@ -2932,9 +2970,15 @@ input.invalid, select.invalid { border-color: var(--rose); }
       </div>
 
       <div class="social-links">
-        <a href="https://www.instagram.com/lamyskaura.fr" class="social-link" title="Instagram" target="_blank" rel="noopener">IG</a>
-        <a href="#" class="social-link" title="TikTok" target="_blank" rel="noopener">TK</a>
-        <a href="#" class="social-link" id="wa-social-link" title="WhatsApp" target="_blank" rel="noopener">WA</a>
+        <a href="https://www.instagram.com/lamyskaura.fr" class="social-link" title="Instagram" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" class="social-link" title="TikTok" target="_blank" rel="noopener" aria-label="TikTok">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.69a4.85 4.85 0 01-1.01-.0z"/></svg>
+        </a>
+        <a href="#" class="social-link" id="wa-social-link" title="WhatsApp" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
       </div>
     </div>
 
@@ -2983,11 +3027,13 @@ input.invalid, select.invalid { border-color: var(--rose); }
       <a href="#selection">Les Essentiels</a>
     </div>
     <div class="footer-col">
-      <h4 data-i18n="footer_connect">Contact</h4>
-      <a href="#">Instagram</a>
-      <a href="#">TikTok</a>
+      <h4 data-i18n="footer_connect">Contact &amp; Infos</h4>
+      <a href="https://www.instagram.com/lamyskaura.fr" target="_blank" rel="noopener">Instagram</a>
       <a href="#contact" data-i18n="nav_contact">Contact</a>
       <a href="#faq">FAQ</a>
+      <a href="#faq" style="margin-top:1rem;display:block;font-size:0.72rem;color:rgba(255,255,255,0.35);">Politique de livraison</a>
+      <a href="#faq" style="font-size:0.72rem;color:rgba(255,255,255,0.35);">Retours &amp; échanges</a>
+      <a href="#faq" style="font-size:0.72rem;color:rgba(255,255,255,0.35);">Conditions de vente</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -3036,6 +3082,10 @@ input.invalid, select.invalid { border-color: var(--rose); }
     <div class="cart-total">
       <span data-i18n="cart_total">Total</span>
       <span id="cartTotal">0 MAD</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.75rem;padding:0.6rem 0.9rem;background:rgba(37,211,102,0.06);border:1px solid rgba(37,211,102,0.2);border-radius:2px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span style="font-family:'Jost',sans-serif;font-size:0.64rem;letter-spacing:0.05em;color:var(--text-body);" data-i18n="cart_wa_note">Confirmation de commande par WhatsApp</span>
     </div>
     <button class="cart-checkout" onclick="openCheckout()" data-i18n="cart_checkout">Passer la Commande</button>
   </div>
@@ -3220,7 +3270,11 @@ input.invalid, select.invalid { border-color: var(--rose); }
       <!-- STEP 4: CONFIRMATION -->
       <div class="ck-panel" id="ck-panel-4">
         <div class="confirmation-box">
-          <div class="confirmation-icon">✅</div>
+          <div class="confirmation-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 16.5L13 23.5L26 9" stroke="#4caf82" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
           <h3 data-i18n="ck_confirmed">Commande confirmée !</h3>
           <div class="order-ref">
             <div class="ref-label" data-i18n="ck_ref_label">Référence commande</div>
@@ -3271,7 +3325,7 @@ function formatPrice(amount) {
 const LANG = {
   fr: {
     nav_about: 'À Propos', nav_story: 'Notre Univers', nav_selection: 'La Sélection',
-    nav_chronicle: 'Chronique', nav_diagnostic: 'Diagnostic', nav_contact: 'Contact',
+    nav_ecrins: 'Coffrets', nav_chronicle: 'Chronique', nav_diagnostic: 'Diagnostic', nav_contact: 'Contact',
     hero_pre: 'Votre Maison de Parfum de Niche', hero_tagline: 'Là où le parfum devient présence',
     hero_cta1: 'Découvrir la Sélection', hero_cta2: 'Voir les Écrins', hero_scroll: 'Défiler pour découvrir',
     ecrins_label: 'Les Écrins', ecrins_title: 'L\'expérience parfum complète — réunie dans un écrin',
@@ -3282,7 +3336,7 @@ const LANG = {
     bio_p2: 'Ce parfum racontait sa vie : les grandes Eaux de Cologne françaises d\'un côté, les trésors de l\'Orient de l\'autre — dahn al oud, bakhour, musc blanc. Et entre les deux, le Maroc intime : eau de fleur d\'oranger, serghina, loban.',
     bio_p3: 'Aujourd\'hui, ce rêve a un nom : <strong>LAMYSK AURA</strong> — une galerie olfactive où je réunis des parfums rares et artisanaux, choisis pour leur âme.',
     bio_signature: 'Bienvenue dans mon monde. Bienvenue dans l\'Aura.',
-    brand_label: 'Notre Univers', tab_sillage: 'Sillage', tab_philosophy: 'Philosophie', tab_promise: 'Promesse',
+    brand_label: 'Notre Univers', brand_tagline: 'Galerie olfactive — Maroc', tab_sillage: 'Sillage', tab_philosophy: 'Philosophie', tab_promise: 'Promesse',
     sillage_title: 'LAMYSK AURA n\'a pas été créée. Elle s\'est imposée.',
     sillage_p1: 'Née de l\'obsession d\'une exploratrice olfactive, elle existe au croisement de la découverte et de la dévotion.',
     sillage_p2: 'Nous ne créons pas de parfums, nous les curons. Nous cherchons les créateurs les plus discrets et sincères — ceux qui ont choisi la profondeur plutôt que la visibilité.',
@@ -3332,7 +3386,7 @@ const LANG = {
     q2: 'Quel univers vous parle ?', q2a: 'L\'Orient — souks & encens', q2b: 'Paris — ateliers & élégance', q2c: 'Méditerranée — soleil & rivages', q2d: 'La Forêt — terre & profondeur',
     q3: 'L\'intensité que vous préférez ?', q3a: 'Murmure — à peine là', q3b: 'Modérée — une douce présence', q3c: 'Remarquable — mémorable', q3d: 'Intense — impossible à ignorer',
     q4: 'Que doit révéler votre parfum ?', q4a: 'Douceur & réconfort', q4b: 'Force & authenticité', q4c: 'Mystère & séduction', q4d: 'Grâce & féminité',
-    promo_label: 'Votre Carte Fidélité', promo_desc: '15% sur votre premier achat · Valable 30 jours',
+    promo_label: 'Code Découverte', promo_desc: '15% de réduction · Valable 30 jours',
     quiz_explore: 'Découvrir Votre Coffret',
     chron_label: 'La Chronique', chron_title: 'Un parfum compris est un parfum mieux <em>porté</em>',
     chron_desc: 'Des familles olfactives aux secrets du layering — chaque chronique est une invitation à sentir autrement.',
@@ -3359,7 +3413,7 @@ const LANG = {
     footer_tagline: 'Votre Maison de Parfum de Niche.<br>Là où le parfum devient présence.',
     footer_explore: 'Explorer', footer_shop: 'Boutique', footer_connect: 'Contact',
     cart_title: 'Votre Sac', cart_empty: 'Votre sac est vide.<br>Commencez votre voyage olfactif.',
-    cart_total: 'Total', cart_checkout: 'Passer la Commande',
+    cart_total: 'Total', cart_checkout: 'Passer la Commande', cart_wa_note: 'Confirmation de commande par WhatsApp',
     cart_checkout_msg: 'Merci ! La boutique en ligne arrive bientôt.',
     cart_remove: 'Supprimer',
     trust_delivery: 'Livraison partout au Maroc', trust_auth: 'Parfums 100% Authentiques',
@@ -3398,7 +3452,7 @@ const LANG = {
   },
   ar: {
     nav_about: 'من نحن', nav_story: 'عالمنا', nav_selection: 'التشكيلة',
-    nav_chronicle: 'السجل', nav_diagnostic: 'التشخيص', nav_contact: 'اتصل بنا',
+    nav_ecrins: 'الأطقم', nav_chronicle: 'السجل', nav_diagnostic: 'التشخيص', nav_contact: 'اتصل بنا',
     hero_pre: 'بيتك للعطور الراقية', hero_tagline: 'حيث يصبح العطر حضوراً',
     hero_cta1: 'اكتشف التشكيلة', hero_cta2: 'اكتشف الأطقم', hero_scroll: 'مرّر للاكتشاف',
     ecrins_label: 'الأطقم', ecrins_title: 'تجربة العطر الكاملة — مجتمعة في طقم واحد',
@@ -3409,7 +3463,7 @@ const LANG = {
     bio_p2: 'عطرها كان يروي حياتها: ماء كولونيا فرنسية من جهة، وكنوز الشرق من جهة أخرى — دهن العود، البخور، المسك الأبيض. وبينهما، المغرب الحميم: ماء الزهر، السرغينة، اللبان.',
     bio_p3: 'اليوم، هذا الحلم أصبح له اسم: <strong>LAMYSK AURA</strong> — معرض عطري أجمع فيه عطوراً نادرة وحرفية، مختارة لروحها.',
     bio_signature: 'مرحبا في عالمي. مرحبا في الأورا.',
-    brand_label: 'عالمنا', tab_sillage: 'الأثر', tab_philosophy: 'الفلسفة', tab_promise: 'الوعد',
+    brand_label: 'عالمنا', brand_tagline: 'معرض عطري — المغرب', tab_sillage: 'الأثر', tab_philosophy: 'الفلسفة', tab_promise: 'الوعد',
     sillage_title: 'LAMYSK AURA لم تُبنَ. بل فرضت نفسها.',
     sillage_p1: 'وُلدت من هوس مستكشفة عطرية، في تقاطع الاكتشاف والتفاني.',
     sillage_p2: 'نحن لا نصنع العطور، بل ننتقيها. نبحث عن أكثر المبدعين صدقاً وتواضعاً.',
@@ -3459,7 +3513,7 @@ const LANG = {
     q2: 'أي عالم يناديكِ؟', q2a: 'الشرق — الأسواق والبخور', q2b: 'باريس — الأناقة', q2c: 'المتوسط — الشمس والشواطئ', q2d: 'الغابة — الأرض والعمق',
     q3: 'شدة العطر المفضلة؟', q3a: 'همسة — بالكاد هناك', q3b: 'معتدل — حضور لطيف', q3c: 'ملحوظ — لا يُنسى', q3d: 'شديد — لا يُتجاهل',
     q4: 'ماذا يجب أن يكشف عطركِ؟', q4a: 'الحنان والدفء', q4b: 'القوة والأصالة', q4c: 'الغموض والإغراء', q4d: 'الرقة والأنوثة',
-    promo_label: 'بطاقة الولاء', promo_desc: '15% على أول شراء · صالحة 30 يوماً',
+    promo_label: 'كود الاكتشاف', promo_desc: '15% خصم · صالح 30 يوماً',
     quiz_explore: 'اكتشفي طقمكِ',
     chron_label: 'السجل', chron_title: 'العطر المفهوم يُلبس <em>أفضل</em>',
     chron_desc: 'من العائلات العطرية إلى أسرار الطبقات — كل سجل دعوة للشم بشكل مختلف.',
@@ -3486,7 +3540,7 @@ const LANG = {
     footer_tagline: 'بيتك للعطور الراقية.<br>حيث يصبح العطر حضوراً.',
     footer_explore: 'استكشف', footer_shop: 'المتجر', footer_connect: 'تواصل',
     cart_title: 'حقيبتكِ', cart_empty: 'حقيبتكِ فارغة.<br>ابدئي رحلتكِ العطرية.',
-    cart_total: 'المجموع', cart_checkout: 'إتمام الطلب',
+    cart_total: 'المجموع', cart_checkout: 'إتمام الطلب', cart_wa_note: 'تأكيد الطلب عبر واتساب',
     cart_checkout_msg: 'شكراً! المتجر الإلكتروني قريباً.',
     cart_remove: 'حذف',
     trust_delivery: 'توصيل في كل المغرب', trust_auth: 'عطور 100% أصلية',
@@ -3525,7 +3579,7 @@ const LANG = {
   },
   en: {
     nav_about: 'About', nav_story: 'Our Universe', nav_selection: 'The Selection',
-    nav_chronicle: 'Chronicle', nav_diagnostic: 'Diagnostic', nav_contact: 'Contact',
+    nav_ecrins: 'Coffrets', nav_chronicle: 'Chronicle', nav_diagnostic: 'Diagnostic', nav_contact: 'Contact',
     hero_pre: 'Your Niche Fragrance Home', hero_tagline: 'Where Scent Becomes Presence',
     hero_cta1: 'Explore the Selection', hero_cta2: 'Discover the Écrins', hero_scroll: 'Scroll to discover',
     ecrins_label: 'Les Écrins', ecrins_title: 'The complete fragrance experience — in one écrin',
@@ -3536,7 +3590,7 @@ const LANG = {
     bio_p2: 'Her scent told her story: French Eaux de Cologne on one side, treasures of the Orient on the other — dahn al oud, bakhour, white musk. And between them, intimate Morocco: orange blossom water, serghina, loban.',
     bio_p3: 'Today, that dream has a name: <strong>LAMYSK AURA</strong> — an olfactory gallery of rare, artisanal fragrances, chosen for their soul.',
     bio_signature: 'Welcome to my world. Welcome to the Aura.',
-    brand_label: 'Our Universe', tab_sillage: 'Sillage', tab_philosophy: 'Philosophy', tab_promise: 'Promise',
+    brand_label: 'Our Universe', brand_tagline: 'Olfactory Gallery — Morocco', tab_sillage: 'Sillage', tab_philosophy: 'Philosophy', tab_promise: 'Promise',
     sillage_title: 'LAMYSK AURA was not built. It was summoned.',
     sillage_p1: 'Born from the obsession of a scent explorer, it exists at the crossroads of discovery and devotion.',
     sillage_p2: 'We don\'t create perfumes, we curate them. We seek the most discreet and sincere creators — those who chose depth over visibility.',
@@ -3586,7 +3640,7 @@ const LANG = {
     q2: 'Which world speaks to you?', q2a: 'The Orient — souks & incense', q2b: 'Paris — ateliers & elegance', q2c: 'Mediterranean — sun & coastline', q2d: 'The Forest — earth & depth',
     q3: 'Your preferred intensity?', q3a: 'Whisper — barely there', q3b: 'Moderate — a gentle presence', q3c: 'Noticeable — memorable', q3d: 'Intense — impossible to ignore',
     q4: 'What should your scent reveal?', q4a: 'Tenderness & comfort', q4b: 'Strength & authenticity', q4c: 'Mystery & seduction', q4d: 'Grace & femininity',
-    promo_label: 'Your Loyalty Card', promo_desc: '15% off your first purchase · Valid 30 days',
+    promo_label: 'Discovery Code', promo_desc: '15% discount · Valid 30 days',
     quiz_explore: 'Explore Your Coffret',
     chron_label: 'The Chronicle', chron_title: 'A fragrance understood is a fragrance better <em>worn</em>',
     chron_desc: 'From fragrance families to the secrets of layering — each chronicle is an invitation to smell differently.',
@@ -3613,7 +3667,7 @@ const LANG = {
     footer_tagline: 'Your Niche Fragrance Home.<br>Where Scent Becomes Presence.',
     footer_explore: 'Explore', footer_shop: 'Shop', footer_connect: 'Connect',
     cart_title: 'Your Bag', cart_empty: 'Your bag is empty.<br>Begin your olfactory journey.',
-    cart_total: 'Total', cart_checkout: 'Proceed to Checkout',
+    cart_total: 'Total', cart_checkout: 'Proceed to Checkout', cart_wa_note: 'Order confirmed via WhatsApp',
     cart_checkout_msg: 'Thank you! Online shop coming soon.',
     cart_remove: 'Remove',
     trust_delivery: 'Delivery across Morocco', trust_auth: '100% Authentic Fragrances',
@@ -4143,6 +4197,26 @@ function showResult() {
   document.getElementById('profileDesc').textContent = T('profile_' + profile + '_desc');
   document.getElementById('promoCode').textContent = promoCode;
   document.getElementById('quizResult').classList.add('active');
+
+  // Render recommended coffret card
+  const recs = {
+    woody:  { name: 'Coffret Noblesse',    img: 'images/Coffret_Noblesse.jpg',    price: 980 },
+    spicy:  { name: 'Coffret Noblesse',    img: 'images/Coffret_Noblesse.jpg',    price: 980 },
+    floral: { name: 'Coffret Royal Woman', img: 'images/Coffret_Royal_Woman.jpg', price: 750 },
+    citrus: { name: 'Coffret Voyage',      img: 'images/Coffret_Voyage.jpg',      price: 550 },
+    soft:   { name: 'Coffret Douceur',     img: 'images/Coffret_Douceur.jpg',     price: 650 },
+  };
+  const rec = recs[profile] || recs.floral;
+  const addLabel = T('add_bag') || 'Ajouter';
+  document.getElementById('quizRec').innerHTML =
+    '<div class="quiz-rec">' +
+      '<img src="' + rec.img + '" alt="' + rec.name + '" loading="lazy">' +
+      '<div class="quiz-rec-body">' +
+        '<div class="quiz-rec-name">' + rec.name + '</div>' +
+        '<div class="quiz-rec-price">' + formatPrice(rec.price) + '</div>' +
+        '<button class="btn btn-dark" onclick="addToCart(\'' + rec.name + '\',\'Les Écrins\',' + rec.price + ')">' + addLabel + '</button>' +
+      '</div>' +
+    '</div>';
 
   // Save quiz result to backend (fire-and-forget)
   fetch(CONFIG.apiBase + '/quiz', {
