@@ -289,6 +289,11 @@ html[dir="rtl"] .hero-tagline { font-family: 'Noto Naskh Arabic', serif; }
   position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
   color: rgba(255,255,255,0.6); pointer-events: none;
 }
+@media (max-width: 768px) {
+  .hero-search { max-width: 100%; margin-bottom: 1.8rem; }
+  .hero-search input { padding: 0.7rem 1rem 0.7rem 2.4rem; font-size: 0.78rem; }
+  .hero-search .hero-search-icon { left: 0.7rem; width: 14px; height: 14px; }
+}
 .hero-cta { display: inline-flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
 .btn {
   font-family: 'Jost', sans-serif;
@@ -2606,6 +2611,7 @@ nav.scrolled .nav-account { color: var(--text-body); }
     <div class="hero-cta">
       <a href="#selection" class="btn btn-primary" data-i18n="hero_cta1">Découvrir la Sélection</a>
       <a href="#selection" class="btn btn-outline" onclick="setTimeout(goToEcrins,50)" data-i18n="hero_cta2">Voir les Écrins</a>
+      <a href="#quiz" class="btn btn-outline" data-i18n="hero_cta3">Découvrir mon profil</a>
     </div>
   </div>
   <div class="hero-scroll" data-i18n="hero_scroll">Défiler pour découvrir</div>
@@ -3700,7 +3706,7 @@ const LANG = {
     nav_about: 'À Propos', nav_story: 'Notre Univers', nav_selection: 'La Sélection',
     nav_ecrins: 'Coffrets', nav_chronicle: 'Chronique', nav_diagnostic: 'Diagnostic', nav_contact: 'Contact',
     nav_account: 'Compte',
-    hero_search_ph: 'Rechercher un parfum, une note...',
+    hero_search_ph: 'Rechercher un parfum, une note...', hero_cta3: 'Découvrir mon profil',
     auth_tab_login: 'Connexion', auth_tab_register: 'Créer un compte',
     auth_email: 'Email', auth_password: 'Mot de passe',
     auth_firstname: 'Prénom', auth_lastname: 'Nom', auth_phone: 'Téléphone (optionnel)',
@@ -3840,7 +3846,7 @@ const LANG = {
     nav_about: 'من نحن', nav_story: 'عالمنا', nav_selection: 'التشكيلة',
     nav_ecrins: 'الأطقم', nav_chronicle: 'السجل', nav_diagnostic: 'التشخيص', nav_contact: 'اتصل بنا',
     nav_account: 'حسابي',
-    hero_search_ph: 'ابحثي عن عطر أو نوتة...',
+    hero_search_ph: 'ابحثي عن عطر أو نوتة...', hero_cta3: 'اكتشفي ملفكِ العطري',
     auth_tab_login: 'تسجيل الدخول', auth_tab_register: 'إنشاء حساب',
     auth_email: 'البريد الإلكتروني', auth_password: 'كلمة المرور',
     auth_firstname: 'الاسم', auth_lastname: 'اللقب', auth_phone: 'الهاتف (اختياري)',
@@ -3980,7 +3986,7 @@ const LANG = {
     nav_about: 'About', nav_story: 'Our Universe', nav_selection: 'The Selection',
     nav_ecrins: 'Coffrets', nav_chronicle: 'Chronicle', nav_diagnostic: 'Diagnostic', nav_contact: 'Contact',
     nav_account: 'Account',
-    hero_search_ph: 'Search a fragrance, a note...',
+    hero_search_ph: 'Search a fragrance, a note...', hero_cta3: 'Discover my profile',
     auth_tab_login: 'Sign In', auth_tab_register: 'Create Account',
     auth_email: 'Email', auth_password: 'Password',
     auth_firstname: 'First Name', auth_lastname: 'Last Name', auth_phone: 'Phone (optional)',
