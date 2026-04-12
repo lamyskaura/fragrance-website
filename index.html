@@ -2348,13 +2348,62 @@ input.invalid, select.invalid { border-color: var(--rose); }
       <p data-i18n="occident_desc">Des ateliers de Paris aux côtes italiennes. Compositions précises, matières exceptionnelles, créateurs indépendants et visionnaires.</p>
     </div>
     <div class="products-grid">
-      <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#2a2118,#4a3828)"><span class="product-img-text">OP</span><span class="product-badge">Occident</span></div><div class="product-info"><div class="product-brand">Italie</div><div class="product-name">Orto Parisi</div><div class="product-notes">Audacieux · Avant-garde</div><div class="product-footer"><span class="product-price price-tag">850 MAD</span><button class="product-add" onclick="addToCart('Orto Parisi', 'Occident', 850)" data-i18n="add_bag">Ajouter</button></div></div></div>
-      <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#3d352c,#5a4f42)"><span class="product-img-text">N</span></div><div class="product-info"><div class="product-brand">Artisanal</div><div class="product-name">Nōsamato</div><div class="product-notes">Conceptuel · Narratif</div><div class="product-footer"><span class="product-price price-tag">780 MAD</span><button class="product-add" onclick="addToCart('Nōsamato', 'Occident', 780)" data-i18n="add_bag">Ajouter</button></div></div></div>
-      <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#4a3020,#6b5040)"><span class="product-img-text">RM</span></div><div class="product-info"><div class="product-brand">Espagne</div><div class="product-name">Rosendo Mateu</div><div class="product-notes">Méditerranéen · Élégant</div><div class="product-footer"><span class="product-price price-tag">920 MAD</span><button class="product-add" onclick="addToCart('Rosendo Mateu', 'Occident', 920)" data-i18n="add_bag">Ajouter</button></div></div></div>
-      <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#5a5040,#8a7d60)"><span class="product-img-text">EP</span></div><div class="product-info"><div class="product-brand">France</div><div class="product-name">Essential Parfums</div><div class="product-notes">Éco-responsable · Pur</div><div class="product-footer"><span class="product-price price-tag">680 MAD</span><button class="product-add" onclick="addToCart('Essential Parfums', 'Occident', 680)" data-i18n="add_bag">Ajouter</button></div></div></div>
-      <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#b8a090,#d4c0a8)"><span class="product-img-text">TN</span></div><div class="product-info"><div class="product-brand">Italie</div><div class="product-name">Teint de Neige</div><div class="product-notes">Poudré · Héliotrope · Iris</div><div class="product-footer"><span class="product-price price-tag">750 MAD</span><button class="product-add" onclick="addToCart('Teint de Neige', 'Occident', 750)" data-i18n="add_bag">Ajouter</button></div></div></div>
-      <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#3d3d2c,#5a5a42)"><span class="product-img-text">EL</span></div><div class="product-info"><div class="product-brand">France</div><div class="product-name">État Libre d'Orange</div><div class="product-notes">Rebelle · Audacieux · Libre</div><div class="product-footer"><span class="product-price price-tag">820 MAD</span><button class="product-add" onclick="addToCart('État Libre d\'Orange', 'Occident', 820)" data-i18n="add_bag">Ajouter</button></div></div></div>
-      <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#2a3828,#4a5840)"><span class="product-img-text">JS</span></div><div class="product-info"><div class="product-brand">Écosse</div><div class="product-name">Jorum Studio</div><div class="product-notes">Innovant · Artistique</div><div class="product-footer"><span class="product-price price-tag">890 MAD</span><button class="product-add" onclick="addToCart('Jorum Studio', 'Occident', 890)" data-i18n="add_bag">Ajouter</button></div></div></div>
+      <div class="product-card" data-head="Cumin, Vétiver" data-heart="Gaïac, Musc animal" data-base="Benjoin, Ambre" data-desc="L'avant-garde olfactive. Créé par Alessandro Gualtieri, Orto Parisi brise les codes avec des compositions brutes et sensuelles qui célèbrent le corps humain dans sa vérité la plus pure.">
+        <div class="product-img" style="background:linear-gradient(135deg,#2a2118,#4a3828)">
+          <span class="product-img-text">OP</span><span class="product-badge">Occident</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Orto Parisi')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info"><div class="product-brand">Italie</div><div class="product-name">Orto Parisi</div><div class="product-notes">Audacieux · Avant-garde</div><div class="product-footer"><span class="product-price price-tag">850 MAD</span><button class="product-add" onclick="addToCart('Orto Parisi', 'Occident', 850)" data-i18n="add_bag">Ajouter</button></div></div>
+      </div>
+      <div class="product-card" data-head="Thé, Cardamome" data-heart="Patchouli, Vétiver" data-base="Oud blanc, Musc" data-desc="La narration en flacon. Chaque Nōsamato raconte une histoire construite autour de matières premières exceptionnelles par des artisans qui refusent les compromis.">
+        <div class="product-img" style="background:linear-gradient(135deg,#3d352c,#5a4f42)">
+          <span class="product-img-text">N</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Nōsamato')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info"><div class="product-brand">Artisanal</div><div class="product-name">Nōsamato</div><div class="product-notes">Conceptuel · Narratif</div><div class="product-footer"><span class="product-price price-tag">780 MAD</span><button class="product-add" onclick="addToCart('Nōsamato', 'Occident', 780)" data-i18n="add_bag">Ajouter</button></div></div>
+      </div>
+      <div class="product-card" data-head="Bergamote, Poivre rose" data-heart="Rose de May, Jasmin" data-base="Cèdre, Musc blanc" data-desc="Le soleil espagnol en flacon. Rosendo Mateu capture l'élégance méditerranéenne dans des compositions lumineuses et sophistiquées. Chaque parfum est une invitation au voyage sensoriel.">
+        <div class="product-img" style="background:linear-gradient(135deg,#4a3020,#6b5040)">
+          <span class="product-img-text">RM</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Rosendo Mateu')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info"><div class="product-brand">Espagne</div><div class="product-name">Rosendo Mateu</div><div class="product-notes">Méditerranéen · Élégant</div><div class="product-footer"><span class="product-price price-tag">920 MAD</span><button class="product-add" onclick="addToCart('Rosendo Mateu', 'Occident', 920)" data-i18n="add_bag">Ajouter</button></div></div>
+      </div>
+      <div class="product-card" data-head="Citron, Romarin" data-heart="Iris, Jasmin sambac" data-base="Vétiver, Musc" data-desc="La pureté comme philosophie. Essential Parfums crée des fragrances éco-responsables sans jamais sacrifier la qualité. Des compositions claires, directes, essentielles — par les plus grands nez de Paris.">
+        <div class="product-img" style="background:linear-gradient(135deg,#5a5040,#8a7d60)">
+          <span class="product-img-text">EP</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Essential Parfums')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info"><div class="product-brand">France</div><div class="product-name">Essential Parfums</div><div class="product-notes">Éco-responsable · Pur</div><div class="product-footer"><span class="product-price price-tag">680 MAD</span><button class="product-add" onclick="addToCart('Essential Parfums', 'Occident', 680)" data-i18n="add_bag">Ajouter</button></div></div>
+      </div>
+      <div class="product-card" data-head="Héliotrope, Bergamote" data-heart="Iris, Rose" data-base="Musc blanc, Vanille" data-desc="La poudre et la soie. Lorenzo Villoresi a créé avec Teint de Neige une fragrance iconique aux accords poudrés, floraux et légèrement vanillés. Féminin, nostalgique, inoubliable.">
+        <div class="product-img" style="background:linear-gradient(135deg,#b8a090,#d4c0a8)">
+          <span class="product-img-text">TN</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Teint de Neige')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info"><div class="product-brand">Italie</div><div class="product-name">Teint de Neige</div><div class="product-notes">Poudré · Héliotrope · Iris</div><div class="product-footer"><span class="product-price price-tag">750 MAD</span><button class="product-add" onclick="addToCart('Teint de Neige', 'Occident', 750)" data-i18n="add_bag">Ajouter</button></div></div>
+      </div>
+      <div class="product-card" data-head="Bergamote, Agrumes" data-heart="Œillet, Cardamome" data-base="Vétiver, Musc" data-desc="La liberté en parfum. État Libre d'Orange refuse l'ordinaire et célèbre l'individu. Des compositions provocantes et littéraires qui challengent les conventions de la haute parfumerie.">
+        <div class="product-img" style="background:linear-gradient(135deg,#3d3d2c,#5a5a42)">
+          <span class="product-img-text">EL</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'État Libre d\'Orange')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info"><div class="product-brand">France</div><div class="product-name">État Libre d'Orange</div><div class="product-notes">Rebelle · Audacieux · Libre</div><div class="product-footer"><span class="product-price price-tag">820 MAD</span><button class="product-add" onclick="addToCart('État Libre d\'Orange', 'Occident', 820)" data-i18n="add_bag">Ajouter</button></div></div>
+      </div>
+      <div class="product-card" data-head="Pin, Fumée de tourbe" data-heart="Bruyère, Vétiver" data-base="Tourbe, Musc sauvage" data-desc="L'Écosse olfactive. Depuis Édimbourg, Jorum Studio distille les paysages sauvages des Highlands en fragrances d'une singularité absolue. Artistiques, narratives, inoubliables.">
+        <div class="product-img" style="background:linear-gradient(135deg,#2a3828,#4a5840)">
+          <span class="product-img-text">JS</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Jorum Studio')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info"><div class="product-brand">Écosse</div><div class="product-name">Jorum Studio</div><div class="product-notes">Innovant · Artistique</div><div class="product-footer"><span class="product-price price-tag">890 MAD</span><button class="product-add" onclick="addToCart('Jorum Studio', 'Occident', 890)" data-i18n="add_bag">Ajouter</button></div></div>
+      </div>
     </div>
   </div>
 
@@ -2365,12 +2414,54 @@ input.invalid, select.invalid { border-color: var(--rose); }
       <p data-i18n="absolus_desc">Là où l'Orient rencontre l'Occident — l'excellence olfactive sans frontières.</p>
     </div>
     <div class="products-grid">
-      <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#1a1510,#3d2b1a)"><span class="product-img-text">A</span><span class="product-badge">Absolu</span></div><div class="product-info"><div class="product-brand">Oman</div><div class="product-name">Amouage</div><div class="product-notes">Opulent · Oriental · Intemporel</div><div class="product-footer"><span class="product-price price-tag">1 850 MAD</span><button class="product-add" onclick="addToCart('Amouage', 'Les Absolus', 1850)" data-i18n="add_bag">Ajouter</button></div></div></div>
-      <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#2a2018,#4a3828)"><span class="product-img-text">FM</span></div><div class="product-info"><div class="product-brand">France</div><div class="product-name">Frédéric Malle</div><div class="product-notes">Magistral · Éditorial · Iconique</div><div class="product-footer"><span class="product-price price-tag">2 200 MAD</span><button class="product-add" onclick="addToCart('Frédéric Malle', 'Les Absolus', 2200)" data-i18n="add_bag">Ajouter</button></div></div></div>
-      <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#3d3020,#5a4838)"><span class="product-img-text">MP</span></div><div class="product-info"><div class="product-brand">France</div><div class="product-name">Matière Première</div><div class="product-notes">Pur · Brut · Essentiel</div><div class="product-footer"><span class="product-price price-tag">1 650 MAD</span><button class="product-add" onclick="addToCart('Matière Première', 'Les Absolus', 1650)" data-i18n="add_bag">Ajouter</button></div></div></div>
-      <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#1a1018,#3d2838)"><span class="product-img-text">R</span></div><div class="product-info"><div class="product-brand">UK</div><div class="product-name">Roja Parfums</div><div class="product-notes">Luxueux · Royal · Extraordinaire</div><div class="product-footer"><span class="product-price price-tag">3 200 MAD</span><button class="product-add" onclick="addToCart('Roja Parfums', 'Les Absolus', 3200)" data-i18n="add_bag">Ajouter</button></div></div></div>
-      <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#2a1810,#4a3020)"><span class="product-img-text">X</span></div><div class="product-info"><div class="product-brand">Italie</div><div class="product-name">Xerjoff</div><div class="product-notes">Artistique · Couture · Majestueux</div><div class="product-footer"><span class="product-price price-tag">2 800 MAD</span><button class="product-add" onclick="addToCart('Xerjoff', 'Les Absolus', 2800)" data-i18n="add_bag">Ajouter</button></div></div></div>
-      <div class="product-card"><div class="product-img" style="background:linear-gradient(135deg,#3d2818,#5a4030)"><span class="product-img-text">CC</span></div><div class="product-info"><div class="product-brand">UK</div><div class="product-name">Clive Christian</div><div class="product-notes">Patrimoine · Noble · Intemporel</div><div class="product-footer"><span class="product-price price-tag">3 600 MAD</span><button class="product-add" onclick="addToCart('Clive Christian', 'Les Absolus', 3600)" data-i18n="add_bag">Ajouter</button></div></div></div>
+      <div class="product-card" data-head="Rose de Taïf, Bergamote" data-heart="Encens de Somalie, Myrrhe" data-base="Oud royal, Ambre, Musc" data-desc="La majesté olfactive d'Oman. Fondée par la famille royale omanaise, Amouage utilise les ingrédients les plus rares du monde pour créer des fragrances d'une richesse et d'une profondeur inégalées. Un investissement dans l'éternité.">
+        <div class="product-img" style="background:linear-gradient(135deg,#1a1510,#3d2b1a)">
+          <span class="product-img-text">A</span><span class="product-badge">Absolu</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Amouage')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info"><div class="product-brand">Oman</div><div class="product-name">Amouage</div><div class="product-notes">Opulent · Oriental · Intemporel</div><div class="product-footer"><span class="product-price price-tag">1 850 MAD</span><button class="product-add" onclick="addToCart('Amouage', 'Les Absolus', 1850)" data-i18n="add_bag">Ajouter</button></div></div>
+      </div>
+      <div class="product-card" data-head="Fleurs blanches, Bergamote" data-heart="Rose centifolia, Iris de Florence" data-base="Musc de cachemire, Santal" data-desc="L'éditeur de parfums. Frédéric Malle collabore avec les plus grands nez du monde — Pierre Bourdon, Dominique Ropion, Edouard Fléchier — pour créer des œuvres olfactives sans compromis. Chaque flacon est un manifeste artistique.">
+        <div class="product-img" style="background:linear-gradient(135deg,#2a2018,#4a3828)">
+          <span class="product-img-text">FM</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Frédéric Malle')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info"><div class="product-brand">France</div><div class="product-name">Frédéric Malle</div><div class="product-notes">Magistral · Éditorial · Iconique</div><div class="product-footer"><span class="product-price price-tag">2 200 MAD</span><button class="product-add" onclick="addToCart('Frédéric Malle', 'Les Absolus', 2200)" data-i18n="add_bag">Ajouter</button></div></div>
+      </div>
+      <div class="product-card" data-head="Fleur d'oranger, Bergamote" data-heart="Iris, Jasmin absolu" data-base="Musc blanc, Vétiver" data-desc="L'ingrédient révélé. Matière Première célèbre chaque parfum autour d'une matière première exceptionnelle, travaillée avec une précision chirurgicale par Antoine Lie. La beauté dans la pureté absolue.">
+        <div class="product-img" style="background:linear-gradient(135deg,#3d3020,#5a4838)">
+          <span class="product-img-text">MP</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Matière Première')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info"><div class="product-brand">France</div><div class="product-name">Matière Première</div><div class="product-notes">Pur · Brut · Essentiel</div><div class="product-footer"><span class="product-price price-tag">1 650 MAD</span><button class="product-add" onclick="addToCart('Matière Première', 'Les Absolus', 1650)" data-i18n="add_bag">Ajouter</button></div></div>
+      </div>
+      <div class="product-card" data-head="Citron de Sicile, Bergamote" data-heart="Rose ottomane, Jasmin de Grasse" data-base="Oud des Indes, Ambre gris, Musc" data-desc="La royauté en flacon. Roja Dove, le parfumeur des parfumeurs, crée des fragrances d'une extravagance incomparable. Chaque goutte porte l'empreinte de décennies d'expertise et des ingrédients les plus précieux du monde.">
+        <div class="product-img" style="background:linear-gradient(135deg,#1a1018,#3d2838)">
+          <span class="product-img-text">R</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Roja Parfums')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info"><div class="product-brand">UK</div><div class="product-name">Roja Parfums</div><div class="product-notes">Luxueux · Royal · Extraordinaire</div><div class="product-footer"><span class="product-price price-tag">3 200 MAD</span><button class="product-add" onclick="addToCart('Roja Parfums', 'Les Absolus', 3200)" data-i18n="add_bag">Ajouter</button></div></div>
+      </div>
+      <div class="product-card" data-head="Bergamote de Calabre, Safran" data-heart="Rose de Damas, Oud" data-base="Ambre gris, Musc blanc, Santal" data-desc="L'art couture olfactif. La maison italienne Xerjoff fusionne la tradition orientale avec le raffinement occidental dans des flacons en cristal de Bohème. Des compositions d'une richesse et d'une sophistication extraordinaires.">
+        <div class="product-img" style="background:linear-gradient(135deg,#2a1810,#4a3020)">
+          <span class="product-img-text">X</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Xerjoff')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info"><div class="product-brand">Italie</div><div class="product-name">Xerjoff</div><div class="product-notes">Artistique · Couture · Majestueux</div><div class="product-footer"><span class="product-price price-tag">2 800 MAD</span><button class="product-add" onclick="addToCart('Xerjoff', 'Les Absolus', 2800)" data-i18n="add_bag">Ajouter</button></div></div>
+      </div>
+      <div class="product-card" data-head="Ylang-ylang, Bergamote" data-heart="Rose de Bulgarie, Iris" data-base="Oud des Indes, Musc de cachemire, Ambre" data-desc="Le patrimoine britannique au summum. Fondée en 1872, Clive Christian est l'une des maisons de parfumerie les plus luxueuses du monde — ses compositions portent la cimière royale britannique et incarnent l'excellence absolue.">
+        <div class="product-img" style="background:linear-gradient(135deg,#3d2818,#5a4030)">
+          <span class="product-img-text">CC</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Clive Christian')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info"><div class="product-brand">UK</div><div class="product-name">Clive Christian</div><div class="product-notes">Patrimoine · Noble · Intemporel</div><div class="product-footer"><span class="product-price price-tag">3 600 MAD</span><button class="product-add" onclick="addToCart('Clive Christian', 'Les Absolus', 3600)" data-i18n="add_bag">Ajouter</button></div></div>
+      </div>
     </div>
   </div>
 
