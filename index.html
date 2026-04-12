@@ -33,14 +33,15 @@
   --black: #0a0a0a;
   --deep: #1a1510;
   --warm-dark: #2a2118;
-  --amber: #c4956a;
-  --gold: #d4a574;
-  --gold-light: #e8c9a0;
-  --cream: #f5efe6;
-  --cream-light: #faf7f2;
-  --white: #fffdf9;
+  --amber: #b8845a;
+  --gold: #c89860;
+  --gold-light: #e0c090;
+  --cream: #f7f2eb;
+  --cream-light: #ffffff;
+  --white: #ffffff;
+  --bg-section: #faf8f5;
   --text-dark: #1a1510;
-  --text-body: #3d352c;
+  --text-body: #3a3028;
   --text-muted: #8a7d70;
   --rose: #b8847c;
   --sage: #8a9a7b;
@@ -52,7 +53,7 @@ html { scroll-behavior: smooth; font-size: 16px; }
 
 body {
   font-family: 'Jost', sans-serif;
-  background: var(--cream-light);
+  background: var(--bg-section);
   color: var(--text-body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -480,7 +481,7 @@ html[dir="rtl"] .tab-content p { text-align: right; font-family: 'Noto Naskh Ara
 }
 
 /* ── VALUES ── */
-.values { padding: 6rem 2rem; background: var(--cream-light); }
+.values { padding: 6rem 2rem; background: var(--bg-section); }
 .values-header { text-align: center; margin-bottom: 3.5rem; }
 .values-grid {
   display: grid;
@@ -661,8 +662,8 @@ html[dir="rtl"] .carousel-arrow.next { right: auto; left: 0rem; }
 }
 
 .product-card {
-  background: var(--cream-light);
-  border: 1px solid rgba(196,149,106,0.08);
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.06);
   overflow: hidden;
   transition: all 0.4s ease;
   cursor: pointer;
@@ -784,7 +785,7 @@ html[dir="rtl"] .product-add { font-family: 'Noto Naskh Arabic', sans-serif; let
   margin: 0 auto;
 }
 .coffret-card {
-  background: var(--cream-light);
+  background: var(--bg-section);
   border: 1px solid rgba(196,149,106,0.1);
   transition: all 0.4s;
   cursor: pointer;
@@ -865,7 +866,7 @@ html[dir="rtl"] .coffret-add { font-family: 'Noto Naskh Arabic', sans-serif; let
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 2.8rem;
   border: 1px solid rgba(196,149,106,0.25);
-  background: var(--cream-light);
+  background: var(--bg-section);
   font-family: 'Jost', sans-serif;
   font-size: 0.82rem;
   color: var(--text-dark);
@@ -968,7 +969,7 @@ html[dir="rtl"] .product-wish { right: auto; left: 0.8rem; }
 .qv-pyramid {
   border: 1px solid rgba(196,149,106,0.18);
   padding: 1rem 1.2rem;
-  background: var(--cream-light);
+  background: var(--bg-section);
 }
 .qv-pyramid h5 {
   font-family: 'Jost', sans-serif; font-size: 0.6rem;
@@ -1003,7 +1004,7 @@ html[dir="rtl"] .product-wish { right: auto; left: 0.8rem; }
 .cart-free-delivery {
   margin: 0.5rem 2rem 0.25rem;
   padding: 0.8rem 1rem;
-  background: var(--cream-light);
+  background: var(--bg-section);
   border: 1px solid rgba(196,149,106,0.15);
 }
 .fd-text {
@@ -1061,7 +1062,7 @@ html[dir="rtl"] .absolus-banner h2 { font-family: 'Noto Naskh Arabic', serif; }
 .absolus-banner .btn { position: relative; }
 
 /* ── LAYERING ── */
-.layering { padding: 6rem 2rem; background: var(--cream-light); }
+.layering { padding: 6rem 2rem; background: var(--bg-section); }
 .layering-content { max-width: 900px; margin: 0 auto; text-align: center; }
 .layering-steps {
   display: grid;
@@ -1129,7 +1130,7 @@ html[dir="rtl"] .quiz-question h4 { font-family: 'Noto Naskh Arabic', serif; }
 .quiz-opt {
   padding: 1.2rem;
   border: 1px solid rgba(196,149,106,0.15);
-  background: var(--cream-light);
+  background: var(--bg-section);
   cursor: pointer;
   transition: all 0.3s;
   text-align: center;
@@ -1183,7 +1184,7 @@ html[dir="rtl"] .quiz-result h3 { font-family: 'Noto Naskh Arabic', serif; }
 }
 html[dir="rtl"] .quiz-result p { font-family: 'Noto Naskh Arabic', serif; }
 .quiz-promo {
-  background: var(--cream-light);
+  background: var(--bg-section);
   border: 1px solid var(--gold-light);
   padding: 1.5rem 2rem;
   margin: 2rem auto;
@@ -1247,7 +1248,7 @@ html[dir="rtl"] .quiz-rec { text-align: right; flex-direction: row-reverse; }
 }
 
 /* ── CHRONICLE ── */
-.chronicle { padding: 6rem 2rem; background: var(--cream-light); }
+.chronicle { padding: 6rem 2rem; background: var(--bg-section); }
 .chronicle-header { text-align: center; max-width: 700px; margin: 0 auto 2rem; }
 .chronicle-header p {
   font-family: 'Cormorant Garamond', serif;
@@ -1343,7 +1344,7 @@ html[dir="rtl"] .testimonial blockquote { font-family: 'Noto Naskh Arabic', seri
 .test-dot.active { background: var(--gold); }
 
 /* ── FAQ ── */
-.faq { padding: 6rem 2rem; background: var(--cream-light); }
+.faq { padding: 6rem 2rem; background: var(--bg-section); }
 .faq-list { max-width: 700px; margin: 2.5rem auto 0; }
 .faq-item { border-bottom: 1px solid rgba(196,149,106,0.15); }
 .faq-q {
@@ -1851,7 +1852,7 @@ html[dir="rtl"] .whatsapp-float { right: auto; left: 2rem; align-items: flex-sta
   gap: 0;
   padding: 1rem 2rem;
   border-bottom: 1px solid rgba(196,149,106,0.1);
-  background: var(--cream-light);
+  background: var(--bg-section);
   position: sticky; top: 65px; z-index: 1;
 }
 .ck-step {
@@ -1895,7 +1896,7 @@ html[dir="rtl"] .whatsapp-float { right: auto; left: 2rem; align-items: flex-sta
 .form-group textarea {
   padding: 0.85rem 1rem;
   border: 1px solid rgba(196,149,106,0.25);
-  background: var(--cream-light);
+  background: var(--bg-section);
   color: var(--text-dark);
   font-family: 'Jost', sans-serif;
   font-size: 0.85rem;
@@ -1934,7 +1935,7 @@ html[dir="rtl"] .whatsapp-float { right: auto; left: 2rem; align-items: flex-sta
   color: var(--text-muted);
   line-height: 1.4;
 }
-.checkout-order-summary { background: var(--cream-light); padding: 1.2rem; margin-bottom: 1.5rem; }
+.checkout-order-summary { background: var(--bg-section); padding: 1.2rem; margin-bottom: 1.5rem; }
 .checkout-order-summary h4 {
   font-family: 'Jost', sans-serif;
   font-size: 0.65rem;
@@ -2069,7 +2070,7 @@ html[dir="rtl"] .whatsapp-float { right: auto; left: 2rem; align-items: flex-sta
 }
 .wa-order-btn:hover { background: #20bc5c; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,211,102,0.3); }
 .order-ref {
-  background: var(--cream-light);
+  background: var(--bg-section);
   border: 1px solid var(--gold-light);
   padding: 1rem;
   margin: 1.5rem 0;
@@ -2097,7 +2098,7 @@ html[dir="rtl"] .whatsapp-float { right: auto; left: 2rem; align-items: flex-sta
 input.invalid, select.invalid { border-color: var(--rose); }
 
 /* ── CONTACT SECTION ── */
-.contact-section { padding: 5rem 2rem; background: var(--cream-light); }
+.contact-section { padding: 5rem 2rem; background: var(--bg-section); }
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2191,6 +2192,158 @@ input.invalid, select.invalid { border-color: var(--rose); }
 @media (max-width: 768px) {
   .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .form-row { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════════════════
+   PRODUCT DETAIL PAGE (PDP) — Jovoy-style split
+══════════════════════════════════════════════════ */
+.pdp-overlay {
+  position: fixed; inset: 0; z-index: 900;
+  background: #fff;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+.pdp-overlay.active { display: flex; animation: pdpFade 0.35s ease; }
+@keyframes pdpFade { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+.pdp-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2.5rem;
+  height: 64px;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  flex-shrink: 0;
+  background: #fff;
+}
+.pdp-back {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: 'Jost', sans-serif; font-size: 0.68rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--text-muted); background: none; border: none;
+  cursor: pointer; transition: color 0.25s; padding: 0;
+}
+.pdp-back svg { width: 14px; height: 14px; flex-shrink: 0; }
+.pdp-back:hover { color: var(--amber); }
+.pdp-logo-wrap { position: absolute; left: 50%; transform: translateX(-50%); }
+.pdp-logo-img { height: 34px; width: auto; }
+.pdp-close {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: 1px solid rgba(0,0,0,0.1);
+  cursor: pointer; color: var(--text-muted);
+  font-size: 1.1rem; line-height: 1; transition: all 0.25s;
+}
+.pdp-close:hover { border-color: var(--amber); color: var(--amber); }
+
+.pdp-body {
+  display: grid; grid-template-columns: 54% 46%;
+  flex: 1; overflow: hidden; min-height: 0;
+}
+.pdp-img-side {
+  position: relative; overflow: hidden;
+  background: var(--bg-section);
+}
+.pdp-img-side img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  display: block;
+}
+.pdp-img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 9rem; font-weight: 300; font-style: italic;
+  color: rgba(184,132,90,0.15);
+}
+.pdp-info-side {
+  overflow-y: auto; padding: 3.5rem 3.5rem 4rem;
+  display: flex; flex-direction: column;
+}
+.pdp-category-label {
+  font-family: 'Jost', sans-serif; font-size: 0.62rem;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 0.6rem;
+}
+.pdp-brand {
+  font-family: 'Jost', sans-serif; font-size: 0.72rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 0.5rem;
+}
+.pdp-name {
+  font-family: 'Cormorant Garamond', serif; font-weight: 300;
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  color: var(--text-dark); line-height: 1.05;
+  margin-bottom: 1.5rem;
+}
+.pdp-price-row {
+  display: flex; align-items: baseline; gap: 0.8rem;
+  padding-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.07);
+  margin-bottom: 2rem;
+}
+.pdp-price {
+  font-family: 'Jost', sans-serif; font-size: 1.3rem;
+  font-weight: 500; color: var(--text-dark);
+}
+
+.pdp-section-title {
+  font-family: 'Jost', sans-serif; font-size: 0.6rem;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--text-muted); margin-bottom: 1rem;
+}
+.pdp-notes {
+  display: grid; grid-template-columns: 52px 1fr;
+  row-gap: 0.75rem; column-gap: 1rem;
+  margin-bottom: 2rem; padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  align-items: baseline;
+}
+.pdp-note-label {
+  font-family: 'Jost', sans-serif; font-size: 0.6rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--amber); padding-top: 3px;
+}
+.pdp-note-val {
+  font-family: 'Cormorant Garamond', serif; font-size: 1rem;
+  color: var(--text-body); line-height: 1.5;
+}
+.pdp-desc {
+  font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;
+  line-height: 1.85; color: var(--text-body);
+  margin-bottom: 2rem; padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+}
+.pdp-sizes {
+  display: flex; flex-wrap: wrap; gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+.pdp-size-btn {
+  font-family: 'Jost', sans-serif; font-size: 0.7rem;
+  letter-spacing: 0.12em; padding: 0.55rem 1.1rem;
+  border: 1px solid rgba(0,0,0,0.15); background: none;
+  color: var(--text-body); cursor: pointer; transition: all 0.25s;
+}
+.pdp-size-btn.selected,
+.pdp-size-btn:hover {
+  border-color: var(--amber); color: var(--text-dark);
+  background: rgba(184,132,90,0.06);
+}
+.pdp-add {
+  width: 100%; padding: 1rem 2rem;
+  background: var(--text-dark); color: #fff;
+  font-family: 'Jost', sans-serif; font-size: 0.7rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  border: none; cursor: pointer; transition: all 0.35s;
+  margin-top: auto;
+}
+.pdp-add:hover { background: var(--amber); }
+.pdp-add.added { background: #4a8a60; }
+
+@media (max-width: 800px) {
+  .pdp-body { grid-template-columns: 1fr; overflow-y: auto; }
+  .pdp-img-side { height: 55vw; min-height: 220px; max-height: 360px; flex-shrink: 0; overflow: hidden; }
+  .pdp-info-side { overflow-y: visible; padding: 2rem 1.5rem 3rem; }
+  .pdp-header { padding: 0 1.2rem; }
+  .pdp-logo-wrap { display: none; }
 }
 </style>
 </head>
@@ -3404,6 +3557,8 @@ const LANG = {
     q4: 'Que doit révéler votre parfum ?', q4a: 'Douceur & réconfort', q4b: 'Force & authenticité', q4c: 'Mystère & séduction', q4d: 'Grâce & féminité',
     promo_label: 'Code Découverte', promo_desc: '15% de réduction · Valable 30 jours',
     quiz_explore: 'Découvrir Votre Coffret',
+    pdp_composition: 'Composition', pdp_head: 'Tête', pdp_heart: 'Cœur', pdp_base: 'Fond',
+    add_bag: 'Ajouter au Sac',
     chron_label: 'La Chronique', chron_title: 'Un parfum compris est un parfum mieux <em>porté</em>',
     chron_desc: 'Des familles olfactives aux secrets du layering — chaque chronique est une invitation à sentir autrement.',
     fam_woody: 'Boisé', fam_woody_desc: 'Une présence qui ne se justifie pas. Elle s\'impose, naturellement.',
@@ -3533,6 +3688,8 @@ const LANG = {
     q4: 'ماذا يجب أن يكشف عطركِ؟', q4a: 'الحنان والدفء', q4b: 'القوة والأصالة', q4c: 'الغموض والإغراء', q4d: 'الرقة والأنوثة',
     promo_label: 'كود الاكتشاف', promo_desc: '15% خصم · صالح 30 يوماً',
     quiz_explore: 'اكتشفي طقمكِ',
+    pdp_composition: 'التركيبة', pdp_head: 'رأس', pdp_heart: 'قلب', pdp_base: 'قاعدة',
+    add_bag: 'أضيفي إلى الحقيبة',
     chron_label: 'السجل', chron_title: 'العطر المفهوم يُلبس <em>أفضل</em>',
     chron_desc: 'من العائلات العطرية إلى أسرار الطبقات — كل سجل دعوة للشم بشكل مختلف.',
     fam_woody: 'خشبي', fam_woody_desc: 'حضور لا يحتاج تبريراً. يفرض نفسه بشكل طبيعي.',
@@ -3662,6 +3819,8 @@ const LANG = {
     q4: 'What should your scent reveal?', q4a: 'Tenderness & comfort', q4b: 'Strength & authenticity', q4c: 'Mystery & seduction', q4d: 'Grace & femininity',
     promo_label: 'Discovery Code', promo_desc: '15% discount · Valid 30 days',
     quiz_explore: 'Explore Your Coffret',
+    pdp_composition: 'Composition', pdp_head: 'Top', pdp_heart: 'Heart', pdp_base: 'Base',
+    add_bag: 'Add to Bag',
     chron_label: 'The Chronicle', chron_title: 'A fragrance understood is a fragrance better <em>worn</em>',
     chron_desc: 'From fragrance families to the secrets of layering — each chronicle is an invitation to smell differently.',
     fam_woody: 'Woody', fam_woody_desc: 'A presence that needs no justification. It simply imposes itself.',
@@ -4438,6 +4597,277 @@ const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ═══════════════════════════════════════════
+// PRODUCT DETAIL PAGE (PDP)
+// ═══════════════════════════════════════════
+
+// Map product names → image paths
+const PRODUCT_IMAGES = {
+  'Santal 33':          'images/Santal_33_large.jpg',
+  'Gypsy Water':        'images/Gypsy_Water.jpg',
+  'Tobacco Vanille':    'images/Tobacco_Vanille.jpg',
+  'Halfeti':            'images/Halfeti.jpg',
+  'Halfeti Leather':    'images/Halfeti_Leather.jpg',
+  'Tam Dao':            'images/Tam_Dao.jpg',
+  'Do Son':             'images/Do_Son.jpg',
+  'Molecule 01':        'images/Molecule_01.jpg',
+  'Portrait of a Lady': 'images/Portrait_of_a_Lady.jpg',
+  'Oud Satin Mood':     'images/Oud_Satin_Mood.jpg',
+  'Beyond Love':        'images/Beyond_Love.jpg',
+  'Carnal Flower':      'images/Carnal_Flower.jpg',
+  'Ambre Sultan':       'images/Ambre_Sultan.jpg',
+  'Musc Ravageur':      'images/Musc_Ravageur.jpg',
+  'Dzing':              'images/Dzing.jpg',
+  'Eau Duelle':         'images/Eau_Duelle.jpg',
+  'En Passant':         'images/En_Passant.jpg',
+  'Flower Market':      'images/Flower_Market.jpg',
+  'Io Capri':           'images/Io_Capri.jpg',
+  'Lait Concentré':     'images/Lait_Concentre.jpg',
+  'Lipstick Rose':      'images/Lipstick_Rose.jpg',
+  'Miss Charming':      'images/Miss_Charming.jpg',
+  'Narciso':            'images/Narciso.jpg',
+  'Sailing Day':        'images/Sailing_Day.jpg',
+  'Santal Blush':       'images/Santal_Blush.jpg',
+  'Under the Lemon Tree':'images/Under_the_Lemon_Tree.jpg',
+  'Une Fleur de Cassie':'images/Une_Fleur_de_Cassie.jpg',
+  'Vanilla 28':         'images/Vanilla_28.jpg',
+  'Infusion d\'Iris':   'images/Infusion_d_Iris.jpg',
+  'Clémentine California':'images/Clementine_California.jpg',
+};
+
+// Inject real images into product cards on load
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.product-card').forEach(card => {
+    const name = card.querySelector('.product-name')?.textContent.trim();
+    const imgPath = PRODUCT_IMAGES[name];
+    if (imgPath) {
+      const productImg = card.querySelector('.product-img');
+      if (productImg && !productImg.querySelector('.pimg-bg')) {
+        const bg = document.createElement('div');
+        bg.className = 'pimg-bg';
+        bg.style.backgroundImage = `url('${imgPath}')`;
+        bg.style.backgroundSize = 'cover';
+        bg.style.backgroundPosition = 'center top';
+        productImg.insertBefore(bg, productImg.firstChild);
+      }
+    }
+  });
+  // Wire click on product card image/name → PDP
+  document.querySelectorAll('.product-card').forEach(card => {
+    const productImg = card.querySelector('.product-img');
+    const productName = card.querySelector('.product-name');
+    [productImg, productName].forEach(el => {
+      if (el) el.addEventListener('click', function(e) {
+        if (e.target.closest('.product-wish, .product-qv-btn, .product-add, .size-btn')) return;
+        openPDP(card);
+      });
+    });
+  });
+  // Wire click on coffret cards
+  document.querySelectorAll('.coffret-card').forEach(card => {
+    const imgEl = card.querySelector('.coffret-img');
+    const nameEl = card.querySelector('h4');
+    [imgEl, nameEl].forEach(el => {
+      if (el) el.addEventListener('click', function(e) {
+        if (e.target.closest('.coffret-add')) return;
+        openPDP(card);
+      });
+    });
+  });
+});
+
+let _pdpData = null;
+
+function openPDP(card) {
+  const isCoffret = card.classList.contains('coffret-card');
+  let pd = {};
+
+  if (isCoffret) {
+    const name  = card.querySelector('h4')?.textContent.trim() || '';
+    const desc  = card.querySelector('p')?.textContent.trim() || '';
+    const price = parseInt((card.querySelector('.coffret-price')?.textContent || '0').replace(/\D/g,'')) || 0;
+    const imgSrc= card.querySelector('.coffret-img')?.src || '';
+    pd = { name, brand: 'Les Écrins', price, img: imgSrc,
+           head:'', heart:'', base:'', desc,
+           category: 'ecrins', sizes: null };
+  } else {
+    const name  = card.querySelector('.product-name')?.textContent.trim() || '';
+    const brand = card.querySelector('.product-brand')?.textContent.trim() || '';
+    const price = parseInt((card.querySelector('.product-price')?.textContent || '0').replace(/\D/g,'')) || 0;
+    const sizeBtns = [...card.querySelectorAll('.size-btn')];
+    const sizes = sizeBtns.length ? sizeBtns.map(b => ({
+      label: b.dataset.size || b.textContent.trim(),
+      price: parseInt(b.dataset.price) || price,
+      selected: b.classList.contains('selected')
+    })) : null;
+    const panel   = card.closest('.cat-panel');
+    const category= panel ? panel.id : 'orient';
+    const imgPath = PRODUCT_IMAGES[name] || '';
+    pd = { name, brand, price, img: imgPath,
+           head: card.dataset.head || '', heart: card.dataset.heart || '',
+           base: card.dataset.base || '', desc: card.dataset.desc || '',
+           category, sizes };
+    if (sizes) {
+      const sel = sizes.find(s => s.selected) || sizes[0];
+      pd.price = sel.price;
+    }
+  }
+  _pdpData = pd;
+
+  // Populate
+  const overlay = document.getElementById('pdpOverlay');
+  const pdpImg  = document.getElementById('pdpImgEl');
+  const pdpPlaceholder = document.getElementById('pdpPlaceholder');
+
+  if (pd.img) {
+    pdpImg.src = pd.img; pdpImg.alt = pd.name;
+    pdpImg.style.display = 'block';
+    pdpPlaceholder.style.display = 'none';
+  } else {
+    pdpImg.style.display = 'none';
+    pdpPlaceholder.style.display = 'flex';
+    pdpPlaceholder.textContent = (pd.name[0] || '?').toUpperCase();
+    const imgSide = document.getElementById('pdpImgSide');
+    const gradient = card.querySelector('.product-img')?.style.background || 'linear-gradient(135deg,#2a2118,#3d352c)';
+    imgSide.style.background = gradient;
+  }
+
+  document.getElementById('pdpCatLabel').textContent = {
+    orient:'Orient', occident:'Occident', absolus:'Les Absolus',
+    ecrins:'Les Écrins', essentiels:'Les Essentiels'
+  }[pd.category] || pd.category;
+
+  document.getElementById('pdpBrand').textContent = pd.brand;
+  document.getElementById('pdpName').textContent  = pd.name;
+  document.getElementById('pdpPrice').textContent = formatPrice(pd.price);
+
+  const notesWrap = document.getElementById('pdpNotesWrap');
+  if (pd.head || pd.heart || pd.base) {
+    document.getElementById('pdpHead').textContent  = pd.head;
+    document.getElementById('pdpHeart').textContent = pd.heart;
+    document.getElementById('pdpBase').textContent  = pd.base;
+    notesWrap.style.display = 'block';
+  } else {
+    notesWrap.style.display = 'none';
+  }
+
+  document.getElementById('pdpDesc').textContent = pd.desc;
+  document.getElementById('pdpDesc').style.display = pd.desc ? 'block' : 'none';
+
+  const sizesEl = document.getElementById('pdpSizes');
+  if (pd.sizes && pd.sizes.length > 1) {
+    sizesEl.innerHTML = pd.sizes.map(s =>
+      `<button class="pdp-size-btn${s.selected?' selected':''}" data-price="${s.price}" onclick="pdpPickSize(this)">${s.label}</button>`
+    ).join('');
+    sizesEl.style.display = 'flex';
+  } else {
+    sizesEl.style.display = 'none';
+  }
+
+  const backLabel = document.getElementById('pdpBackLabel');
+  backLabel.textContent = {
+    orient:'Orient', occident:'Occident', absolus:'Les Absolus',
+    ecrins:'Les Écrins', essentiels:'Les Essentiels'
+  }[pd.category] || 'Retour';
+
+  const addBtn = document.getElementById('pdpAddBtn');
+  addBtn.textContent = T('add_bag') || 'Ajouter au Sac';
+  addBtn.classList.remove('added');
+
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  const slug = pd.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+                      .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  history.pushState({ pdp: true, category: pd.category }, pd.name, '#produit/' + slug);
+
+  applyLang(currentLang);
+}
+
+function closePDP() {
+  document.getElementById('pdpOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+  _pdpData = null;
+  if (location.hash.startsWith('#produit/')) history.back();
+}
+
+function pdpPickSize(btn) {
+  btn.closest('.pdp-sizes').querySelectorAll('.pdp-size-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const price = parseInt(btn.dataset.price);
+  _pdpData.price = price;
+  document.getElementById('pdpPrice').textContent = formatPrice(price);
+}
+
+function pdpAddToCart() {
+  if (!_pdpData) return;
+  const sizeEl = document.querySelector('#pdpSizes .pdp-size-btn.selected');
+  const size   = sizeEl ? sizeEl.textContent.trim() : '';
+  addToCart(_pdpData.name, _pdpData.brand, _pdpData.price, size);
+  const btn = document.getElementById('pdpAddBtn');
+  btn.textContent = '✓ Ajouté';
+  btn.classList.add('added');
+  setTimeout(() => {
+    btn.textContent = T('add_bag') || 'Ajouter au Sac';
+    btn.classList.remove('added');
+  }, 1800);
+}
+
+window.addEventListener('popstate', function() {
+  if (!location.hash.startsWith('#produit/')) {
+    const ov = document.getElementById('pdpOverlay');
+    if (ov && ov.classList.contains('active')) {
+      ov.classList.remove('active');
+      document.body.style.overflow = '';
+      _pdpData = null;
+    }
+  }
+});
 </script>
+
+<!-- PRODUCT DETAIL PAGE OVERLAY -->
+<div class="pdp-overlay" id="pdpOverlay">
+  <div class="pdp-header">
+    <button class="pdp-back" onclick="closePDP()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      <span id="pdpBackLabel">Retour</span>
+    </button>
+    <div class="pdp-logo-wrap">
+      <img src="images/logo.png" alt="LAMYSK AURA" class="pdp-logo-img">
+    </div>
+    <button class="pdp-close" onclick="closePDP()" aria-label="Fermer">&times;</button>
+  </div>
+  <div class="pdp-body">
+    <div class="pdp-img-side" id="pdpImgSide">
+      <img id="pdpImgEl" src="" alt="" loading="lazy">
+      <div class="pdp-img-placeholder" id="pdpPlaceholder" style="display:none"></div>
+    </div>
+    <div class="pdp-info-side">
+      <div class="pdp-category-label" id="pdpCatLabel"></div>
+      <div class="pdp-brand" id="pdpBrand"></div>
+      <h1 class="pdp-name" id="pdpName"></h1>
+      <div class="pdp-price-row">
+        <span class="pdp-price" id="pdpPrice"></span>
+      </div>
+      <div id="pdpNotesWrap">
+        <div class="pdp-section-title" data-i18n="pdp_composition">Composition</div>
+        <div class="pdp-notes">
+          <span class="pdp-note-label" data-i18n="pdp_head">Tête</span>
+          <span class="pdp-note-val" id="pdpHead"></span>
+          <span class="pdp-note-label" data-i18n="pdp_heart">Cœur</span>
+          <span class="pdp-note-val" id="pdpHeart"></span>
+          <span class="pdp-note-label" data-i18n="pdp_base">Fond</span>
+          <span class="pdp-note-val" id="pdpBase"></span>
+        </div>
+      </div>
+      <p class="pdp-desc" id="pdpDesc"></p>
+      <div class="pdp-sizes" id="pdpSizes"></div>
+      <button class="pdp-add" id="pdpAddBtn" onclick="pdpAddToCart()" data-i18n="add_bag">Ajouter au Sac</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
