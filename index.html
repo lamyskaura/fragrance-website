@@ -125,15 +125,19 @@ nav.scrolled {
   padding: 0.8rem 2rem;
 }
 .nav-logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 600;
-  font-size: 1.3rem;
-  letter-spacing: 0.15em;
-  color: var(--white);
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  transition: color 0.5s;
 }
-nav.scrolled .nav-logo { color: var(--text-dark); }
+.nav-logo-img {
+  height: 36px;
+  width: auto;
+  filter: brightness(0) invert(1); /* white on dark hero */
+  transition: filter 0.5s;
+}
+nav.scrolled .nav-logo-img {
+  filter: brightness(0); /* black when nav is light */
+}
 .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
 .nav-links a {
   font-family: 'Jost', sans-serif;
@@ -246,6 +250,15 @@ html[dir="rtl"] .hero-pre { letter-spacing: 0.1em; font-family: 'Noto Naskh Arab
   letter-spacing: 0.08em;
   line-height: 1;
   margin-bottom: 1.5rem;
+}
+.hero-logo-wrap {
+  margin-bottom: 1.5rem;
+}
+.hero-logo {
+  width: clamp(220px, 35vw, 400px);
+  height: auto;
+  filter: brightness(0) invert(1); /* white on dark overlay */
+  opacity: 0.93;
 }
 .hero-tagline {
   font-family: 'Cormorant Garamond', serif;
@@ -2197,7 +2210,9 @@ input.invalid, select.invalid { border-color: var(--rose); }
 
 <!-- NAV -->
 <nav id="navbar">
-  <a href="#" class="nav-logo">LAMYSK AURA</a>
+  <a href="#" class="nav-logo">
+    <img src="images/logo.png" alt="LAMYSK AURA" class="nav-logo-img">
+  </a>
   <ul class="nav-links">
     <li><a href="#selection" data-i18n="nav_selection">La Sélection</a></li>
     <li><a href="#ecrins" data-i18n="nav_ecrins">Coffrets</a></li>
@@ -2230,7 +2245,9 @@ input.invalid, select.invalid { border-color: var(--rose); }
   <div class="hero-grain"></div>
   <div class="hero-content">
     <p class="hero-pre" data-i18n="hero_pre">Votre Maison de Parfum de Niche</p>
-    <h1>LAMYSK AURA</h1>
+    <div class="hero-logo-wrap">
+      <img src="images/logo.png" alt="LAMYSK AURA" class="hero-logo">
+    </div>
     <p class="hero-tagline" data-i18n="hero_tagline">Là où le parfum devient présence</p>
     <div class="hero-cta">
       <a href="#selection" class="btn btn-primary" data-i18n="hero_cta1">Découvrir la Sélection</a>
@@ -2904,6 +2921,8 @@ input.invalid, select.invalid { border-color: var(--rose); }
     <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text" data-i18n="faq3_q">Livrez-vous partout au Maroc ?</span><span>+</span></button><div class="faq-a"><p data-i18n="faq3_a">Oui ! Livraison partout au Maroc. Chaque commande est soigneusement emballée pour protéger vos parfums.</p></div></div>
     <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text" data-i18n="faq4_q">Puis-je avoir des conseils personnalisés ?</span><span>+</span></button><div class="faq-a"><p data-i18n="faq4_a">Bien sûr. Faites notre quiz Diagnostic Olfactif ou contactez-nous directement pour une consultation personnalisée.</p></div></div>
     <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text" data-i18n="faq5_q">C'est quoi le layering ?</span><span>+</span></button><div class="faq-a"><p data-i18n="faq5_a">Le layering, c'est l'art de construire son sillage en plusieurs étapes — du lait corporel au parfum signature jusqu'à la brume cheveux. Le résultat : un sillage plus riche et plus durable. Nos coffrets sont conçus pour ce rituel.</p></div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text" data-i18n="faq6_q">Puis-je tester avant d'acheter un flacon complet ?</span><span>+</span></button><div class="faq-a"><p data-i18n="faq6_a">Oui. Notre Coffret Découverte (200 MAD) contient 5 échantillons de nos best-sellers. C'est le moyen idéal de trouver votre signature sans engagement. Le montant est déductible sur votre prochaine commande de flacon complet.</p></div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text" data-i18n="faq7_q">Comment fonctionne la commande ?</span><span>+</span></button><div class="faq-a"><p data-i18n="faq7_a">Ajoutez vos produits au panier, remplissez le formulaire de commande, et c'est fait. Notre équipe vous contacte sous 2h par WhatsApp pour confirmer les détails et organiser la livraison. Paiement à la livraison disponible.</p></div></div>
   </div>
 </section>
 
@@ -3008,7 +3027,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <h3>LAMYSK AURA</h3>
+      <img src="images/logo.png" alt="LAMYSK AURA" style="height:56px;width:auto;filter:brightness(0) invert(1);opacity:0.85;margin-bottom:1rem;display:block;">
       <p data-i18n="footer_tagline">Votre Maison de Parfum de Niche.<br>Là où le parfum devient présence.</p>
     </div>
     <div class="footer-col">
@@ -3408,6 +3427,8 @@ const LANG = {
     faq3_q: 'Livrez-vous partout au Maroc ?', faq3_a: 'Oui ! Livraison partout au Maroc. Chaque commande est soigneusement emballée pour protéger vos parfums.',
     faq4_q: 'Puis-je avoir des conseils personnalisés ?', faq4_a: 'Bien sûr. Faites notre quiz Diagnostic Olfactif ou contactez-nous directement pour une consultation personnalisée.',
     faq5_q: 'C\'est quoi le layering ?', faq5_a: 'Le layering, c\'est l\'art de construire son sillage en plusieurs étapes — du lait corporel au parfum signature jusqu\'à la brume cheveux. Le résultat : un sillage plus riche et plus durable. Nos coffrets sont conçus pour ce rituel.',
+    faq6_q: 'Puis-je tester avant d\'acheter un flacon complet ?', faq6_a: 'Oui. Notre Coffret Découverte (200 MAD) contient 5 échantillons de nos best-sellers. C\'est le moyen idéal de trouver votre signature sans engagement. Le montant est déductible sur votre prochaine commande de flacon complet.',
+    faq7_q: 'Comment fonctionne la commande ?', faq7_a: 'Ajoutez vos produits au panier, remplissez le formulaire de commande, et c\'est fait. Notre équipe vous contacte sous 2h par WhatsApp pour confirmer les détails et organiser la livraison. Paiement à la livraison disponible.',
     nl_title: 'Rejoignez l\'univers LAMYSK AURA', nl_desc: 'Soyez la première à découvrir les nouveautés et coffrets exclusifs.',
     nl_placeholder: 'Votre adresse email', nl_btn: 'S\'inscrire',
     footer_tagline: 'Votre Maison de Parfum de Niche.<br>Là où le parfum devient présence.',
@@ -3535,6 +3556,8 @@ const LANG = {
     faq3_q: 'هل تتوفر التوصيل في كل المغرب؟', faq3_a: 'نعم! توصيل في كل أنحاء المغرب. كل طلب مغلّف بعناية.',
     faq4_q: 'هل يمكنني الحصول على نصائح شخصية؟', faq4_a: 'بالتأكيد. جربي اختبار التشخيص العطري أو تواصلي معنا مباشرة.',
     faq5_q: 'ما هو الـ layering؟', faq5_a: 'الطبقات هو فن بناء الأثر العطري بخطوات متعددة — من اللوشن إلى العطر الرئيسي إلى رذاذ الشعر. النتيجة: أثر أغنى وأطول. أطقمنا مصممة لهذا الطقس.',
+    faq6_q: 'هل يمكنني التجربة قبل شراء عبوة كاملة؟', faq6_a: 'نعم. صندوق الاكتشاف (200 درهم) يحتوي على 5 عينات من أكثر عطورنا طلباً. الطريقة المثالية لاكتشاف توقيعكِ دون التزام. المبلغ يُخصم من طلبكِ القادم.',
+    faq7_q: 'كيف تتم عملية الطلب؟', faq7_a: 'أضيفي المنتجات إلى السلة، املأي نموذج الطلب، وانتهى الأمر. فريقنا يتواصل معكِ خلال ساعتين عبر واتساب لتأكيد التفاصيل وترتيب التوصيل. الدفع عند الاستلام متاح.',
     nl_title: 'انضمّي إلى عالم LAMYSK AURA', nl_desc: 'كوني أول من يكتشف الجديد والأطقم الحصرية.',
     nl_placeholder: 'بريدكِ الإلكتروني', nl_btn: 'اشتراك',
     footer_tagline: 'بيتك للعطور الراقية.<br>حيث يصبح العطر حضوراً.',
@@ -3662,6 +3685,8 @@ const LANG = {
     faq3_q: 'Do you deliver across Morocco?', faq3_a: 'Yes! Delivery throughout Morocco. Every order is carefully packaged to protect your fragrances.',
     faq4_q: 'Can I get personalized advice?', faq4_a: 'Of course. Take our Olfactory Diagnostic quiz or contact us directly for a personalized consultation.',
     faq5_q: 'What is layering?', faq5_a: 'Layering is the art of building your scent in multiple steps — from body lotion to signature fragrance to hair mist. The result: a richer, longer-lasting sillage. Our coffrets are designed for this ritual.',
+    faq6_q: 'Can I try before buying a full bottle?', faq6_a: 'Yes. Our Discovery Coffret (200 MAD) includes 5 samples of our best-sellers. It\'s the ideal way to find your signature with no commitment. The amount is deductible from your next full-size order.',
+    faq7_q: 'How does ordering work?', faq7_a: 'Add products to your bag, fill in the order form, and you\'re done. Our team contacts you within 2 hours via WhatsApp to confirm details and arrange delivery. Cash on delivery available.',
     nl_title: 'Join the LAMYSK AURA World', nl_desc: 'Be the first to discover new arrivals and exclusive coffrets.',
     nl_placeholder: 'Your email address', nl_btn: 'Subscribe',
     footer_tagline: 'Your Niche Fragrance Home.<br>Where Scent Becomes Presence.',
