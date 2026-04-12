@@ -758,6 +758,158 @@ html[dir="rtl"] .coffret-card p { font-family: 'Noto Naskh Arabic', serif; }
 html[dir="rtl"] .coffret-add { font-family: 'Noto Naskh Arabic', sans-serif; letter-spacing: 0.05em; }
 .coffret-add:hover { background: var(--gold); color: var(--deep); }
 
+/* ── SEARCH BAR ── */
+.products-search {
+  max-width: 420px;
+  margin: 0 auto 2rem;
+  position: relative;
+}
+.products-search input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.8rem;
+  border: 1px solid rgba(196,149,106,0.25);
+  background: var(--cream-light);
+  font-family: 'Jost', sans-serif;
+  font-size: 0.82rem;
+  color: var(--text-dark);
+  outline: none;
+  transition: border-color 0.3s;
+}
+.products-search input:focus { border-color: var(--gold); background: var(--white); }
+.products-search input::placeholder { color: var(--text-muted); }
+.products-search .search-icon {
+  position: absolute; left: 0.9rem; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted); pointer-events: none;
+}
+.search-no-results {
+  text-align: center; padding: 3rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; color: var(--text-muted);
+  font-size: 1.1rem; display: none;
+  grid-column: 1 / -1;
+}
+
+/* ── WISHLIST HEART ── */
+.product-wish {
+  position: absolute; top: 0.8rem; right: 0.8rem;
+  background: rgba(255,255,255,0.85);
+  border: none; width: 32px; height: 32px;
+  border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.95rem; z-index: 3;
+  transition: all 0.25s;
+  color: var(--text-muted);
+}
+html[dir="rtl"] .product-wish { right: auto; left: 0.8rem; }
+.product-wish:hover, .product-wish.wished { background: white; color: var(--rose); }
+.product-wish.wished { color: #e05a5a; }
+
+/* ── PRODUCT QUICK VIEW BUTTON (hover) ── */
+.product-qv-btn {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 0.65rem;
+  background: rgba(26,21,16,0.82);
+  border: none;
+  font-family: 'Jost', sans-serif; font-size: 0.6rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--cream); cursor: pointer;
+  opacity: 0; transform: translateY(8px);
+  transition: all 0.3s; z-index: 4;
+}
+.product-card:hover .product-qv-btn { opacity: 1; transform: translateY(0); }
+
+/* ── PRODUCT QUICK VIEW MODAL ── */
+.qv-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 600;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem;
+}
+.qv-overlay.open { opacity: 1; pointer-events: all; }
+.qv-modal {
+  background: var(--white);
+  width: 100%; max-width: 720px;
+  max-height: 92vh; overflow-y: auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  transform: translateY(24px);
+  transition: transform 0.3s;
+  position: relative;
+}
+.qv-overlay.open .qv-modal { transform: translateY(0); }
+.qv-img {
+  background-size: cover; background-position: center;
+  background-color: var(--warm-dark);
+  min-height: 360px;
+}
+.qv-close {
+  position: absolute; top: 0.8rem; right: 0.8rem;
+  background: rgba(0,0,0,0.5); border: none;
+  color: white; width: 30px; height: 30px;
+  border-radius: 50%; cursor: pointer;
+  font-size: 1.1rem; display: flex;
+  align-items: center; justify-content: center;
+  z-index: 10; transition: background 0.2s;
+}
+.qv-close:hover { background: rgba(0,0,0,0.8); }
+.qv-body { padding: 2rem; display: flex; flex-direction: column; gap: 1rem; overflow-y: auto; }
+.qv-brand-label { font-family: 'Jost', sans-serif; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted); }
+.qv-product-name { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; font-weight: 400; color: var(--text-dark); line-height: 1.1; }
+.qv-badge { display: inline-block; background: var(--gold); color: var(--deep); font-family: 'Jost', sans-serif; font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.25rem 0.7rem; }
+.qv-notes-line { font-family: 'Jost', sans-serif; font-size: 0.74rem; color: var(--text-muted); }
+.qv-pyramid {
+  border: 1px solid rgba(196,149,106,0.18);
+  padding: 1rem 1.2rem;
+  background: var(--cream-light);
+}
+.qv-pyramid h5 {
+  font-family: 'Jost', sans-serif; font-size: 0.6rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 0.8rem;
+}
+.qv-pyramid-row { display: flex; gap: 0.5rem; margin-bottom: 0.35rem; align-items: baseline; }
+.qv-pyramid-label {
+  font-family: 'Jost', sans-serif; font-size: 0.58rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-muted); width: 52px; flex-shrink: 0;
+}
+.qv-pyramid-val { font-family: 'Cormorant Garamond', serif; font-size: 0.93rem; color: var(--text-dark); }
+.qv-desc { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; line-height: 1.75; color: var(--text-body); }
+.qv-price { font-family: 'Jost', sans-serif; font-weight: 600; font-size: 1.25rem; color: var(--text-dark); }
+.qv-sizes { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.qv-add {
+  width: 100%; padding: 0.95rem;
+  background: var(--text-dark); color: var(--cream);
+  border: none; font-family: 'Jost', sans-serif;
+  font-size: 0.7rem; letter-spacing: 0.22em;
+  text-transform: uppercase; cursor: pointer;
+  transition: background 0.3s; margin-top: auto;
+}
+.qv-add:hover { background: var(--gold); color: var(--deep); }
+@media (max-width: 640px) {
+  .qv-modal { grid-template-columns: 1fr; }
+  .qv-img { min-height: 220px; }
+}
+
+/* ── FREE DELIVERY BAR ── */
+.cart-free-delivery {
+  margin: 0.5rem 2rem 0.25rem;
+  padding: 0.8rem 1rem;
+  background: var(--cream-light);
+  border: 1px solid rgba(196,149,106,0.15);
+}
+.fd-text {
+  font-family: 'Jost', sans-serif; font-size: 0.68rem;
+  letter-spacing: 0.04em; color: var(--text-muted);
+  margin-bottom: 0.5rem; text-align: center;
+}
+.fd-text strong { color: var(--amber); }
+.fd-track { height: 3px; background: rgba(196,149,106,0.15); border-radius: 2px; }
+.fd-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--amber)); border-radius: 2px; transition: width 0.5s ease; width: 0%; }
+
 /* ── ABSOLUS BANNER ── */
 .absolus-banner {
   background: linear-gradient(135deg, var(--deep) 0%, #2a1f15 100%);
@@ -1044,14 +1196,16 @@ html[dir="rtl"] .testimonial blockquote { font-family: 'Noto Naskh Arabic', seri
   text-align: left;
 }
 html[dir="rtl"] .faq-q { text-align: right; font-family: 'Noto Naskh Arabic', serif; }
-.faq-q span { font-size: 1.2rem; color: var(--gold); transition: transform 0.3s; }
-.faq-item.open .faq-q span { transform: rotate(45deg); }
-.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; }
-.faq-item.open .faq-a { max-height: 300px; padding-bottom: 1.5rem; }
+.faq-q-text { flex: 1; text-align: left; color: var(--text-dark); font-size: 1.05rem; font-family: 'Cormorant Garamond', serif; }
+html[dir="rtl"] .faq-q-text { text-align: right; }
+.faq-q span:last-child { font-size: 1.3rem; color: var(--gold); transition: transform 0.3s; flex-shrink: 0; }
+.faq-item.open .faq-q span:last-child { transform: rotate(45deg); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.45s ease, padding 0.45s ease; }
+.faq-item.open .faq-a { max-height: 400px; padding-bottom: 1.5rem; }
 .faq-a p {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.95rem;
-  line-height: 1.75;
+  font-size: 0.97rem;
+  line-height: 1.8;
   color: var(--text-body);
 }
 html[dir="rtl"] .faq-a p { font-family: 'Noto Naskh Arabic', serif; }
@@ -2054,15 +2208,25 @@ input.invalid, select.invalid { border-color: var(--rose); }
     <button class="cat-btn" onclick="switchCat(this, 'essentiels')">Les Essentiels</button>
   </div>
 
+  <!-- SEARCH -->
+  <div class="products-search" style="margin-top:2rem;">
+    <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="productSearch" placeholder="Rechercher un parfum, une note..." oninput="filterProducts(this.value)">
+  </div>
+
   <!-- ORIENT -->
   <div class="cat-panel active" id="orient">
     <div class="cat-intro">
       <h3 data-i18n="orient_title">Parfums d'Orient</h3>
       <p data-i18n="orient_desc">De la Péninsule Arabique aux médinas du Maghreb — oud souverain, musc blanc, rose de Taïf, ambre, bakhour. Pour celles qui portent leur parfum comme une présence.</p>
     </div>
-    <div class="products-grid">
-      <div class="product-card">
-        <div class="product-img" style="background-image:url('https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600');background-size:cover;background-position:center"><span class="product-badge">Orient</span></div>
+    <div class="products-grid" id="orient-grid">
+      <div class="product-card" data-head="Rose de Taïf, Bergamote" data-heart="Oud, Iris" data-base="Ambre, Musc blanc" data-desc="L'éclair olfactif. Une composition audacieuse qui s'ouvre sur la fraîcheur de la rose de Taïf avant de plonger dans les profondeurs chaleureuses de l'oud marocain et de l'ambre précieux. Un sillage puissant, enveloppant.">
+        <div class="product-img" style="background-image:url('https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600');background-size:cover;background-position:center">
+          <span class="product-badge">Orient</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Ibraq')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
         <div class="product-info">
           <div class="product-brand">Lamysk Aura Selection</div>
           <div class="product-name">Ibraq</div>
@@ -2077,8 +2241,11 @@ input.invalid, select.invalid { border-color: var(--rose); }
           </div>
         </div>
       </div>
-      <div class="product-card">
-        <div class="product-img" style="background-image:url('https://images.pexels.com/photos/3910071/pexels-photo-3910071.jpeg?auto=compress&cs=tinysrgb&w=600');background-size:cover;background-position:center"></div>
+      <div class="product-card" data-head="Bergamote, Cardamome" data-heart="Santal, Jasmin" data-base="Musc blanc, Vanille" data-desc="La magie des mots. Une fragrance enveloppante aux accords poudrés et doux qui persistent sur la peau comme un souvenir précieux. Pour celles qui laissent un souvenir.">
+        <div class="product-img" style="background-image:url('https://images.pexels.com/photos/3910071/pexels-photo-3910071.jpeg?auto=compress&cs=tinysrgb&w=600');background-size:cover;background-position:center">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Sehr Kalimat')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
         <div class="product-info">
           <div class="product-brand">Lamysk Aura Selection</div>
           <div class="product-name">Sehr Kalimat</div>
@@ -2093,8 +2260,11 @@ input.invalid, select.invalid { border-color: var(--rose); }
           </div>
         </div>
       </div>
-      <div class="product-card">
-        <div class="product-img" style="background-image:url('https://images.pexels.com/photos/7445028/pexels-photo-7445028.jpeg?auto=compress&cs=tinysrgb&w=600');background-size:cover;background-position:center"></div>
+      <div class="product-card" data-head="Safran, Encens" data-heart="Bakhour, Rose" data-base="Ambre, Musc" data-desc="La fumée sacrée. Un voyage olfactif au cœur des médinas marocaines — bakhour, safran épicé et un sillage ambré chaud qui rappelle les rituels ancestraux.">
+        <div class="product-img" style="background-image:url('https://images.pexels.com/photos/7445028/pexels-photo-7445028.jpeg?auto=compress&cs=tinysrgb&w=600');background-size:cover;background-position:center">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Ghawali')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
         <div class="product-info">
           <div class="product-brand">Lamysk Aura Selection</div>
           <div class="product-name">Ghawali</div>
@@ -2109,8 +2279,11 @@ input.invalid, select.invalid { border-color: var(--rose); }
           </div>
         </div>
       </div>
-      <div class="product-card">
-        <div class="product-img" style="background-image:url('https://images.pexels.com/photos/3059609/pexels-photo-3059609.jpeg?auto=compress&cs=tinysrgb&w=600');background-size:cover;background-position:center"></div>
+      <div class="product-card" data-head="Oud, Cèdre" data-heart="Musc, Rose" data-base="Cèdre, Ambre gris" data-desc="La rencontre parfaite. Un parfum masculin-féminin qui fusionne l'oud profond avec la légèreté du musc blanc et la sophistication du cèdre. Pour celles et ceux qui ne s'imposent aucune limite.">
+        <div class="product-img" style="background-image:url('https://images.pexels.com/photos/3059609/pexels-photo-3059609.jpeg?auto=compress&cs=tinysrgb&w=600');background-size:cover;background-position:center">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Match')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
         <div class="product-info">
           <div class="product-brand">Lamysk Aura Selection</div>
           <div class="product-name">Match</div>
@@ -2125,8 +2298,12 @@ input.invalid, select.invalid { border-color: var(--rose); }
           </div>
         </div>
       </div>
-      <div class="product-card">
-        <div class="product-img" style="background:linear-gradient(135deg, var(--warm-dark), var(--oud))"><span class="product-img-text">و</span></div>
+      <div class="product-card" data-head="Vétiver, Poivre noir" data-heart="Oud, Gaïac" data-base="Patchouli, Labdanum" data-desc="La forêt sacrée. Un concentré de bois nobles — vétiver fumé, oud intense, patchouli terrien. Une fragrance pour l'homme ou la femme qui porte son sillage comme une armure.">
+        <div class="product-img" style="background:linear-gradient(135deg, var(--warm-dark), var(--oud))">
+          <span class="product-img-text">و</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Woody Intense')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
         <div class="product-info">
           <div class="product-brand">Lamysk Aura Selection</div>
           <div class="product-name">Woody Intense</div>
@@ -2141,8 +2318,12 @@ input.invalid, select.invalid { border-color: var(--rose); }
           </div>
         </div>
       </div>
-      <div class="product-card">
-        <div class="product-img" style="background:linear-gradient(135deg, #3d2b1a, var(--oud))"><span class="product-img-text">ع</span></div>
+      <div class="product-card" data-head="Santal, Bergamote" data-heart="Cèdre, Iris" data-base="Musc, Ambre" data-desc="L'élégance boisée. Un sillage raffiné et contemporain qui marie le santal crémeux au cèdre sec et à l'iris poudrée. Le parfum des personnes qui savent ce qu'elles veulent.">
+        <div class="product-img" style="background:linear-gradient(135deg, #3d2b1a, var(--oud))">
+          <span class="product-img-text">ع</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Woody Style')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
         <div class="product-info">
           <div class="product-brand">Lamysk Aura Selection</div>
           <div class="product-name">Woody Style</div>
@@ -2482,6 +2663,29 @@ input.invalid, select.invalid { border-color: var(--rose); }
     </div>
   </div>
   <div class="footer-bottom">
+    <div style="display:flex;align-items:center;justify-content:center;gap:0.8rem;margin-bottom:0.8rem;flex-wrap:wrap;">
+      <span style="font-family:'Jost',sans-serif;font-size:0.6rem;letter-spacing:0.12em;color:rgba(255,255,255,0.3);text-transform:uppercase;">Paiement sécurisé ·</span>
+      <!-- COD -->
+      <span style="display:inline-flex;align-items:center;gap:0.3rem;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);padding:0.25rem 0.6rem;border-radius:3px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        <span style="font-family:'Jost',sans-serif;font-size:0.58rem;letter-spacing:0.08em;color:rgba(255,255,255,0.5);">CASH</span>
+      </span>
+      <!-- VIREMENT -->
+      <span style="display:inline-flex;align-items:center;gap:0.3rem;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);padding:0.25rem 0.6rem;border-radius:3px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span style="font-family:'Jost',sans-serif;font-size:0.58rem;letter-spacing:0.08em;color:rgba(255,255,255,0.5);">VIREMENT</span>
+      </span>
+      <!-- WHATSAPP ORDER -->
+      <span style="display:inline-flex;align-items:center;gap:0.3rem;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.2);padding:0.25rem 0.6rem;border-radius:3px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(37,211,102,0.7)"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span style="font-family:'Jost',sans-serif;font-size:0.58rem;letter-spacing:0.08em;color:rgba(37,211,102,0.7);">WHATSAPP</span>
+      </span>
+      <!-- DELIVERY -->
+      <span style="display:inline-flex;align-items:center;gap:0.3rem;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);padding:0.25rem 0.6rem;border-radius:3px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3m0 0h4l3 3v4h-7m0 0a2 2 0 11-4 0 2 2 0 014 0zm7 0a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        <span style="font-family:'Jost',sans-serif;font-size:0.58rem;letter-spacing:0.08em;color:rgba(255,255,255,0.5);">LIVRAISON MAROC</span>
+      </span>
+    </div>
     &copy; 2026 LAMYSK AURA. Your Niche Fragrance Home.
   </div>
 </footer>
@@ -2496,12 +2700,45 @@ input.invalid, select.invalid { border-color: var(--rose); }
   <div class="cart-items" id="cartItems">
     <div class="cart-empty" data-i18n="cart_empty">Votre sac est vide.<br>Commencez votre voyage olfactif.</div>
   </div>
+  <div class="cart-free-delivery" id="cartFreeDelivery" style="display:none">
+    <div class="fd-text" id="fdText"></div>
+    <div class="fd-track"><div class="fd-fill" id="fdFill"></div></div>
+  </div>
   <div class="cart-footer">
     <div class="cart-total">
       <span data-i18n="cart_total">Total</span>
       <span id="cartTotal">0 MAD</span>
     </div>
     <button class="cart-checkout" onclick="openCheckout()" data-i18n="cart_checkout">Passer la Commande</button>
+  </div>
+</div>
+
+<!-- PRODUCT QUICK VIEW MODAL -->
+<div class="qv-overlay" id="qvOverlay" onclick="closeQVOnOverlay(event)">
+  <div class="qv-modal" id="qvModal">
+    <div class="qv-img" id="qvImg">
+      <button class="qv-close" onclick="closeQV()">&times;</button>
+    </div>
+    <div class="qv-body">
+      <div>
+        <div class="qv-brand-label" id="qvBrand"></div>
+        <div class="qv-product-name" id="qvName"></div>
+        <span class="qv-badge" id="qvBadge" style="margin-top:0.4rem;display:inline-block;"></span>
+      </div>
+      <div class="qv-notes-line" id="qvNotes"></div>
+      <div class="qv-pyramid" id="qvPyramid">
+        <h5>Pyramide Olfactive</h5>
+        <div class="qv-pyramid-row"><span class="qv-pyramid-label">Tête</span><span class="qv-pyramid-val" id="qvHead"></span></div>
+        <div class="qv-pyramid-row"><span class="qv-pyramid-label">Cœur</span><span class="qv-pyramid-val" id="qvHeart"></span></div>
+        <div class="qv-pyramid-row"><span class="qv-pyramid-label">Fond</span><span class="qv-pyramid-val" id="qvBase"></span></div>
+      </div>
+      <div class="qv-desc" id="qvDesc"></div>
+      <div>
+        <div class="qv-price" id="qvPrice"></div>
+        <div class="qv-sizes" id="qvSizes" style="margin-top:0.5rem;"></div>
+      </div>
+      <button class="qv-add" id="qvAddBtn" onclick="addToCartFromQV()">Ajouter au Sac</button>
+    </div>
   </div>
 </div>
 
@@ -3145,6 +3382,9 @@ function switchCat(btn, id) {
   btn.classList.add('active');
   document.querySelectorAll('.cat-panel').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  // Reset search when switching category
+  const searchInput = document.getElementById('productSearch');
+  if (searchInput) { searchInput.value = ''; filterProducts(''); }
 }
 
 // ═══════════════════════════════════════════
@@ -3176,32 +3416,39 @@ function addToCartFromCard(btn, name, brand) {
 }
 
 // ═══════════════════════════════════════════
-// CART
+// CART  (with localStorage persistence)
 // ═══════════════════════════════════════════
 let cart = [];
 
+function saveCart() { try { localStorage.setItem('la_cart', JSON.stringify(cart)); } catch(e) {} }
+function loadCart() { try { const s = localStorage.getItem('la_cart'); if (s) cart = JSON.parse(s); } catch(e) { cart = []; } }
+
 function addToCart(name, brand, price, size) {
-  // Check if same item+size already in cart → increment qty
   const existing = cart.find(i => i.name === name && i.size === (size || ''));
   if (existing) {
     existing.qty++;
   } else {
     cart.push({ name, brand, price: price || 0, size: size || '', qty: 1 });
   }
+  saveCart();
   updateCart();
   toggleCart(true);
 }
 
 function removeFromCart(i) {
   cart.splice(i, 1);
+  saveCart();
   updateCart();
 }
 
 function changeQty(i, delta) {
   cart[i].qty += delta;
   if (cart[i].qty <= 0) cart.splice(i, 1);
+  saveCart();
   updateCart();
 }
+
+const FREE_DELIVERY_THRESHOLD = 500;
 
 function updateCart() {
   const count = document.getElementById('cartCount');
@@ -3209,6 +3456,29 @@ function updateCart() {
   const total = document.getElementById('cartTotal');
   const totalAmt = cart.reduce((s, i) => s + i.price * i.qty, 0);
   count.textContent = cart.reduce((s, i) => s + i.qty, 0);
+
+  // Free delivery bar
+  const fdEl = document.getElementById('cartFreeDelivery');
+  const fdText = document.getElementById('fdText');
+  const fdFill = document.getElementById('fdFill');
+  if (cart.length > 0) {
+    fdEl.style.display = 'block';
+    const pct = Math.min(100, (totalAmt / FREE_DELIVERY_THRESHOLD) * 100);
+    fdFill.style.width = pct + '%';
+    if (totalAmt >= FREE_DELIVERY_THRESHOLD) {
+      fdText.innerHTML = currentLang === 'ar' ? '<strong>🎉 توصيل مجاني مفعّل!</strong>' : currentLang === 'en' ? '<strong>🎉 Free delivery unlocked!</strong>' : '<strong>🎉 Livraison offerte débloquée !</strong>';
+    } else {
+      const remaining = FREE_DELIVERY_THRESHOLD - totalAmt;
+      fdText.innerHTML = currentLang === 'ar'
+        ? `<strong>${remaining} درهم</strong> أخرى للتوصيل المجاني`
+        : currentLang === 'en'
+        ? `<strong>${remaining} MAD</strong> away from free delivery`
+        : `Plus que <strong>${remaining} MAD</strong> pour la livraison offerte`;
+    }
+  } else {
+    fdEl.style.display = 'none';
+  }
+
   if (cart.length === 0) {
     items.innerHTML = '<div class="cart-empty">' + T('cart_empty') + '</div>';
     total.textContent = formatPrice(0);
@@ -3379,6 +3649,7 @@ function sendOrderWhatsApp() {
   // Clear cart after order
   setTimeout(() => {
     cart = [];
+    saveCart();
     updateCart();
     closeCheckout();
   }, 1500);
@@ -3482,6 +3753,128 @@ function subscribeNL() {
     document.getElementById('nlEmail').value = '';
   }
 }
+
+// ═══════════════════════════════════════════
+// WISHLIST
+// ═══════════════════════════════════════════
+let wishlist = [];
+function loadWishlist() {
+  try { const s = localStorage.getItem('la_wishlist'); if (s) wishlist = JSON.parse(s); } catch(e) {}
+}
+function saveWishlist() { try { localStorage.setItem('la_wishlist', JSON.stringify(wishlist)); } catch(e) {} }
+function toggleWishlist(btn, name) {
+  const idx = wishlist.indexOf(name);
+  if (idx >= 0) { wishlist.splice(idx, 1); btn.classList.remove('wished'); btn.textContent = '♡'; }
+  else { wishlist.push(name); btn.classList.add('wished'); btn.textContent = '♥'; }
+  saveWishlist();
+}
+function applyWishlistState() {
+  document.querySelectorAll('.product-wish').forEach(btn => {
+    const card = btn.closest('.product-card');
+    const name = card ? card.querySelector('.product-name')?.textContent : null;
+    if (name && wishlist.includes(name)) { btn.classList.add('wished'); btn.textContent = '♥'; }
+  });
+}
+
+// ═══════════════════════════════════════════
+// PRODUCT SEARCH
+// ═══════════════════════════════════════════
+function filterProducts(val) {
+  const q = val.toLowerCase().trim();
+  const cards = document.querySelectorAll('.product-card');
+  cards.forEach(card => {
+    const name = card.querySelector('.product-name')?.textContent.toLowerCase() || '';
+    const notes = card.querySelector('.product-notes')?.textContent.toLowerCase() || '';
+    const brand = card.querySelector('.product-brand')?.textContent.toLowerCase() || '';
+    card.style.display = (!q || name.includes(q) || notes.includes(q) || brand.includes(q)) ? '' : 'none';
+  });
+}
+
+// ═══════════════════════════════════════════
+// PRODUCT QUICK VIEW
+// ═══════════════════════════════════════════
+let qvCurrentCard = null;
+
+function openQV(card) {
+  qvCurrentCard = card;
+  const img = card.querySelector('.product-img');
+  const name = card.querySelector('.product-name')?.textContent || '';
+  const brand = card.querySelector('.product-brand')?.textContent || '';
+  const notes = card.querySelector('.product-notes')?.textContent || '';
+  const badge = card.querySelector('.product-badge')?.textContent || '';
+  const head = card.dataset.head || '';
+  const heart = card.dataset.heart || '';
+  const base = card.dataset.base || '';
+  const desc = card.dataset.desc || '';
+
+  // Image background
+  const qvImg = document.getElementById('qvImg');
+  qvImg.style.backgroundImage = img ? img.style.backgroundImage : '';
+  qvImg.style.backgroundColor = img ? getComputedStyle(img).backgroundColor : '';
+
+  document.getElementById('qvBrand').textContent = brand;
+  document.getElementById('qvName').textContent = name;
+  document.getElementById('qvNotes').textContent = notes;
+  const badgeEl = document.getElementById('qvBadge');
+  badgeEl.textContent = badge;
+  badgeEl.style.display = badge ? 'inline-block' : 'none';
+  document.getElementById('qvHead').textContent = head || notes.split('·')[0]?.trim() || '—';
+  document.getElementById('qvHeart').textContent = heart || notes.split('·')[1]?.trim() || '—';
+  document.getElementById('qvBase').textContent = base || notes.split('·')[2]?.trim() || '—';
+  document.getElementById('qvPyramid').style.display = (head || heart || base) ? 'block' : 'none';
+  document.getElementById('qvDesc').textContent = desc;
+  document.getElementById('qvDesc').style.display = desc ? 'block' : 'none';
+
+  // Sizes & price
+  const sizesContainer = card.querySelector('.product-sizes');
+  const priceEl = card.querySelector('.price-tag');
+  const qvSizes = document.getElementById('qvSizes');
+  const qvPrice = document.getElementById('qvPrice');
+  if (sizesContainer) {
+    const selected = sizesContainer.querySelector('.size-btn.selected');
+    qvPrice.textContent = selected ? formatPrice(parseInt(selected.dataset.price)) : (priceEl ? priceEl.textContent : '');
+    qvSizes.innerHTML = Array.from(sizesContainer.querySelectorAll('.size-btn')).map(btn =>
+      `<button class="size-btn ${btn.classList.contains('selected') ? 'selected' : ''}" data-size="${btn.dataset.size}" data-price="${btn.dataset.price}" onclick="qvSelectSize(this)">${btn.dataset.size}</button>`
+    ).join('');
+  } else {
+    qvSizes.innerHTML = '';
+    qvPrice.textContent = priceEl ? priceEl.textContent : '';
+  }
+
+  document.getElementById('qvOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function qvSelectSize(btn) {
+  btn.closest('.qv-sizes').querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('qvPrice').textContent = formatPrice(parseInt(btn.dataset.price));
+}
+
+function addToCartFromQV() {
+  if (!qvCurrentCard) return;
+  const name = qvCurrentCard.querySelector('.product-name')?.textContent || '';
+  const brand = qvCurrentCard.querySelector('.product-brand')?.textContent || '';
+  const selectedSize = document.getElementById('qvSizes').querySelector('.size-btn.selected');
+  const price = selectedSize ? parseInt(selectedSize.dataset.price) : 0;
+  const size = selectedSize ? selectedSize.dataset.size : '';
+  closeQV();
+  addToCart(name, brand, price, size);
+}
+
+function closeQV() {
+  document.getElementById('qvOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeQVOnOverlay(e) { if (e.target === document.getElementById('qvOverlay')) closeQV(); }
+
+// ═══════════════════════════════════════════
+// INIT ON PAGE LOAD
+// ═══════════════════════════════════════════
+loadCart();
+loadWishlist();
+updateCart();
+applyWishlistState();
 
 // ═══════════════════════════════════════════
 // SCROLL REVEAL
