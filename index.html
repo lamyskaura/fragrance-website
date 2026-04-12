@@ -134,6 +134,14 @@ nav.scrolled {
   height: 40px;
   width: auto;
   display: block;
+  filter: brightness(0) invert(1); /* white on dark hero */
+  transition: filter 0.4s;
+}
+nav.scrolled .nav-logo-img {
+  filter: none; /* black on cream background */
+}
+.pdp-logo-img {
+  filter: brightness(0) invert(1); /* always white on dark PDP header */
 }
 .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
 .nav-links a {
@@ -3414,7 +3422,7 @@ nav.scrolled .nav-account { color: var(--text-body); }
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <img src="images/logo.png" alt="LAMYSK AURA" style="height:64px;width:auto;margin-bottom:1rem;display:block;border-radius:4px;">
+      <img src="images/logo.png" alt="LAMYSK AURA" style="height:64px;width:auto;margin-bottom:1rem;display:block;filter:brightness(0) invert(1);">
       <p data-i18n="footer_tagline">Votre Maison de Parfum de Niche.<br>Là où le parfum devient présence.</p>
     </div>
     <div class="footer-col">
