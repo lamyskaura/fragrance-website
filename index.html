@@ -2212,7 +2212,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
   </a>
   <ul class="nav-links">
     <li><a href="#selection" data-i18n="nav_selection">La Sélection</a></li>
-    <li><a href="#ecrins" data-i18n="nav_ecrins">Coffrets</a></li>
+    <li><a href="#selection" onclick="setTimeout(goToEcrins,50)" data-i18n="nav_ecrins">Coffrets</a></li>
     <li><a href="#quiz" data-i18n="nav_diagnostic">Diagnostic</a></li>
     <li><a href="#bio" data-i18n="nav_about">À Propos</a></li>
     <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
@@ -2230,7 +2230,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
 <div class="mobile-menu" id="mobileMenu">
   <button class="mobile-close" onclick="toggleMobile()">&times;</button>
   <a href="#selection" onclick="toggleMobile()" data-i18n="nav_selection">La Sélection</a>
-  <a href="#ecrins" onclick="toggleMobile()" data-i18n="nav_ecrins">Coffrets</a>
+  <a href="#selection" onclick="toggleMobile();setTimeout(goToEcrins,50)" data-i18n="nav_ecrins">Coffrets</a>
   <a href="#quiz" onclick="toggleMobile()" data-i18n="nav_diagnostic">Diagnostic</a>
   <a href="#bio" onclick="toggleMobile()" data-i18n="nav_about">À Propos</a>
   <a href="#contact" onclick="toggleMobile()" data-i18n="nav_contact">Contact</a>
@@ -2248,7 +2248,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
     <p class="hero-tagline" data-i18n="hero_tagline">Là où le parfum devient présence</p>
     <div class="hero-cta">
       <a href="#selection" class="btn btn-primary" data-i18n="hero_cta1">Découvrir la Sélection</a>
-      <a href="#ecrins" class="btn btn-outline" data-i18n="hero_cta2">Voir les Écrins</a>
+      <a href="#selection" class="btn btn-outline" onclick="setTimeout(goToEcrins,50)" data-i18n="hero_cta2">Voir les Écrins</a>
     </div>
   </div>
   <div class="hero-scroll" data-i18n="hero_scroll">Défiler pour découvrir</div>
@@ -2281,7 +2281,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
   <span class="section-label" data-i18n="ecrins_label">Les Écrins</span>
   <h2 data-i18n="ecrins_title">L'expérience parfum complète — réunie dans un écrin</h2>
   <p data-i18n="ecrins_sub">Le parfum parfait ne se porte pas. Il se compose.</p>
-  <a href="#ecrins" class="btn btn-primary" data-i18n="ecrins_cta">Voir les Coffrets</a>
+  <a href="#selection" class="btn btn-primary" onclick="setTimeout(goToEcrins,50)" data-i18n="ecrins_cta">Voir les Coffrets</a>
 </section>
 
 <!-- THE SELECTION -->
@@ -2811,7 +2811,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
       <div class="step"><div class="step-num">05</div><h4 data-i18n="step5_title">Finition</h4><p data-i18n="step5_desc">Brume cheveux & poudre</p></div>
     </div>
     <div style="text-align:center;margin-top:2rem;">
-      <a href="#selection" class="btn btn-dark" onclick="setTimeout(()=>{document.querySelector('[onclick*=ecrins]').click()},300)" data-i18n="ecrins_cta">Voir les Coffrets</a>
+      <a href="#selection" class="btn btn-dark" onclick="setTimeout(goToEcrins,50)" data-i18n="ecrins_cta">Voir les Coffrets</a>
     </div>
   </div>
 </section>
@@ -3793,6 +3793,17 @@ function switchCat(btn, id) {
   if (searchInput) { searchInput.value = ''; filterProducts(''); }
 }
 
+function goToEcrins() {
+  // Activate the écrins cat-panel
+  document.querySelectorAll('.cat-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('ecrins').classList.add('active');
+  document.querySelectorAll('.cat-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('onclick') && b.getAttribute('onclick').includes('ecrins'));
+  });
+  // Scroll to the selection section
+  document.getElementById('selection').scrollIntoView({ behavior: 'smooth' });
+}
+
 // ═══════════════════════════════════════════
 // SIZE SELECTOR
 // ═══════════════════════════════════════════
@@ -4236,7 +4247,7 @@ function showResult() {
       '<div class="quiz-rec-body">' +
         '<div class="quiz-rec-name">' + rec.name + '</div>' +
         '<div class="quiz-rec-price">' + formatPrice(rec.price) + '</div>' +
-        '<button class="btn btn-dark" onclick="addToCart(\'' + rec.name + '\',\'Les Écrins\',' + rec.price + ')">' + addLabel + '</button>' +
+        '<button class="btn btn-dark" onclick="addToCart(\'' + rec.name + '\',\'Les Écrins\',' + rec.price + ');setTimeout(goToEcrins,100)">' + addLabel + '</button>' +
       '</div>' +
     '</div>';
 
