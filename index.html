@@ -130,13 +130,9 @@ nav.scrolled {
   text-decoration: none;
 }
 .nav-logo-img {
-  height: 36px;
+  height: 40px;
   width: auto;
-  filter: brightness(0) invert(1); /* white on dark hero */
-  transition: filter 0.5s;
-}
-nav.scrolled .nav-logo-img {
-  filter: brightness(0); /* black when nav is light */
+  display: block;
 }
 .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
 .nav-links a {
@@ -255,10 +251,11 @@ html[dir="rtl"] .hero-pre { letter-spacing: 0.1em; font-family: 'Noto Naskh Arab
   margin-bottom: 1.5rem;
 }
 .hero-logo {
-  width: clamp(220px, 35vw, 400px);
+  width: clamp(160px, 25vw, 280px);
   height: auto;
-  filter: brightness(0) invert(1); /* white on dark overlay */
-  opacity: 0.93;
+  display: block;
+  margin: 0 auto;
+  border-radius: 4px;
 }
 .hero-tagline {
   font-family: 'Cormorant Garamond', serif;
@@ -3027,7 +3024,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
-      <img src="images/logo.png" alt="LAMYSK AURA" style="height:56px;width:auto;filter:brightness(0) invert(1);opacity:0.85;margin-bottom:1rem;display:block;">
+      <img src="images/logo.png" alt="LAMYSK AURA" style="height:64px;width:auto;margin-bottom:1rem;display:block;border-radius:4px;">
       <p data-i18n="footer_tagline">Votre Maison de Parfum de Niche.<br>Là où le parfum devient présence.</p>
     </div>
     <div class="footer-col">
