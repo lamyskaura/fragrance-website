@@ -4771,7 +4771,11 @@ function heroSearchInput(val) {
     p.name.toLowerCase().includes(q) || p.notes.toLowerCase().includes(q)
   ).slice(0, 8);
 
-  if (!matches.length) { box.classList.remove('open'); box.innerHTML = ''; return; }
+  if (!matches.length) {
+    box.innerHTML = `<div style="padding:0.9rem 1rem;font-family:'Jost',sans-serif;font-size:0.8rem;color:rgba(255,255,255,0.45);letter-spacing:0.04em">Aucun résultat pour « ${val} »</div>`;
+    box.classList.add('open');
+    return;
+  }
 
   const catLabel = { orient:'Orient', occident:'Occident', absolus:'Les Absolus', ecrins:'Les Écrins', essentiels:'Les Essentiels' };
 
