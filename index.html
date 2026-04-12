@@ -13,14 +13,14 @@
 <meta property="og:image" content="https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=800">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="https://lamyskaura.ma/">
+<link rel="canonical" href="https://fragrance-website.onrender.com/">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Store",
   "name": "LAMYSK AURA",
   "description": "Galerie de parfums niche au Maroc",
-  "url": "https://lamyskaura.ma",
+  "url": "https://fragrance-website.onrender.com",
   "telephone": "+212632968664",
   "address": { "@type": "PostalAddress", "addressCountry": "MA" },
   "currenciesAccepted": "MAD",
@@ -795,6 +795,16 @@ html[dir="rtl"] .product-add { font-family: 'Noto Naskh Arabic', sans-serif; let
 .coffret-card:hover .coffret-img { transform: scale(1.04); }
 .coffret-body { padding: 1.5rem; }
 .coffret-icon { display: none; }
+.family-icon {
+  font-family: 'Cormorant Garamond', serif !important;
+  font-size: 2rem !important;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--amber);
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
 .coffret-card h4 {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 600;
@@ -2333,8 +2343,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
       <button class="carousel-arrow next" onclick="scrollCarousel('orient-track',1)" aria-label="Suivant">&#8594;</button>
     <div class="products-track" id="orient-track">
       <div class="product-card" data-head="Rose de Taïf, Bergamote" data-heart="Oud, Iris" data-base="Ambre, Musc blanc" data-desc="L'éclair olfactif. Une composition audacieuse qui s'ouvre sur la fraîcheur de la rose de Taïf avant de plonger dans les profondeurs chaleureuses de l'oud marocain et de l'ambre précieux. Un sillage puissant, enveloppant.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Vanilla_28.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#3d2010,#6b3a20)">
           <span class="product-badge">Orient</span>
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Ibraq')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
@@ -2354,8 +2363,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
         </div>
       </div>
       <div class="product-card" data-head="Bergamote, Cardamome" data-heart="Santal, Jasmin" data-base="Musc blanc, Vanille" data-desc="La magie des mots. Une fragrance enveloppante aux accords poudrés et doux qui persistent sur la peau comme un souvenir précieux. Pour celles qui laissent un souvenir.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Lait_Concentre.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#8a7060,#c0ad98)">
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Sehr Kalimat')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2374,8 +2382,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
         </div>
       </div>
       <div class="product-card" data-head="Safran, Encens" data-heart="Bakhour, Rose" data-base="Ambre, Musc" data-desc="La fumée sacrée. Un voyage olfactif au cœur des médinas marocaines — bakhour, safran épicé et un sillage ambré chaud qui rappelle les rituels ancestraux.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Narciso.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#1a1008,#4a2c10)">
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Ghawali')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2394,8 +2401,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
         </div>
       </div>
       <div class="product-card" data-head="Oud, Cèdre" data-heart="Musc, Rose" data-base="Cèdre, Ambre gris" data-desc="La rencontre parfaite. Un parfum masculin-féminin qui fusionne l'oud profond avec la légèreté du musc blanc et la sophistication du cèdre. Pour celles et ceux qui ne s'imposent aucune limite.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Halfeti_Leather.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#1a1510,#3d2b1a)">
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Match')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2414,8 +2420,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
         </div>
       </div>
       <div class="product-card" data-head="Vétiver, Poivre noir" data-heart="Oud, Gaïac" data-base="Patchouli, Labdanum" data-desc="La forêt sacrée. Un concentré de bois nobles — vétiver fumé, oud intense, patchouli terrien. Une fragrance pour l'homme ou la femme qui porte son sillage comme une armure.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Miss_Charming.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#2a1a18,#4a3020)">
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Woody Intense')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2434,8 +2439,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
         </div>
       </div>
       <div class="product-card" data-head="Santal, Bergamote" data-heart="Cèdre, Iris" data-base="Musc, Ambre" data-desc="L'élégance boisée. Un sillage raffiné et contemporain qui marie le santal crémeux au cèdre sec et à l'iris poudrée. Le parfum des personnes qui savent ce qu'elles veulent.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Flower_Market.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#3d2b1a,#6b4f3a)">
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Woody Style')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2469,8 +2473,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
     <div class="products-track" id="occident-track">
       <!-- Santal 33 — Le Labo -->
       <div class="product-card" data-head="Violette, Iris" data-heart="Santal du Pacifique, Cèdre" data-base="Musc, Ambre, Cardamome" data-desc="L'icône du parfum contemporain. Né à New York en 2006, Santal 33 de Le Labo s'est imposé comme le parfum le plus reconnaissable de notre époque — un sillage boisé, cuiré et sensuel que l'on porte comme une seconde peau.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Santal_33.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#c4b090,#8a6850)">
           <span class="product-badge">Occident</span>
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Santal 33')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
@@ -2484,8 +2487,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
       </div>
       <!-- Gypsy Water — Byredo -->
       <div class="product-card" data-head="Bergamote, Citron, Pin" data-heart="Poivre, Genièvre, Iris" data-base="Ambre, Santal, Musc blanc" data-desc="La liberté en flacon. Ben Gorham a imaginé avec Gypsy Water l'essence même de la vie nomade — fraîcheur du pin, épices douces et ambre chaud créent un sillage envoûtant qui évoque les grands espaces et la liberté absolue.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Gypsy_Water.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#2a3828,#4a5840)">
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Gypsy Water')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2498,8 +2500,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
       </div>
       <!-- Tobacco Vanille — Tom Ford -->
       <div class="product-card" data-head="Tabac épicé, Épices" data-heart="Vanille, Cacao" data-base="Bois de santal, Fève tonka, Musc" data-desc="Le luxe enivrant. Tobacco Vanille de Tom Ford Private Blend est devenu un classique instantané — l'accord tabac chaud et vanillé, subtilement épicé, crée un sillage opulent et sensuel qui ne laisse personne indifférent.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Tobacco_Vanille.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#2a1808,#5a3010)">
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Tobacco Vanille')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2512,8 +2513,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
       </div>
       <!-- Halfeti — Jo Malone -->
       <div class="product-card" data-head="Rose noire, Cardamome" data-heart="Musc de cèdre, Encens" data-base="Vétiver, Ambre" data-desc="Le mystère de l'Anatolie. Nommé d'après un village turc submergé sous les eaux, Halfeti de Jo Malone London évoque la beauté éphémère et le romantisme sombre. Un sillage floral-boisé d'une profondeur inoubliable.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Halfeti.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#1a0810,#4a1828)">
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Halfeti')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2526,8 +2526,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
       </div>
       <!-- Tam Dao — Diptyque -->
       <div class="product-card" data-head="Cyprès, Bois de santal" data-heart="Santal, Cèdre blanc" data-base="Musc, Bois de santal" data-desc="Le santal à l'état pur. Tam Dao de Diptyque est une méditation olfactive sur le bois précieux — chaleureux, crémeux, légèrement épicé. Un parfum dont la sérénité enveloppante rappelle les temples bouddhistes d'Asie.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Tam_Dao.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#c8bc98,#9a8860)">
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Tam Dao')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2540,8 +2539,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
       </div>
       <!-- Do Son — Diptyque -->
       <div class="product-card" data-head="Fleur de tubéreuse, Muguet" data-heart="Jasmin, Iris" data-base="Musc blanc, Ambre" data-desc="La mer au crépuscule. Do Son de Diptyque évoque la baie du Tonkin et ses fleurs de tubéreuse portées par la brise marine. Un floral aquatique d'une élégance rare — doux, sensuel, inoubliable.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Do_Son.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#c0a8b0,#8a7080)">
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Do Son')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2554,8 +2552,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
       </div>
       <!-- Molecule 01 — Escentric Molecules -->
       <div class="product-card" data-head="Iso E Super" data-heart="Iso E Super" data-base="Iso E Super" data-desc="L'invisible rendu visible. Molecule 01 d'Escentric Molecules n'est qu'une seule molécule — l'Iso E Super — portée à l'état pur. Chacun·e la perçoit différemment, chacun·e lui donne sa propre signification. Le parfum le plus personnel qui soit.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Molecule_01.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#e0d8d0,#b8b0a8)">
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Molecule 01')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2582,8 +2579,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
     <div class="products-track" id="absolus-track">
       <!-- Portrait of a Lady — Frédéric Malle -->
       <div class="product-card" data-head="Rose de Turquie, Bergamote" data-heart="Rose centifolia, Patchouli" data-base="Musc de bois, Santal, Encens" data-desc="Le chef-d'œuvre absolu. Créé par Dominique Ropion pour Frédéric Malle, Portrait of a Lady est une rose monumentale portée par le patchouli — sensuelle, opulente, inoubliable. Un parfum qui traverse les décennies sans jamais vieillir.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Portrait_of_a_Lady.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#2a1018,#6b1830)">
           <span class="product-badge">Absolu</span>
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Portrait of a Lady')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
@@ -2597,8 +2593,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
       </div>
       <!-- Oud Satin Mood — Maison Francis Kurkdjian -->
       <div class="product-card" data-head="Baies roses, Mandarine" data-heart="Rose, Oud" data-base="Vanille, Musc, Benjoin" data-desc="La douceur absolue de l'oud. Francis Kurkdjian a sublimé l'oud oriental en le mariant à la vanille et aux fleurs roses pour créer Oud Satin Mood — une fragrance enveloppante d'une sensualité rare, à la fois orientale et universellement moderne.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Oud_Satin_Mood.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#1a0818,#3d1838)">
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Oud Satin Mood')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2611,8 +2606,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
       </div>
       <!-- Beyond Love — By Kilian -->
       <div class="product-card" data-head="Bergamote, Citronnelle" data-heart="Tubéreuse, Jasmin sambac" data-base="Musc blanc, Santal, Ambre" data-desc="L'amour absolu. Calice McEwan a créé pour By Kilian une tubéreuse d'une intensité sublime — blanche, crémeuse, envoûtante. Beyond Love est la déclaration olfactive ultime, un parfum qui incarne la passion dans sa forme la plus pure et la plus audacieuse.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Beyond_Love.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#2a1020,#602840)">
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Beyond Love')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2625,8 +2619,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
       </div>
       <!-- Carnal Flower — Frédéric Malle -->
       <div class="product-card" data-head="Eucalyptus, Melon" data-heart="Tubéreuse absolue, Jasmin" data-base="Musc, Vétiver, Santal" data-desc="La tubéreuse dans toute sa vérité charnelle. Dominique Ropion a capturé avec Carnal Flower la fleur dans son état le plus pur et le plus intense — crémeuse, verte, légèrement animale. Un chef-d'œuvre de la parfumerie naturelle contemporaine.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Carnal_Flower.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#3a4028,#608058)">
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Carnal Flower')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2639,8 +2632,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
       </div>
       <!-- Ambre Sultan — Serge Lutens -->
       <div class="product-card" data-head="Origan, Plantes aromatiques" data-heart="Résine, Baumes orientaux" data-base="Ambre, Santal, Vanille" data-desc="L'ambre dans toute sa majesté. Serge Lutens a distillé les souks de Marrakech et les résines précieuses de l'Orient pour créer Ambre Sultan — un ambre chaud, baumé, presque mystique. Une fragrance qui réconcilie le passé et le présent.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Ambre_Sultan.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#4a2808,#8a5010)">
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Ambre Sultan')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2653,8 +2645,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
       </div>
       <!-- Musc Ravageur — Frédéric Malle -->
       <div class="product-card" data-head="Bergamote, Lavande, Épices" data-heart="Musc, Ambre" data-base="Benjoin, Vanille, Santal" data-desc="Le musc à l'état sauvage. Maurice Roucel a créé avec Musc Ravageur un accord charnel et enivrant — musc, ambre et vanille se fondent dans une chaleur animale d'une sensualité absolue. Un parfum qui s'apprivoise sur la peau et ne la quitte plus.">
-        <div class="product-img">
-          <div class="pimg-bg" style="background-image:url('images/Musc_Ravageur.jpg')"></div>
+        <div class="product-img" style="background:linear-gradient(135deg,#2a1508,#5a2818)">
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Musc Ravageur')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2852,14 +2843,14 @@ input.invalid, select.invalid { border-color: var(--rose); }
     <p data-i18n="chron_desc">Des familles olfactives aux secrets du layering — chaque chronique est une invitation à sentir autrement.</p>
   </div>
   <div class="families-grid">
-    <div class="family-card reveal"><div class="family-icon">🌲</div><h4 data-i18n="fam_woody">Boisé</h4><div class="family-sub">Oud · Santal · Cèdre · Vétiver</div><p data-i18n="fam_woody_desc">Une présence qui ne se justifie pas. Elle s'impose, naturellement.</p><div class="family-notes">Santal 33 · Tam Dao · Halfeti</div></div>
-    <div class="family-card reveal"><div class="family-icon">🤍</div><h4 data-i18n="fam_soft">Doux — La Famille Douce</h4><div class="family-sub">Musqué · Poudré · Lacté</div><p data-i18n="fam_soft_desc">Ni fleur, ni bois, ni épice — juste la douceur dans ses formes les plus intimes.</p><div class="family-notes">Musc Ravageur · Infusion d'Iris · Santal Blush</div></div>
-    <div class="family-card reveal"><div class="family-icon">🌸</div><h4 data-i18n="fam_floral">Floral</h4><div class="family-sub">Rose de Taïf · Jasmin · Tubéreuse · Fleur d'Oranger</div><p data-i18n="fam_floral_desc">Le langage éternel de la parfumerie — infini dans ses expressions.</p><div class="family-notes">Carnal Flower · Beyond Love · Fleur de Cassie</div></div>
-    <div class="family-card reveal"><div class="family-icon">🌶️</div><h4 data-i18n="fam_spicy">Épicé</h4><div class="family-sub">Poivre Noir · Cardamome · Safran · Cannelle</div><p data-i18n="fam_spicy_desc">Le parfum du voyage — il vous transporte avant même d'avoir quitté la pièce.</p><div class="family-notes">Oud Satin Mood · Ambre Sultan · Halfeti Dark</div></div>
-    <div class="family-card reveal"><div class="family-icon">🍋</div><h4 data-i18n="fam_citrus">Hespéridé</h4><div class="family-sub">Bergamote · Citron · Pamplemousse · Yuzu</div><p data-i18n="fam_citrus_desc">La famille la plus fraîche. Comme une fenêtre ouverte un matin lumineux.</p><div class="family-notes">Clémentine California · Under the Lemon Trees · Io Capri</div></div>
-    <div class="family-card reveal"><div class="family-icon">🍬</div><h4 data-i18n="fam_gourmand">Gourmand</h4><div class="family-sub">Vanille · Caramel · Chocolat · Praline</div><p data-i18n="fam_gourmand_desc">Le parfum qui transforme votre peau en pâtisserie — dangereux et délicieux.</p><div class="family-notes">Tobacco Vanille · Vanilla 28 · Portrait of a Lady</div></div>
-    <div class="family-card reveal"><div class="family-icon">🍑</div><h4 data-i18n="fam_fruity">Fruité</h4><div class="family-sub">Pêche · Poire · Figue · Fruits Rouges</div><p data-i18n="fam_fruity_desc">Le sourire d'un parfum — immédiat, généreux, irrésistible.</p><div class="family-notes">En Passant · Flower Market · Miss Charming</div></div>
-    <div class="family-card reveal"><div class="family-icon">🌊</div><h4 data-i18n="fam_aquatic">Aquatique</h4><div class="family-sub">Calone · Sel Marin · Lotus · Bois Flotté</div><p data-i18n="fam_aquatic_desc">Le parfum de l'horizon — toujours présent, jamais pesant.</p><div class="family-notes">Sailing Day · Do Son · Molecule 01</div></div>
+    <div class="family-card reveal"><div class="family-icon">B</div><h4 data-i18n="fam_woody">Boisé</h4><div class="family-sub">Oud · Santal · Cèdre · Vétiver</div><p data-i18n="fam_woody_desc">Une présence qui ne se justifie pas. Elle s'impose, naturellement.</p><div class="family-notes">Santal 33 · Tam Dao · Halfeti</div></div>
+    <div class="family-card reveal"><div class="family-icon">D</div><h4 data-i18n="fam_soft">Doux — La Famille Douce</h4><div class="family-sub">Musqué · Poudré · Lacté</div><p data-i18n="fam_soft_desc">Ni fleur, ni bois, ni épice — juste la douceur dans ses formes les plus intimes.</p><div class="family-notes">Musc Ravageur · Infusion d'Iris · Santal Blush</div></div>
+    <div class="family-card reveal"><div class="family-icon">F</div><h4 data-i18n="fam_floral">Floral</h4><div class="family-sub">Rose de Taïf · Jasmin · Tubéreuse · Fleur d'Oranger</div><p data-i18n="fam_floral_desc">Le langage éternel de la parfumerie — infini dans ses expressions.</p><div class="family-notes">Carnal Flower · Beyond Love · Fleur de Cassie</div></div>
+    <div class="family-card reveal"><div class="family-icon">É</div><h4 data-i18n="fam_spicy">Épicé</h4><div class="family-sub">Poivre Noir · Cardamome · Safran · Cannelle</div><p data-i18n="fam_spicy_desc">Le parfum du voyage — il vous transporte avant même d'avoir quitté la pièce.</p><div class="family-notes">Oud Satin Mood · Ambre Sultan · Halfeti Dark</div></div>
+    <div class="family-card reveal"><div class="family-icon">H</div><h4 data-i18n="fam_citrus">Hespéridé</h4><div class="family-sub">Bergamote · Citron · Pamplemousse · Yuzu</div><p data-i18n="fam_citrus_desc">La famille la plus fraîche. Comme une fenêtre ouverte un matin lumineux.</p><div class="family-notes">Clémentine California · Under the Lemon Trees · Io Capri</div></div>
+    <div class="family-card reveal"><div class="family-icon">G</div><h4 data-i18n="fam_gourmand">Gourmand</h4><div class="family-sub">Vanille · Caramel · Chocolat · Praline</div><p data-i18n="fam_gourmand_desc">Le parfum qui transforme votre peau en pâtisserie — dangereux et délicieux.</p><div class="family-notes">Tobacco Vanille · Vanilla 28 · Portrait of a Lady</div></div>
+    <div class="family-card reveal"><div class="family-icon">Fr</div><h4 data-i18n="fam_fruity">Fruité</h4><div class="family-sub">Pêche · Poire · Figue · Fruits Rouges</div><p data-i18n="fam_fruity_desc">Le sourire d'un parfum — immédiat, généreux, irrésistible.</p><div class="family-notes">En Passant · Flower Market · Miss Charming</div></div>
+    <div class="family-card reveal"><div class="family-icon">A</div><h4 data-i18n="fam_aquatic">Aquatique</h4><div class="family-sub">Calone · Sel Marin · Lotus · Bois Flotté</div><p data-i18n="fam_aquatic_desc">Le parfum de l'horizon — toujours présent, jamais pesant.</p><div class="family-notes">Sailing Day · Do Son · Molecule 01</div></div>
   </div>
 </section>
 
@@ -4236,15 +4227,11 @@ function openQV(card) {
   const base = card.dataset.base || '';
   const desc = card.dataset.desc || '';
 
-  // Image background — prefer .pimg-bg (new cards), fallback to .product-img inline style
+  // Copy background from product-img inline style directly
   const qvImg = document.getElementById('qvImg');
-  const pimgBg = card.querySelector('.pimg-bg');
-  if (pimgBg) {
-    qvImg.style.backgroundImage = pimgBg.style.backgroundImage;
-    qvImg.style.backgroundColor = '';
-  } else if (img) {
-    qvImg.style.backgroundImage = img.style.backgroundImage || '';
-    qvImg.style.backgroundColor = getComputedStyle(img).backgroundColor;
+  if (img) {
+    const bg = img.getAttribute('style') || '';
+    qvImg.style.cssText = bg + '; background-size:cover; background-position:center;';
   }
 
   document.getElementById('qvBrand').textContent = brand;
