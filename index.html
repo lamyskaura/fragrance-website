@@ -1365,6 +1365,22 @@ html[dir="rtl"] .family-card p { font-family: 'Noto Naskh Arabic', serif; }
   margin-top: 0.8rem;
 }
 
+/* ── CLICKABLE NOTES & PRODUCT LINKS ── */
+.note-link {
+  cursor: pointer;
+  border-bottom: 1px dotted currentColor;
+  transition: color 0.2s, border-color 0.2s;
+  display: inline;
+}
+.note-link:hover { color: var(--amber); border-bottom-color: var(--amber); }
+.prod-link {
+  cursor: pointer;
+  border-bottom: 1px solid rgba(196,149,106,0.4);
+  transition: color 0.2s, border-color 0.2s;
+  display: inline;
+}
+.prod-link:hover { color: var(--amber); border-bottom-color: var(--amber); }
+
 /* ── TESTIMONIALS ── */
 .testimonials { padding: 6rem 2rem; background: var(--white); }
 .testimonials-slider { max-width: 700px; margin: 2.5rem auto 0; text-align: center; }
@@ -5452,6 +5468,73 @@ if (document.readyState === 'loading') {
 
 function _authErr(el, msg) {
   el.textContent = msg; el.classList.add('visible');
+}
+
+// ══════════════════════════════════════════════════
+// CLICKABLE NOTES & PRODUCT LINKS
+// ══════════════════════════════════════════════════
+
+function filterByNote(note) {
+  // Fill both search bars and filter
+  const q = note.trim();
+  document.getElementById('heroSearch').value = q;
+  heroSearchInput(q);
+  filterProducts(q);
+  document.getElementById('selection').scrollIntoView({ behavior: 'smooth' });
+}
+
+function openPDPByName(name) {
+  // Find the card with this product name and open its PDP
+  const cards = [...document.querySelectorAll('.product-card'), ...document.querySelectorAll('.coffret-card')];
+  const card = cards.find(c => {
+    const n = c.querySelector('.product-name, h4');
+    return n && n.textContent.trim().toLowerCase() === name.trim().toLowerCase();
+  });
+  if (card) {
+    // Make sure the right tab is active first
+    const panel = card.closest('.cat-panel');
+    if (panel && !panel.classList.contains('active')) {
+      const btn = document.querySelector(`[onclick*="switchCat(this, '${panel.id}')"]`);
+      if (btn) switchCat(btn, panel.id);
+    }
+    setTimeout(() => openPDP(card), 100);
+  }
+}
+
+function _makeInteractive() {
+  // 1. .family-sub — note ingredients in Chronique cards → filter by note
+  document.querySelectorAll('.family-sub').forEach(el => {
+    if (el.dataset.linked) return;
+    el.dataset.linked = '1';
+    el.innerHTML = el.textContent.split('·').map(n => n.trim()).filter(Boolean).map(n =>
+      `<span class="note-link" onclick="filterByNote('${n.replace(/'/g,"\\'")}');">${n}</span>`
+    ).join(' · ');
+  });
+
+  // 2. .family-notes — product names in Chronique cards → open PDP
+  document.querySelectorAll('.family-notes').forEach(el => {
+    if (el.dataset.linked) return;
+    el.dataset.linked = '1';
+    el.innerHTML = el.textContent.split('·').map(n => n.trim()).filter(Boolean).map(n =>
+      `<span class="prod-link" onclick="openPDPByName('${n.replace(/'/g,"\\'")}');">${n}</span>`
+    ).join(' · ');
+  });
+
+  // 3. .product-notes on all product cards → filter by note
+  document.querySelectorAll('.product-notes').forEach(el => {
+    if (el.dataset.linked) return;
+    el.dataset.linked = '1';
+    el.innerHTML = el.textContent.split('·').map(n => n.trim()).filter(Boolean).map(n =>
+      `<span class="note-link" onclick="event.stopPropagation();filterByNote('${n.replace(/'/g,"\\'")}');">${n}</span>`
+    ).join(' · ');
+  });
+}
+
+// Run after DOM is ready (products are already in the HTML)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', _makeInteractive);
+} else {
+  _makeInteractive();
 }
 </script>
 
