@@ -2649,11 +2649,7 @@ nav.scrolled .nav-account { color: var(--text-body); }
     <p data-i18n="sel_desc">Nous ne vendons pas de parfums. Nous composons des rituels. Nous guidons, orientons, éduquons — pour que chaque parfum devienne une seconde nature.</p>
   </div>
 
-  <!-- SEARCH -->
-  <div class="products-search">
-    <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input type="text" id="productSearch" placeholder="Rechercher un parfum, une note..." oninput="filterProducts(this.value)">
-  </div>
+  <input type="text" id="productSearch" style="display:none" aria-hidden="true">
 
   <div class="selection-cats">
     <button class="cat-btn active" onclick="switchCat(this, 'orient')" data-i18n="cat_orient">Orient</button>
