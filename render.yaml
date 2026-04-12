@@ -7,9 +7,13 @@ services:
     envVars:
       - key: ADMIN_KEY
         generateValue: true
-      - key: PYTHON_VERSION
-        value: 3.12.3
-    disk:
-      name: lamyskaura-data
-      mountPath: /data
-      sizeGB: 1
+      - key: ENV
+        value: production
+    # Uncomment the block below only if you upgrade to a Render paid plan ($7/month).
+    # Without the disk the DB resets on each deploy — fine for testing, not for production.
+    # disk:
+    #   name: lamyskaura-data
+    #   mountPath: /data
+    #   sizeGB: 1
+    # - key: DATA_DIR
+    #   value: /data

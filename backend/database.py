@@ -9,10 +9,31 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# On cloud platforms (Render, Railway) with a mounted disk, set DATA_DIR env var.
-# Falls back to a local ./data/ directory for development.
-_data_dir = os.environ.get("DATA_DIR") or str(Path(__file__).parent.parent / "data")
-DB_PATH = Path(_data_dir) / "lamyskaura.db"
+def _resolve_db_path() -> Path:
+    """
+    Resolve the database path with fallback logic:
+    1. Use DATA_DIR env var if set AND the directory is writable.
+    2. Fall back to ./data/ inside the project root (always works).
+    """
+    candidate = os.environ.get("DATA_DIR")
+    if candidate:
+        p = Path(candidate)
+        try:
+            p.mkdir(parents=True, exist_ok=True)
+            probe = p / ".write_probe"
+            probe.touch()
+            probe.unlink()
+            return p / "lamyskaura.db"
+        except (PermissionError, OSError):
+            pass  # not writable — fall through to default
+
+    # Default: <project_root>/data/
+    default = Path(__file__).parent.parent / "data"
+    default.mkdir(parents=True, exist_ok=True)
+    return default / "lamyskaura.db"
+
+
+DB_PATH = _resolve_db_path()
 
 
 async def get_db() -> aiosqlite.Connection:
