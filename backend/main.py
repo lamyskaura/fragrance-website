@@ -65,7 +65,11 @@ async def serve_index():
 # Catch-all for client-side routing (future multi-page expansion)
 @app.get("/{full_path:path}", include_in_schema=False)
 async def serve_spa(full_path: str):
-    # Always return index.html for unknown paths (SPA fallback)
+    # Serve real files (images, css, js, etc.) first
+    file_path = FRONTEND / full_path
+    if file_path.exists() and file_path.is_file():
+        return FileResponse(file_path)
+    # SPA fallback — return index.html for all unknown paths
     index = FRONTEND / "index.html"
     if index.exists():
         return FileResponse(index)

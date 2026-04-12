@@ -591,6 +591,57 @@ html[dir="rtl"] .cat-intro h3 { font-family: 'Noto Naskh Arabic', serif; }
 }
 html[dir="rtl"] .cat-intro p { font-family: 'Noto Naskh Arabic', serif; }
 
+/* ── CAROUSEL CONTAINER ── */
+.products-carousel {
+  position: relative;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+}
+.carousel-arrow {
+  position: absolute;
+  top: 35%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: var(--white);
+  border: 1px solid rgba(196,149,106,0.3);
+  color: var(--text-dark);
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.carousel-arrow:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--white);
+  box-shadow: 0 6px 24px rgba(196,149,106,0.3);
+}
+.carousel-arrow.prev { left: 0rem; }
+.carousel-arrow.next { right: 0rem; }
+html[dir="rtl"] .carousel-arrow.prev { left: auto; right: 0rem; }
+html[dir="rtl"] .carousel-arrow.next { right: auto; left: 0rem; }
+
+.products-track {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  cursor: grab;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0.5rem 0.5rem 1.5rem;
+}
+.products-track::-webkit-scrollbar { display: none; }
+.products-track.dragging { cursor: grabbing; user-select: none; }
+
+/* Legacy grid still used for Essentiels and fallback */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -598,32 +649,48 @@ html[dir="rtl"] .cat-intro p { font-family: 'Noto Naskh Arabic', serif; }
   max-width: 1100px;
   margin: 0 auto;
 }
+
 .product-card {
   background: var(--cream-light);
   border: 1px solid rgba(196,149,106,0.08);
   overflow: hidden;
   transition: all 0.4s ease;
   cursor: pointer;
+  flex: 0 0 280px;
+  scroll-snap-align: start;
 }
 .product-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 16px 50px rgba(0,0,0,0.08);
+  box-shadow: 0 16px 50px rgba(0,0,0,0.10);
 }
 .product-img {
-  aspect-ratio: 3/4;
+  aspect-ratio: 2/3;
   background: linear-gradient(135deg, var(--warm-dark), var(--oud));
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
+}
+/* Ken Burns zoom inner layer */
+.pimg-bg {
+  position: absolute;
+  inset: -5%;
+  width: 110%;
+  height: 110%;
   background-size: cover;
   background-position: center;
+  transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+}
+.product-card:hover .pimg-bg {
+  transform: scale(1.07) translateY(-2%);
 }
 .product-img::after {
   content: '';
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.25) 0%, transparent 50%);
+  background: linear-gradient(to top, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.05) 45%, transparent 70%);
+  z-index: 1;
 }
 .product-img-text {
   font-family: 'Cormorant Garamond', serif;
@@ -631,7 +698,8 @@ html[dir="rtl"] .cat-intro p { font-family: 'Noto Naskh Arabic', serif; }
   font-weight: 300;
   color: rgba(255,255,255,0.15);
   letter-spacing: 0.1em;
-  z-index: 1;
+  z-index: 2;
+  position: relative;
 }
 .product-badge {
   position: absolute;
@@ -706,18 +774,27 @@ html[dir="rtl"] .product-add { font-family: 'Noto Naskh Arabic', sans-serif; let
   margin: 0 auto;
 }
 .coffret-card {
-  padding: 2rem;
   background: var(--cream-light);
   border: 1px solid rgba(196,149,106,0.1);
   transition: all 0.4s;
   cursor: pointer;
+  overflow: hidden;
 }
 .coffret-card:hover {
   border-color: var(--gold);
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08);
 }
-.coffret-icon { font-size: 2rem; margin-bottom: 1rem; }
+.coffret-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.coffret-card:hover .coffret-img { transform: scale(1.04); }
+.coffret-body { padding: 1.5rem; }
+.coffret-icon { display: none; }
 .coffret-card h4 {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 600;
@@ -843,7 +920,15 @@ html[dir="rtl"] .product-wish { right: auto; left: 0.8rem; }
 .qv-img {
   background-size: cover; background-position: center;
   background-color: var(--warm-dark);
-  min-height: 360px;
+  min-height: 420px;
+  transition: background-size 0.9s ease;
+}
+.qv-overlay.open .qv-img {
+  animation: qvZoom 0.9s ease forwards;
+}
+@keyframes qvZoom {
+  from { background-size: 115%; }
+  to   { background-size: cover; }
 }
 .qv-close {
   position: absolute; top: 0.8rem; right: 0.8rem;
@@ -1031,7 +1116,18 @@ html[dir="rtl"] .quiz-question h4 { font-family: 'Noto Naskh Arabic', serif; }
 }
 .quiz-opt:hover { border-color: var(--gold); background: var(--white); }
 .quiz-opt.selected { border-color: var(--gold); background: rgba(196,149,106,0.08); }
-.quiz-opt span { font-size: 1.5rem; display: block; margin-bottom: 0.5rem; }
+.quiz-opt span { display: none; }
+.quiz-glyph {
+  display: block !important;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--amber);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
 .quiz-opt p {
   font-family: 'Jost', sans-serif;
   font-size: 0.75rem;
@@ -1048,7 +1144,15 @@ html[dir="rtl"] .quiz-opt p { font-family: 'Noto Naskh Arabic', sans-serif; lett
   margin-bottom: 1rem;
 }
 html[dir="rtl"] .quiz-result h3 { font-family: 'Noto Naskh Arabic', serif; }
-.quiz-result .profile-icon { font-size: 3rem; margin-bottom: 1rem; }
+.quiz-result .profile-icon {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.5rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--amber);
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+}
 .quiz-result p {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.05rem;
@@ -1508,6 +1612,8 @@ html[dir="rtl"] .mobile-close { right: auto; left: 2rem; }
   .layering-steps { grid-template-columns: repeat(3, 1fr); }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .products-grid { grid-template-columns: repeat(2, 1fr); }
+  .product-card { flex: 0 0 240px; }
+  .carousel-arrow { display: none; }
 }
 @media (max-width: 600px) {
   .hero h1 { font-size: 2.5rem; }
@@ -1517,10 +1623,12 @@ html[dir="rtl"] .mobile-close { right: auto; left: 2rem; }
   .newsletter-form button { padding: 1rem; }
   .footer-grid { grid-template-columns: 1fr; }
   .products-grid { grid-template-columns: 1fr; }
+  .product-card { flex: 0 0 220px; }
   .families-grid { grid-template-columns: 1fr; }
   .tab-nav { flex-wrap: wrap; }
   .selection-cats { flex-wrap: wrap; }
   .coffrets-grid { grid-template-columns: 1fr; }
+  .carousel-arrow { display: none; }
 }
 
 /* ── TRUST BAR ── */
@@ -2220,9 +2328,13 @@ input.invalid, select.invalid { border-color: var(--rose); }
       <h3 data-i18n="orient_title">Parfums d'Orient</h3>
       <p data-i18n="orient_desc">De la Péninsule Arabique aux médinas du Maghreb — oud souverain, musc blanc, rose de Taïf, ambre, bakhour. Pour celles qui portent leur parfum comme une présence.</p>
     </div>
-    <div class="products-grid" id="orient-grid">
+    <div class="products-carousel">
+      <button class="carousel-arrow prev" onclick="scrollCarousel('orient-track',-1)" aria-label="Précédent">&#8592;</button>
+      <button class="carousel-arrow next" onclick="scrollCarousel('orient-track',1)" aria-label="Suivant">&#8594;</button>
+    <div class="products-track" id="orient-track">
       <div class="product-card" data-head="Rose de Taïf, Bergamote" data-heart="Oud, Iris" data-base="Ambre, Musc blanc" data-desc="L'éclair olfactif. Une composition audacieuse qui s'ouvre sur la fraîcheur de la rose de Taïf avant de plonger dans les profondeurs chaleureuses de l'oud marocain et de l'ambre précieux. Un sillage puissant, enveloppant.">
-        <div class="product-img" style="background-image:url('https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600');background-size:cover;background-position:center">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Vanilla_28.jpg')"></div>
           <span class="product-badge">Orient</span>
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Ibraq')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
@@ -2242,7 +2354,8 @@ input.invalid, select.invalid { border-color: var(--rose); }
         </div>
       </div>
       <div class="product-card" data-head="Bergamote, Cardamome" data-heart="Santal, Jasmin" data-base="Musc blanc, Vanille" data-desc="La magie des mots. Une fragrance enveloppante aux accords poudrés et doux qui persistent sur la peau comme un souvenir précieux. Pour celles qui laissent un souvenir.">
-        <div class="product-img" style="background-image:url('https://images.pexels.com/photos/3910071/pexels-photo-3910071.jpeg?auto=compress&cs=tinysrgb&w=600');background-size:cover;background-position:center">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Lait_Concentre.jpg')"></div>
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Sehr Kalimat')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2261,7 +2374,8 @@ input.invalid, select.invalid { border-color: var(--rose); }
         </div>
       </div>
       <div class="product-card" data-head="Safran, Encens" data-heart="Bakhour, Rose" data-base="Ambre, Musc" data-desc="La fumée sacrée. Un voyage olfactif au cœur des médinas marocaines — bakhour, safran épicé et un sillage ambré chaud qui rappelle les rituels ancestraux.">
-        <div class="product-img" style="background-image:url('https://images.pexels.com/photos/7445028/pexels-photo-7445028.jpeg?auto=compress&cs=tinysrgb&w=600');background-size:cover;background-position:center">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Narciso.jpg')"></div>
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Ghawali')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2280,7 +2394,8 @@ input.invalid, select.invalid { border-color: var(--rose); }
         </div>
       </div>
       <div class="product-card" data-head="Oud, Cèdre" data-heart="Musc, Rose" data-base="Cèdre, Ambre gris" data-desc="La rencontre parfaite. Un parfum masculin-féminin qui fusionne l'oud profond avec la légèreté du musc blanc et la sophistication du cèdre. Pour celles et ceux qui ne s'imposent aucune limite.">
-        <div class="product-img" style="background-image:url('https://images.pexels.com/photos/3059609/pexels-photo-3059609.jpeg?auto=compress&cs=tinysrgb&w=600');background-size:cover;background-position:center">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Halfeti_Leather.jpg')"></div>
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Match')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2299,8 +2414,8 @@ input.invalid, select.invalid { border-color: var(--rose); }
         </div>
       </div>
       <div class="product-card" data-head="Vétiver, Poivre noir" data-heart="Oud, Gaïac" data-base="Patchouli, Labdanum" data-desc="La forêt sacrée. Un concentré de bois nobles — vétiver fumé, oud intense, patchouli terrien. Une fragrance pour l'homme ou la femme qui porte son sillage comme une armure.">
-        <div class="product-img" style="background:linear-gradient(135deg, var(--warm-dark), var(--oud))">
-          <span class="product-img-text">و</span>
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Miss_Charming.jpg')"></div>
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Woody Intense')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2319,8 +2434,8 @@ input.invalid, select.invalid { border-color: var(--rose); }
         </div>
       </div>
       <div class="product-card" data-head="Santal, Bergamote" data-heart="Cèdre, Iris" data-base="Musc, Ambre" data-desc="L'élégance boisée. Un sillage raffiné et contemporain qui marie le santal crémeux au cèdre sec et à l'iris poudrée. Le parfum des personnes qui savent ce qu'elles veulent.">
-        <div class="product-img" style="background:linear-gradient(135deg, #3d2b1a, var(--oud))">
-          <span class="product-img-text">ع</span>
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Flower_Market.jpg')"></div>
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Woody Style')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
@@ -2338,7 +2453,8 @@ input.invalid, select.invalid { border-color: var(--rose); }
           </div>
         </div>
       </div>
-    </div>
+    </div><!-- /products-track -->
+    </div><!-- /products-carousel -->
   </div>
 
   <!-- OCCIDENT -->
@@ -2347,64 +2463,111 @@ input.invalid, select.invalid { border-color: var(--rose); }
       <h3 data-i18n="occident_title">Parfums d'Occident</h3>
       <p data-i18n="occident_desc">Des ateliers de Paris aux côtes italiennes. Compositions précises, matières exceptionnelles, créateurs indépendants et visionnaires.</p>
     </div>
-    <div class="products-grid">
-      <div class="product-card" data-head="Cumin, Vétiver" data-heart="Gaïac, Musc animal" data-base="Benjoin, Ambre" data-desc="L'avant-garde olfactive. Créé par Alessandro Gualtieri, Orto Parisi brise les codes avec des compositions brutes et sensuelles qui célèbrent le corps humain dans sa vérité la plus pure.">
-        <div class="product-img" style="background:linear-gradient(135deg,#2a2118,#4a3828)">
-          <span class="product-img-text">OP</span><span class="product-badge">Occident</span>
-          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Orto Parisi')" title="Ajouter aux favoris">♡</button>
+    <div class="products-carousel">
+      <button class="carousel-arrow prev" onclick="scrollCarousel('occident-track',-1)" aria-label="Précédent">&#8592;</button>
+      <button class="carousel-arrow next" onclick="scrollCarousel('occident-track',1)" aria-label="Suivant">&#8594;</button>
+    <div class="products-track" id="occident-track">
+      <!-- Santal 33 — Le Labo -->
+      <div class="product-card" data-head="Violette, Iris" data-heart="Santal du Pacifique, Cèdre" data-base="Musc, Ambre, Cardamome" data-desc="L'icône du parfum contemporain. Né à New York en 2006, Santal 33 de Le Labo s'est imposé comme le parfum le plus reconnaissable de notre époque — un sillage boisé, cuiré et sensuel que l'on porte comme une seconde peau.">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Santal_33.jpg')"></div>
+          <span class="product-badge">Occident</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Santal 33')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
-        <div class="product-info"><div class="product-brand">Italie</div><div class="product-name">Orto Parisi</div><div class="product-notes">Audacieux · Avant-garde</div><div class="product-footer"><span class="product-price price-tag">850 MAD</span><button class="product-add" onclick="addToCart('Orto Parisi', 'Occident', 850)" data-i18n="add_bag">Ajouter</button></div></div>
+        <div class="product-info">
+          <div class="product-brand">Le Labo — New York</div>
+          <div class="product-name">Santal 33</div>
+          <div class="product-notes">Santal · Cèdre · Cuir</div>
+          <div class="product-footer"><span class="product-price price-tag">950 MAD</span><button class="product-add" onclick="addToCart('Santal 33', 'Occident', 950)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
       </div>
-      <div class="product-card" data-head="Thé, Cardamome" data-heart="Patchouli, Vétiver" data-base="Oud blanc, Musc" data-desc="La narration en flacon. Chaque Nōsamato raconte une histoire construite autour de matières premières exceptionnelles par des artisans qui refusent les compromis.">
-        <div class="product-img" style="background:linear-gradient(135deg,#3d352c,#5a4f42)">
-          <span class="product-img-text">N</span>
-          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Nōsamato')" title="Ajouter aux favoris">♡</button>
+      <!-- Gypsy Water — Byredo -->
+      <div class="product-card" data-head="Bergamote, Citron, Pin" data-heart="Poivre, Genièvre, Iris" data-base="Ambre, Santal, Musc blanc" data-desc="La liberté en flacon. Ben Gorham a imaginé avec Gypsy Water l'essence même de la vie nomade — fraîcheur du pin, épices douces et ambre chaud créent un sillage envoûtant qui évoque les grands espaces et la liberté absolue.">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Gypsy_Water.jpg')"></div>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Gypsy Water')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
-        <div class="product-info"><div class="product-brand">Artisanal</div><div class="product-name">Nōsamato</div><div class="product-notes">Conceptuel · Narratif</div><div class="product-footer"><span class="product-price price-tag">780 MAD</span><button class="product-add" onclick="addToCart('Nōsamato', 'Occident', 780)" data-i18n="add_bag">Ajouter</button></div></div>
+        <div class="product-info">
+          <div class="product-brand">Byredo — Stockholm</div>
+          <div class="product-name">Gypsy Water</div>
+          <div class="product-notes">Pin · Bergamote · Ambre</div>
+          <div class="product-footer"><span class="product-price price-tag">880 MAD</span><button class="product-add" onclick="addToCart('Gypsy Water', 'Occident', 880)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
       </div>
-      <div class="product-card" data-head="Bergamote, Poivre rose" data-heart="Rose de May, Jasmin" data-base="Cèdre, Musc blanc" data-desc="Le soleil espagnol en flacon. Rosendo Mateu capture l'élégance méditerranéenne dans des compositions lumineuses et sophistiquées. Chaque parfum est une invitation au voyage sensoriel.">
-        <div class="product-img" style="background:linear-gradient(135deg,#4a3020,#6b5040)">
-          <span class="product-img-text">RM</span>
-          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Rosendo Mateu')" title="Ajouter aux favoris">♡</button>
+      <!-- Tobacco Vanille — Tom Ford -->
+      <div class="product-card" data-head="Tabac épicé, Épices" data-heart="Vanille, Cacao" data-base="Bois de santal, Fève tonka, Musc" data-desc="Le luxe enivrant. Tobacco Vanille de Tom Ford Private Blend est devenu un classique instantané — l'accord tabac chaud et vanillé, subtilement épicé, crée un sillage opulent et sensuel qui ne laisse personne indifférent.">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Tobacco_Vanille.jpg')"></div>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Tobacco Vanille')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
-        <div class="product-info"><div class="product-brand">Espagne</div><div class="product-name">Rosendo Mateu</div><div class="product-notes">Méditerranéen · Élégant</div><div class="product-footer"><span class="product-price price-tag">920 MAD</span><button class="product-add" onclick="addToCart('Rosendo Mateu', 'Occident', 920)" data-i18n="add_bag">Ajouter</button></div></div>
+        <div class="product-info">
+          <div class="product-brand">Tom Ford — New York</div>
+          <div class="product-name">Tobacco Vanille</div>
+          <div class="product-notes">Tabac · Vanille · Épices</div>
+          <div class="product-footer"><span class="product-price price-tag">1 100 MAD</span><button class="product-add" onclick="addToCart('Tobacco Vanille', 'Occident', 1100)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
       </div>
-      <div class="product-card" data-head="Citron, Romarin" data-heart="Iris, Jasmin sambac" data-base="Vétiver, Musc" data-desc="La pureté comme philosophie. Essential Parfums crée des fragrances éco-responsables sans jamais sacrifier la qualité. Des compositions claires, directes, essentielles — par les plus grands nez de Paris.">
-        <div class="product-img" style="background:linear-gradient(135deg,#5a5040,#8a7d60)">
-          <span class="product-img-text">EP</span>
-          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Essential Parfums')" title="Ajouter aux favoris">♡</button>
+      <!-- Halfeti — Jo Malone -->
+      <div class="product-card" data-head="Rose noire, Cardamome" data-heart="Musc de cèdre, Encens" data-base="Vétiver, Ambre" data-desc="Le mystère de l'Anatolie. Nommé d'après un village turc submergé sous les eaux, Halfeti de Jo Malone London évoque la beauté éphémère et le romantisme sombre. Un sillage floral-boisé d'une profondeur inoubliable.">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Halfeti.jpg')"></div>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Halfeti')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
-        <div class="product-info"><div class="product-brand">France</div><div class="product-name">Essential Parfums</div><div class="product-notes">Éco-responsable · Pur</div><div class="product-footer"><span class="product-price price-tag">680 MAD</span><button class="product-add" onclick="addToCart('Essential Parfums', 'Occident', 680)" data-i18n="add_bag">Ajouter</button></div></div>
+        <div class="product-info">
+          <div class="product-brand">Jo Malone — Londres</div>
+          <div class="product-name">Halfeti</div>
+          <div class="product-notes">Rose noire · Cèdre · Ambre</div>
+          <div class="product-footer"><span class="product-price price-tag">820 MAD</span><button class="product-add" onclick="addToCart('Halfeti', 'Occident', 820)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
       </div>
-      <div class="product-card" data-head="Héliotrope, Bergamote" data-heart="Iris, Rose" data-base="Musc blanc, Vanille" data-desc="La poudre et la soie. Lorenzo Villoresi a créé avec Teint de Neige une fragrance iconique aux accords poudrés, floraux et légèrement vanillés. Féminin, nostalgique, inoubliable.">
-        <div class="product-img" style="background:linear-gradient(135deg,#b8a090,#d4c0a8)">
-          <span class="product-img-text">TN</span>
-          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Teint de Neige')" title="Ajouter aux favoris">♡</button>
+      <!-- Tam Dao — Diptyque -->
+      <div class="product-card" data-head="Cyprès, Bois de santal" data-heart="Santal, Cèdre blanc" data-base="Musc, Bois de santal" data-desc="Le santal à l'état pur. Tam Dao de Diptyque est une méditation olfactive sur le bois précieux — chaleureux, crémeux, légèrement épicé. Un parfum dont la sérénité enveloppante rappelle les temples bouddhistes d'Asie.">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Tam_Dao.jpg')"></div>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Tam Dao')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
-        <div class="product-info"><div class="product-brand">Italie</div><div class="product-name">Teint de Neige</div><div class="product-notes">Poudré · Héliotrope · Iris</div><div class="product-footer"><span class="product-price price-tag">750 MAD</span><button class="product-add" onclick="addToCart('Teint de Neige', 'Occident', 750)" data-i18n="add_bag">Ajouter</button></div></div>
+        <div class="product-info">
+          <div class="product-brand">Diptyque — Paris</div>
+          <div class="product-name">Tam Dao</div>
+          <div class="product-notes">Santal · Cyprès · Cèdre</div>
+          <div class="product-footer"><span class="product-price price-tag">780 MAD</span><button class="product-add" onclick="addToCart('Tam Dao', 'Occident', 780)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
       </div>
-      <div class="product-card" data-head="Bergamote, Agrumes" data-heart="Œillet, Cardamome" data-base="Vétiver, Musc" data-desc="La liberté en parfum. État Libre d'Orange refuse l'ordinaire et célèbre l'individu. Des compositions provocantes et littéraires qui challengent les conventions de la haute parfumerie.">
-        <div class="product-img" style="background:linear-gradient(135deg,#3d3d2c,#5a5a42)">
-          <span class="product-img-text">EL</span>
-          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'État Libre d\'Orange')" title="Ajouter aux favoris">♡</button>
+      <!-- Do Son — Diptyque -->
+      <div class="product-card" data-head="Fleur de tubéreuse, Muguet" data-heart="Jasmin, Iris" data-base="Musc blanc, Ambre" data-desc="La mer au crépuscule. Do Son de Diptyque évoque la baie du Tonkin et ses fleurs de tubéreuse portées par la brise marine. Un floral aquatique d'une élégance rare — doux, sensuel, inoubliable.">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Do_Son.jpg')"></div>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Do Son')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
-        <div class="product-info"><div class="product-brand">France</div><div class="product-name">État Libre d'Orange</div><div class="product-notes">Rebelle · Audacieux · Libre</div><div class="product-footer"><span class="product-price price-tag">820 MAD</span><button class="product-add" onclick="addToCart('État Libre d\'Orange', 'Occident', 820)" data-i18n="add_bag">Ajouter</button></div></div>
+        <div class="product-info">
+          <div class="product-brand">Diptyque — Paris</div>
+          <div class="product-name">Do Son</div>
+          <div class="product-notes">Tubéreuse · Jasmin · Musc</div>
+          <div class="product-footer"><span class="product-price price-tag">720 MAD</span><button class="product-add" onclick="addToCart('Do Son', 'Occident', 720)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
       </div>
-      <div class="product-card" data-head="Pin, Fumée de tourbe" data-heart="Bruyère, Vétiver" data-base="Tourbe, Musc sauvage" data-desc="L'Écosse olfactive. Depuis Édimbourg, Jorum Studio distille les paysages sauvages des Highlands en fragrances d'une singularité absolue. Artistiques, narratives, inoubliables.">
-        <div class="product-img" style="background:linear-gradient(135deg,#2a3828,#4a5840)">
-          <span class="product-img-text">JS</span>
-          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Jorum Studio')" title="Ajouter aux favoris">♡</button>
+      <!-- Molecule 01 — Escentric Molecules -->
+      <div class="product-card" data-head="Iso E Super" data-heart="Iso E Super" data-base="Iso E Super" data-desc="L'invisible rendu visible. Molecule 01 d'Escentric Molecules n'est qu'une seule molécule — l'Iso E Super — portée à l'état pur. Chacun·e la perçoit différemment, chacun·e lui donne sa propre signification. Le parfum le plus personnel qui soit.">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Molecule_01.jpg')"></div>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Molecule 01')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
-        <div class="product-info"><div class="product-brand">Écosse</div><div class="product-name">Jorum Studio</div><div class="product-notes">Innovant · Artistique</div><div class="product-footer"><span class="product-price price-tag">890 MAD</span><button class="product-add" onclick="addToCart('Jorum Studio', 'Occident', 890)" data-i18n="add_bag">Ajouter</button></div></div>
+        <div class="product-info">
+          <div class="product-brand">Escentric Molecules — Berlin</div>
+          <div class="product-name">Molecule 01</div>
+          <div class="product-notes">Iso E Super · Boisé · Sensuel</div>
+          <div class="product-footer"><span class="product-price price-tag">690 MAD</span><button class="product-add" onclick="addToCart('Molecule 01', 'Occident', 690)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
       </div>
-    </div>
+    </div><!-- /products-track -->
+    </div><!-- /products-carousel -->
   </div>
 
   <!-- LES ABSOLUS -->
@@ -2413,56 +2576,97 @@ input.invalid, select.invalid { border-color: var(--rose); }
       <h3 data-i18n="absolus_title">Les Absolus</h3>
       <p data-i18n="absolus_desc">Là où l'Orient rencontre l'Occident — l'excellence olfactive sans frontières.</p>
     </div>
-    <div class="products-grid">
-      <div class="product-card" data-head="Rose de Taïf, Bergamote" data-heart="Encens de Somalie, Myrrhe" data-base="Oud royal, Ambre, Musc" data-desc="La majesté olfactive d'Oman. Fondée par la famille royale omanaise, Amouage utilise les ingrédients les plus rares du monde pour créer des fragrances d'une richesse et d'une profondeur inégalées. Un investissement dans l'éternité.">
-        <div class="product-img" style="background:linear-gradient(135deg,#1a1510,#3d2b1a)">
-          <span class="product-img-text">A</span><span class="product-badge">Absolu</span>
-          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Amouage')" title="Ajouter aux favoris">♡</button>
+    <div class="products-carousel">
+      <button class="carousel-arrow prev" onclick="scrollCarousel('absolus-track',-1)" aria-label="Précédent">&#8592;</button>
+      <button class="carousel-arrow next" onclick="scrollCarousel('absolus-track',1)" aria-label="Suivant">&#8594;</button>
+    <div class="products-track" id="absolus-track">
+      <!-- Portrait of a Lady — Frédéric Malle -->
+      <div class="product-card" data-head="Rose de Turquie, Bergamote" data-heart="Rose centifolia, Patchouli" data-base="Musc de bois, Santal, Encens" data-desc="Le chef-d'œuvre absolu. Créé par Dominique Ropion pour Frédéric Malle, Portrait of a Lady est une rose monumentale portée par le patchouli — sensuelle, opulente, inoubliable. Un parfum qui traverse les décennies sans jamais vieillir.">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Portrait_of_a_Lady.jpg')"></div>
+          <span class="product-badge">Absolu</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Portrait of a Lady')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
-        <div class="product-info"><div class="product-brand">Oman</div><div class="product-name">Amouage</div><div class="product-notes">Opulent · Oriental · Intemporel</div><div class="product-footer"><span class="product-price price-tag">1 850 MAD</span><button class="product-add" onclick="addToCart('Amouage', 'Les Absolus', 1850)" data-i18n="add_bag">Ajouter</button></div></div>
+        <div class="product-info">
+          <div class="product-brand">Frédéric Malle — Paris</div>
+          <div class="product-name">Portrait of a Lady</div>
+          <div class="product-notes">Rose · Patchouli · Encens</div>
+          <div class="product-footer"><span class="product-price price-tag">2 200 MAD</span><button class="product-add" onclick="addToCart('Portrait of a Lady', 'Les Absolus', 2200)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
       </div>
-      <div class="product-card" data-head="Fleurs blanches, Bergamote" data-heart="Rose centifolia, Iris de Florence" data-base="Musc de cachemire, Santal" data-desc="L'éditeur de parfums. Frédéric Malle collabore avec les plus grands nez du monde — Pierre Bourdon, Dominique Ropion, Edouard Fléchier — pour créer des œuvres olfactives sans compromis. Chaque flacon est un manifeste artistique.">
-        <div class="product-img" style="background:linear-gradient(135deg,#2a2018,#4a3828)">
-          <span class="product-img-text">FM</span>
-          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Frédéric Malle')" title="Ajouter aux favoris">♡</button>
+      <!-- Oud Satin Mood — Maison Francis Kurkdjian -->
+      <div class="product-card" data-head="Baies roses, Mandarine" data-heart="Rose, Oud" data-base="Vanille, Musc, Benjoin" data-desc="La douceur absolue de l'oud. Francis Kurkdjian a sublimé l'oud oriental en le mariant à la vanille et aux fleurs roses pour créer Oud Satin Mood — une fragrance enveloppante d'une sensualité rare, à la fois orientale et universellement moderne.">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Oud_Satin_Mood.jpg')"></div>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Oud Satin Mood')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
-        <div class="product-info"><div class="product-brand">France</div><div class="product-name">Frédéric Malle</div><div class="product-notes">Magistral · Éditorial · Iconique</div><div class="product-footer"><span class="product-price price-tag">2 200 MAD</span><button class="product-add" onclick="addToCart('Frédéric Malle', 'Les Absolus', 2200)" data-i18n="add_bag">Ajouter</button></div></div>
+        <div class="product-info">
+          <div class="product-brand">Maison Francis Kurkdjian — Paris</div>
+          <div class="product-name">Oud Satin Mood</div>
+          <div class="product-notes">Oud · Rose · Vanille</div>
+          <div class="product-footer"><span class="product-price price-tag">1 950 MAD</span><button class="product-add" onclick="addToCart('Oud Satin Mood', 'Les Absolus', 1950)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
       </div>
-      <div class="product-card" data-head="Fleur d'oranger, Bergamote" data-heart="Iris, Jasmin absolu" data-base="Musc blanc, Vétiver" data-desc="L'ingrédient révélé. Matière Première célèbre chaque parfum autour d'une matière première exceptionnelle, travaillée avec une précision chirurgicale par Antoine Lie. La beauté dans la pureté absolue.">
-        <div class="product-img" style="background:linear-gradient(135deg,#3d3020,#5a4838)">
-          <span class="product-img-text">MP</span>
-          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Matière Première')" title="Ajouter aux favoris">♡</button>
+      <!-- Beyond Love — By Kilian -->
+      <div class="product-card" data-head="Bergamote, Citronnelle" data-heart="Tubéreuse, Jasmin sambac" data-base="Musc blanc, Santal, Ambre" data-desc="L'amour absolu. Calice McEwan a créé pour By Kilian une tubéreuse d'une intensité sublime — blanche, crémeuse, envoûtante. Beyond Love est la déclaration olfactive ultime, un parfum qui incarne la passion dans sa forme la plus pure et la plus audacieuse.">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Beyond_Love.jpg')"></div>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Beyond Love')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
-        <div class="product-info"><div class="product-brand">France</div><div class="product-name">Matière Première</div><div class="product-notes">Pur · Brut · Essentiel</div><div class="product-footer"><span class="product-price price-tag">1 650 MAD</span><button class="product-add" onclick="addToCart('Matière Première', 'Les Absolus', 1650)" data-i18n="add_bag">Ajouter</button></div></div>
+        <div class="product-info">
+          <div class="product-brand">By Kilian — Paris</div>
+          <div class="product-name">Beyond Love</div>
+          <div class="product-notes">Tubéreuse · Jasmin · Santal</div>
+          <div class="product-footer"><span class="product-price price-tag">1 800 MAD</span><button class="product-add" onclick="addToCart('Beyond Love', 'Les Absolus', 1800)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
       </div>
-      <div class="product-card" data-head="Citron de Sicile, Bergamote" data-heart="Rose ottomane, Jasmin de Grasse" data-base="Oud des Indes, Ambre gris, Musc" data-desc="La royauté en flacon. Roja Dove, le parfumeur des parfumeurs, crée des fragrances d'une extravagance incomparable. Chaque goutte porte l'empreinte de décennies d'expertise et des ingrédients les plus précieux du monde.">
-        <div class="product-img" style="background:linear-gradient(135deg,#1a1018,#3d2838)">
-          <span class="product-img-text">R</span>
-          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Roja Parfums')" title="Ajouter aux favoris">♡</button>
+      <!-- Carnal Flower — Frédéric Malle -->
+      <div class="product-card" data-head="Eucalyptus, Melon" data-heart="Tubéreuse absolue, Jasmin" data-base="Musc, Vétiver, Santal" data-desc="La tubéreuse dans toute sa vérité charnelle. Dominique Ropion a capturé avec Carnal Flower la fleur dans son état le plus pur et le plus intense — crémeuse, verte, légèrement animale. Un chef-d'œuvre de la parfumerie naturelle contemporaine.">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Carnal_Flower.jpg')"></div>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Carnal Flower')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
-        <div class="product-info"><div class="product-brand">UK</div><div class="product-name">Roja Parfums</div><div class="product-notes">Luxueux · Royal · Extraordinaire</div><div class="product-footer"><span class="product-price price-tag">3 200 MAD</span><button class="product-add" onclick="addToCart('Roja Parfums', 'Les Absolus', 3200)" data-i18n="add_bag">Ajouter</button></div></div>
+        <div class="product-info">
+          <div class="product-brand">Frédéric Malle — Paris</div>
+          <div class="product-name">Carnal Flower</div>
+          <div class="product-notes">Tubéreuse · Jasmin · Santal</div>
+          <div class="product-footer"><span class="product-price price-tag">2 100 MAD</span><button class="product-add" onclick="addToCart('Carnal Flower', 'Les Absolus', 2100)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
       </div>
-      <div class="product-card" data-head="Bergamote de Calabre, Safran" data-heart="Rose de Damas, Oud" data-base="Ambre gris, Musc blanc, Santal" data-desc="L'art couture olfactif. La maison italienne Xerjoff fusionne la tradition orientale avec le raffinement occidental dans des flacons en cristal de Bohème. Des compositions d'une richesse et d'une sophistication extraordinaires.">
-        <div class="product-img" style="background:linear-gradient(135deg,#2a1810,#4a3020)">
-          <span class="product-img-text">X</span>
-          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Xerjoff')" title="Ajouter aux favoris">♡</button>
+      <!-- Ambre Sultan — Serge Lutens -->
+      <div class="product-card" data-head="Origan, Plantes aromatiques" data-heart="Résine, Baumes orientaux" data-base="Ambre, Santal, Vanille" data-desc="L'ambre dans toute sa majesté. Serge Lutens a distillé les souks de Marrakech et les résines précieuses de l'Orient pour créer Ambre Sultan — un ambre chaud, baumé, presque mystique. Une fragrance qui réconcilie le passé et le présent.">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Ambre_Sultan.jpg')"></div>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Ambre Sultan')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
-        <div class="product-info"><div class="product-brand">Italie</div><div class="product-name">Xerjoff</div><div class="product-notes">Artistique · Couture · Majestueux</div><div class="product-footer"><span class="product-price price-tag">2 800 MAD</span><button class="product-add" onclick="addToCart('Xerjoff', 'Les Absolus', 2800)" data-i18n="add_bag">Ajouter</button></div></div>
+        <div class="product-info">
+          <div class="product-brand">Serge Lutens — Paris</div>
+          <div class="product-name">Ambre Sultan</div>
+          <div class="product-notes">Ambre · Résine · Santal</div>
+          <div class="product-footer"><span class="product-price price-tag">1 650 MAD</span><button class="product-add" onclick="addToCart('Ambre Sultan', 'Les Absolus', 1650)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
       </div>
-      <div class="product-card" data-head="Ylang-ylang, Bergamote" data-heart="Rose de Bulgarie, Iris" data-base="Oud des Indes, Musc de cachemire, Ambre" data-desc="Le patrimoine britannique au summum. Fondée en 1872, Clive Christian est l'une des maisons de parfumerie les plus luxueuses du monde — ses compositions portent la cimière royale britannique et incarnent l'excellence absolue.">
-        <div class="product-img" style="background:linear-gradient(135deg,#3d2818,#5a4030)">
-          <span class="product-img-text">CC</span>
-          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Clive Christian')" title="Ajouter aux favoris">♡</button>
+      <!-- Musc Ravageur — Frédéric Malle -->
+      <div class="product-card" data-head="Bergamote, Lavande, Épices" data-heart="Musc, Ambre" data-base="Benjoin, Vanille, Santal" data-desc="Le musc à l'état sauvage. Maurice Roucel a créé avec Musc Ravageur un accord charnel et enivrant — musc, ambre et vanille se fondent dans une chaleur animale d'une sensualité absolue. Un parfum qui s'apprivoise sur la peau et ne la quitte plus.">
+        <div class="product-img">
+          <div class="pimg-bg" style="background-image:url('images/Musc_Ravageur.jpg')"></div>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Musc Ravageur')" title="Ajouter aux favoris">♡</button>
           <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
         </div>
-        <div class="product-info"><div class="product-brand">UK</div><div class="product-name">Clive Christian</div><div class="product-notes">Patrimoine · Noble · Intemporel</div><div class="product-footer"><span class="product-price price-tag">3 600 MAD</span><button class="product-add" onclick="addToCart('Clive Christian', 'Les Absolus', 3600)" data-i18n="add_bag">Ajouter</button></div></div>
+        <div class="product-info">
+          <div class="product-brand">Frédéric Malle — Paris</div>
+          <div class="product-name">Musc Ravageur</div>
+          <div class="product-notes">Musc · Ambre · Vanille</div>
+          <div class="product-footer"><span class="product-price price-tag">2 000 MAD</span><button class="product-add" onclick="addToCart('Musc Ravageur', 'Les Absolus', 2000)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
       </div>
-    </div>
+    </div><!-- /products-track -->
+    </div><!-- /products-carousel -->
   </div>
 
   <!-- LES ÉCRINS -->
@@ -2472,13 +2676,55 @@ input.invalid, select.invalid { border-color: var(--rose); }
       <p data-i18n="ecrins_cat_desc">L'expérience parfum complète. Chaque coffret : une base de layering, un parfum signature, des produits complémentaires et le Protocole LAMYSK AURA.</p>
     </div>
     <div class="coffrets-grid">
-      <div class="coffret-card"><div class="coffret-icon">👑</div><h4>Coffret Noblesse</h4><p data-i18n="coffret_noblesse">La femme élégante, pour les grandes occasions</p><div class="coffret-price price-tag">980 MAD</div><button class="coffret-add" onclick="addToCart('Coffret Noblesse', 'Les Écrins', 980)" data-i18n="add_bag">Ajouter</button></div>
-      <div class="coffret-card"><div class="coffret-icon">🌹</div><h4>Coffret Royal Woman</h4><p data-i18n="coffret_royal_w">La femme sophistiquée au quotidien</p><div class="coffret-price price-tag">750 MAD</div><button class="coffret-add" onclick="addToCart('Coffret Royal Woman', 'Les Écrins', 750)" data-i18n="add_bag">Ajouter</button></div>
-      <div class="coffret-card"><div class="coffret-icon">🖤</div><h4>Coffret Royal Man</h4><p data-i18n="coffret_royal_m">L'homme raffiné qui sait ce qu'il veut</p><div class="coffret-price price-tag">750 MAD</div><button class="coffret-add" onclick="addToCart('Coffret Royal Man', 'Les Écrins', 750)" data-i18n="add_bag">Ajouter</button></div>
-      <div class="coffret-card"><div class="coffret-icon">☁️</div><h4>Coffret Douceur</h4><p data-i18n="coffret_douceur">Pour un sillage délicat et enveloppant</p><div class="coffret-price price-tag">650 MAD</div><button class="coffret-add" onclick="addToCart('Coffret Douceur', 'Les Écrins', 650)" data-i18n="add_bag">Ajouter</button></div>
-      <div class="coffret-card"><div class="coffret-icon">💍</div><h4>Coffret Mariée</h4><p data-i18n="coffret_mariee">Le protocole complet pour le plus beau des jours</p><div class="coffret-price price-tag">1 200 MAD</div><button class="coffret-add" onclick="addToCart('Coffret Mariée', 'Les Écrins', 1200)" data-i18n="add_bag">Ajouter</button></div>
-      <div class="coffret-card"><div class="coffret-icon">✈️</div><h4>Coffret Voyage</h4><p data-i18n="coffret_voyage">L'essentiel du rituel en format nomade</p><div class="coffret-price price-tag">550 MAD</div><button class="coffret-add" onclick="addToCart('Coffret Voyage', 'Les Écrins', 550)" data-i18n="add_bag">Ajouter</button></div>
-      <div class="coffret-card"><div class="coffret-icon">🌸</div><h4>Coffret Girly</h4><p data-i18n="coffret_girly">Léger, pétillant, irrésistible</p><div class="coffret-price price-tag">480 MAD</div><button class="coffret-add" onclick="addToCart('Coffret Girly', 'Les Écrins', 480)" data-i18n="add_bag">Ajouter</button></div>
+      <div class="coffret-card">
+        <img class="coffret-img" src="images/Coffret_Noblesse.jpg" alt="Coffret Noblesse" loading="lazy">
+        <div class="coffret-body">
+          <h4>Coffret Noblesse</h4><p data-i18n="coffret_noblesse">La femme élégante, pour les grandes occasions</p>
+          <div class="coffret-price price-tag">980 MAD</div><button class="coffret-add" onclick="addToCart('Coffret Noblesse', 'Les Écrins', 980)" data-i18n="add_bag">Ajouter</button>
+        </div>
+      </div>
+      <div class="coffret-card">
+        <img class="coffret-img" src="images/Coffret_Royal_Woman.jpg" alt="Coffret Royal Woman" loading="lazy">
+        <div class="coffret-body">
+          <h4>Coffret Royal Woman</h4><p data-i18n="coffret_royal_w">La femme sophistiquée au quotidien</p>
+          <div class="coffret-price price-tag">750 MAD</div><button class="coffret-add" onclick="addToCart('Coffret Royal Woman', 'Les Écrins', 750)" data-i18n="add_bag">Ajouter</button>
+        </div>
+      </div>
+      <div class="coffret-card">
+        <img class="coffret-img" src="images/Coffret_Royal_Man.jpg" alt="Coffret Royal Man" loading="lazy">
+        <div class="coffret-body">
+          <h4>Coffret Royal Man</h4><p data-i18n="coffret_royal_m">L'homme raffiné qui sait ce qu'il veut</p>
+          <div class="coffret-price price-tag">750 MAD</div><button class="coffret-add" onclick="addToCart('Coffret Royal Man', 'Les Écrins', 750)" data-i18n="add_bag">Ajouter</button>
+        </div>
+      </div>
+      <div class="coffret-card">
+        <img class="coffret-img" src="images/Coffret_Douceur.jpg" alt="Coffret Douceur" loading="lazy">
+        <div class="coffret-body">
+          <h4>Coffret Douceur</h4><p data-i18n="coffret_douceur">Pour un sillage délicat et enveloppant</p>
+          <div class="coffret-price price-tag">650 MAD</div><button class="coffret-add" onclick="addToCart('Coffret Douceur', 'Les Écrins', 650)" data-i18n="add_bag">Ajouter</button>
+        </div>
+      </div>
+      <div class="coffret-card">
+        <img class="coffret-img" src="images/Coffret_Mariee.jpg" alt="Coffret Mariée" loading="lazy">
+        <div class="coffret-body">
+          <h4>Coffret Mariée</h4><p data-i18n="coffret_mariee">Le protocole complet pour le plus beau des jours</p>
+          <div class="coffret-price price-tag">1 200 MAD</div><button class="coffret-add" onclick="addToCart('Coffret Mariée', 'Les Écrins', 1200)" data-i18n="add_bag">Ajouter</button>
+        </div>
+      </div>
+      <div class="coffret-card">
+        <img class="coffret-img" src="images/Coffret_Voyage.jpg" alt="Coffret Voyage" loading="lazy">
+        <div class="coffret-body">
+          <h4>Coffret Voyage</h4><p data-i18n="coffret_voyage">L'essentiel du rituel en format nomade</p>
+          <div class="coffret-price price-tag">550 MAD</div><button class="coffret-add" onclick="addToCart('Coffret Voyage', 'Les Écrins', 550)" data-i18n="add_bag">Ajouter</button>
+        </div>
+      </div>
+      <div class="coffret-card">
+        <img class="coffret-img" src="images/Coffret_Girly.jpg" alt="Coffret Girly" loading="lazy">
+        <div class="coffret-body">
+          <h4>Coffret Girly</h4><p data-i18n="coffret_girly">Léger, pétillant, irrésistible</p>
+          <div class="coffret-price price-tag">480 MAD</div><button class="coffret-add" onclick="addToCart('Coffret Girly', 'Les Écrins', 480)" data-i18n="add_bag">Ajouter</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2541,46 +2787,46 @@ input.invalid, select.invalid { border-color: var(--rose); }
     <div class="quiz-question active" data-q="0">
       <h4 data-i18n="q0">Votre humeur du moment ?</h4>
       <div class="quiz-options">
-        <div class="quiz-opt" onclick="selectOpt(this,'woody')"><span>🌲</span><p data-i18n="q0a">Ancrée & sereine</p></div>
-        <div class="quiz-opt" onclick="selectOpt(this,'floral')"><span>🌸</span><p data-i18n="q0b">Romantique & rêveuse</p></div>
-        <div class="quiz-opt" onclick="selectOpt(this,'spicy')"><span>🌶️</span><p data-i18n="q0c">Audacieuse & magnétique</p></div>
-        <div class="quiz-opt" onclick="selectOpt(this,'citrus')"><span>🍋</span><p data-i18n="q0d">Fraîche & énergique</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'woody')"><span class="quiz-glyph">ع</span><p data-i18n="q0a">Ancrée & sereine</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'floral')"><span class="quiz-glyph">و</span><p data-i18n="q0b">Romantique & rêveuse</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'spicy')"><span class="quiz-glyph">ن</span><p data-i18n="q0c">Audacieuse & magnétique</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'citrus')"><span class="quiz-glyph">ر</span><p data-i18n="q0d">Fraîche & énergique</p></div>
       </div>
     </div>
     <div class="quiz-question" data-q="1">
       <h4 data-i18n="q1">Votre saison préférée ?</h4>
       <div class="quiz-options">
-        <div class="quiz-opt" onclick="selectOpt(this,'woody')"><span>🍂</span><p data-i18n="q1a">Automne</p></div>
-        <div class="quiz-opt" onclick="selectOpt(this,'floral')"><span>🌷</span><p data-i18n="q1b">Printemps</p></div>
-        <div class="quiz-opt" onclick="selectOpt(this,'citrus')"><span>☀️</span><p data-i18n="q1c">Été</p></div>
-        <div class="quiz-opt" onclick="selectOpt(this,'soft')"><span>❄️</span><p data-i18n="q1d">Hiver</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'woody')"><span class="quiz-glyph">I</span><p data-i18n="q1a">Automne</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'floral')"><span class="quiz-glyph">II</span><p data-i18n="q1b">Printemps</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'citrus')"><span class="quiz-glyph">III</span><p data-i18n="q1c">Été</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'soft')"><span class="quiz-glyph">IV</span><p data-i18n="q1d">Hiver</p></div>
       </div>
     </div>
     <div class="quiz-question" data-q="2">
       <h4 data-i18n="q2">Quel univers vous parle ?</h4>
       <div class="quiz-options">
-        <div class="quiz-opt" onclick="selectOpt(this,'spicy')"><span>🕌</span><p data-i18n="q2a">L'Orient — souks & encens</p></div>
-        <div class="quiz-opt" onclick="selectOpt(this,'floral')"><span>🏛️</span><p data-i18n="q2b">Paris — ateliers & élégance</p></div>
-        <div class="quiz-opt" onclick="selectOpt(this,'citrus')"><span>🌊</span><p data-i18n="q2c">Méditerranée — soleil & rivages</p></div>
-        <div class="quiz-opt" onclick="selectOpt(this,'woody')"><span>🌿</span><p data-i18n="q2d">La Forêt — terre & profondeur</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'spicy')"><span class="quiz-glyph">م</span><p data-i18n="q2a">L'Orient — souks & encens</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'floral')"><span class="quiz-glyph">P</span><p data-i18n="q2b">Paris — ateliers & élégance</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'citrus')"><span class="quiz-glyph">∼</span><p data-i18n="q2c">Méditerranée — soleil & rivages</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'woody')"><span class="quiz-glyph">B</span><p data-i18n="q2d">La Forêt — terre & profondeur</p></div>
       </div>
     </div>
     <div class="quiz-question" data-q="3">
       <h4 data-i18n="q3">L'intensité que vous préférez ?</h4>
       <div class="quiz-options">
-        <div class="quiz-opt" onclick="selectOpt(this,'soft')"><span>🤍</span><p data-i18n="q3a">Murmure — à peine là</p></div>
-        <div class="quiz-opt" onclick="selectOpt(this,'citrus')"><span>💫</span><p data-i18n="q3b">Modérée — une douce présence</p></div>
-        <div class="quiz-opt" onclick="selectOpt(this,'floral')"><span>✨</span><p data-i18n="q3c">Remarquable — mémorable</p></div>
-        <div class="quiz-opt" onclick="selectOpt(this,'spicy')"><span>🔥</span><p data-i18n="q3d">Intense — impossible à ignorer</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'soft')"><span class="quiz-glyph">·</span><p data-i18n="q3a">Murmure — à peine là</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'citrus')"><span class="quiz-glyph">··</span><p data-i18n="q3b">Modérée — une douce présence</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'floral')"><span class="quiz-glyph">···</span><p data-i18n="q3c">Remarquable — mémorable</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'spicy')"><span class="quiz-glyph">····</span><p data-i18n="q3d">Intense — impossible à ignorer</p></div>
       </div>
     </div>
     <div class="quiz-question" data-q="4">
       <h4 data-i18n="q4">Que doit révéler votre parfum ?</h4>
       <div class="quiz-options">
-        <div class="quiz-opt" onclick="selectOpt(this,'soft')"><span>🕊️</span><p data-i18n="q4a">Douceur & réconfort</p></div>
-        <div class="quiz-opt" onclick="selectOpt(this,'woody')"><span>🪵</span><p data-i18n="q4b">Force & authenticité</p></div>
-        <div class="quiz-opt" onclick="selectOpt(this,'spicy')"><span>💎</span><p data-i18n="q4c">Mystère & séduction</p></div>
-        <div class="quiz-opt" onclick="selectOpt(this,'floral')"><span>🌺</span><p data-i18n="q4d">Grâce & féminité</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'soft')"><span class="quiz-glyph">α</span><p data-i18n="q4a">Douceur & réconfort</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'woody')"><span class="quiz-glyph">δ</span><p data-i18n="q4b">Force & authenticité</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'spicy')"><span class="quiz-glyph">σ</span><p data-i18n="q4c">Mystère & séduction</p></div>
+        <div class="quiz-opt" onclick="selectOpt(this,'floral')"><span class="quiz-glyph">φ</span><p data-i18n="q4d">Grâce & féminité</p></div>
       </div>
     </div>
 
@@ -2695,7 +2941,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
       </div>
 
       <div class="social-links">
-        <a href="#" class="social-link" title="Instagram" target="_blank" rel="noopener">IG</a>
+        <a href="https://www.instagram.com/lamyskaura.fr" class="social-link" title="Instagram" target="_blank" rel="noopener">IG</a>
         <a href="#" class="social-link" title="TikTok" target="_blank" rel="noopener">TK</a>
         <a href="#" class="social-link" id="wa-social-link" title="WhatsApp" target="_blank" rel="noopener">WA</a>
       </div>
@@ -3898,7 +4144,7 @@ function showResult() {
   const counts = {};
   Object.values(quizAnswers).forEach(v => { counts[v] = (counts[v]||0)+1; });
   let profile = Object.keys(counts).reduce((a,b) => counts[a] > counts[b] ? a : b);
-  const icons = { woody:'🌲', floral:'🌸', spicy:'🌶️', citrus:'🍋', soft:'🤍' };
+  const icons = { woody:'W', floral:'F', spicy:'S', citrus:'C', soft:'D' };
   const codes = { woody:'AURA-WOODY15', floral:'AURA-FLORAL15', spicy:'AURA-SPICY15', citrus:'AURA-CITRUS15', soft:'AURA-SOFT15' };
   const promoCode = codes[profile];
   document.getElementById('profileIcon').textContent = icons[profile];
@@ -3990,10 +4236,16 @@ function openQV(card) {
   const base = card.dataset.base || '';
   const desc = card.dataset.desc || '';
 
-  // Image background
+  // Image background — prefer .pimg-bg (new cards), fallback to .product-img inline style
   const qvImg = document.getElementById('qvImg');
-  qvImg.style.backgroundImage = img ? img.style.backgroundImage : '';
-  qvImg.style.backgroundColor = img ? getComputedStyle(img).backgroundColor : '';
+  const pimgBg = card.querySelector('.pimg-bg');
+  if (pimgBg) {
+    qvImg.style.backgroundImage = pimgBg.style.backgroundImage;
+    qvImg.style.backgroundColor = '';
+  } else if (img) {
+    qvImg.style.backgroundImage = img.style.backgroundImage || '';
+    qvImg.style.backgroundColor = getComputedStyle(img).backgroundColor;
+  }
 
   document.getElementById('qvBrand').textContent = brand;
   document.getElementById('qvName').textContent = name;
@@ -4058,6 +4310,32 @@ loadCart();
 loadWishlist();
 updateCart();
 applyWishlistState();
+
+// ═══════════════════════════════════════════
+// CAROUSEL DRAG-TO-SCROLL
+// ═══════════════════════════════════════════
+document.querySelectorAll('.products-track').forEach(track => {
+  let isDown = false, startX, scrollLeft;
+  track.addEventListener('mousedown', e => {
+    isDown = true;
+    track.classList.add('dragging');
+    startX = e.pageX - track.offsetLeft;
+    scrollLeft = track.scrollLeft;
+    e.preventDefault();
+  });
+  track.addEventListener('mouseleave', () => { isDown = false; track.classList.remove('dragging'); });
+  track.addEventListener('mouseup',    () => { isDown = false; track.classList.remove('dragging'); });
+  track.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    const x = e.pageX - track.offsetLeft;
+    track.scrollLeft = scrollLeft - (x - startX) * 1.5;
+  });
+});
+
+function scrollCarousel(trackId, dir) {
+  const t = document.getElementById(trackId);
+  if (t) t.scrollBy({ left: dir * 310, behavior: 'smooth' });
+}
 
 // ═══════════════════════════════════════════
 // SCROLL REVEAL
