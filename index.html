@@ -2511,12 +2511,11 @@ nav.scrolled .nav-account { color: var(--text-body); }
     <li><a href="#bio" data-i18n="nav_about">À Propos</a></li>
     <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
   </ul>
-  <div style="display:flex;align-items:center;gap:0.2rem">
+  <div style="display:flex;align-items:center;gap:1rem">
     <div class="nav-account-wrap" id="navAccountWrap">
       <!-- Guest state -->
       <button class="nav-account" id="navAccountBtn" onclick="openAuthPanel('login')">
         <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-        <span class="nav-account-name" id="navAccountName" data-i18n="nav_account">Compte</span>
       </button>
       <!-- Logged-in state (hidden until auth) -->
       <button class="nav-account" id="navUserBtn" onclick="toggleAccountDropdown()" style="display:none">
@@ -5257,7 +5256,6 @@ function _authErr(el, msg) {
 <div class="auth-overlay" id="authOverlay" onclick="authOverlayClick(event)">
   <div class="auth-panel" id="authPanel">
     <div class="auth-panel-header">
-      <span style="font-family:var(--font-serif);font-size:1.1rem;letter-spacing:0.06em;font-weight:400">LAMYSK AURA</span>
       <button class="auth-panel-close" onclick="closeAuthPanel()">&times;</button>
     </div>
     <div class="auth-tabs">
