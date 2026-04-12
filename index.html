@@ -2345,6 +2345,147 @@ input.invalid, select.invalid { border-color: var(--rose); }
   .pdp-header { padding: 0 1.2rem; }
   .pdp-logo-wrap { display: none; }
 }
+
+/* ══════════════════════════════════════════════════
+   AUTH MODAL
+══════════════════════════════════════════════════ */
+.auth-overlay {
+  display: none; position: fixed; inset: 0; z-index: 1000;
+  background: rgba(30,24,18,0.55); backdrop-filter: blur(4px);
+  align-items: flex-start; justify-content: flex-end;
+}
+.auth-overlay.active { display: flex; }
+
+.auth-panel {
+  width: 100%; max-width: 420px; height: 100vh;
+  background: #faf8f5; padding: 0;
+  display: flex; flex-direction: column;
+  animation: authSlide 0.35s cubic-bezier(.4,0,.2,1);
+  box-shadow: -8px 0 40px rgba(0,0,0,0.15);
+}
+@keyframes authSlide { from { transform: translateX(100%); opacity:0; } to { transform: translateX(0); opacity:1; } }
+
+.auth-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.5rem 2rem; border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: #fff;
+}
+.auth-panel-logo { height: 40px; width: auto; }
+.auth-panel-close {
+  background: none; border: none; cursor: pointer;
+  font-size: 1.6rem; color: var(--text-muted); line-height: 1;
+  padding: 4px 8px; transition: color 0.2s;
+}
+.auth-panel-close:hover { color: var(--text-body); }
+
+.auth-tabs {
+  display: flex; background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+.auth-tab {
+  flex: 1; padding: 1rem; text-align: center;
+  font-family: var(--font-body); font-size: 0.8rem; letter-spacing: 0.1em;
+  text-transform: uppercase; font-weight: 500;
+  background: none; border: none; cursor: pointer;
+  color: var(--text-muted); border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+.auth-tab.active { color: var(--amber); border-bottom-color: var(--amber); }
+
+.auth-form-wrap {
+  flex: 1; overflow-y: auto; padding: 2rem;
+  display: flex; flex-direction: column; gap: 1.2rem;
+}
+
+.auth-field {
+  display: flex; flex-direction: column; gap: 0.4rem;
+}
+.auth-field label {
+  font-family: var(--font-body); font-size: 0.72rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-muted); font-weight: 500;
+}
+.auth-field input {
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 2px; background: #fff;
+  font-family: var(--font-body); font-size: 0.9rem; color: var(--text-body);
+  outline: none; transition: border-color 0.2s;
+  width: 100%; box-sizing: border-box;
+}
+.auth-field input:focus { border-color: var(--amber); }
+
+.auth-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+.auth-submit {
+  margin-top: 0.5rem;
+  padding: 0.9rem 2rem;
+  background: var(--amber); color: #fff;
+  border: none; border-radius: 2px;
+  font-family: var(--font-body); font-size: 0.8rem; letter-spacing: 0.12em;
+  text-transform: uppercase; font-weight: 500;
+  cursor: pointer; transition: background 0.2s;
+  width: 100%;
+}
+.auth-submit:hover { background: #a07040; }
+.auth-submit:disabled { background: #ccc; cursor: not-allowed; }
+
+.auth-error {
+  color: #c0392b; font-size: 0.8rem;
+  padding: 0.6rem 0.8rem; background: #fdecea;
+  border-radius: 2px; display: none;
+}
+.auth-error.visible { display: block; }
+
+.auth-success {
+  color: #27ae60; font-size: 0.8rem;
+  padding: 0.6rem 0.8rem; background: #eafaf1;
+  border-radius: 2px; display: none;
+}
+.auth-success.visible { display: block; }
+
+/* Nav account button */
+.nav-account {
+  display: flex; align-items: center; gap: 0.5rem;
+  cursor: pointer; color: rgba(255,255,255,0.85);
+  transition: color 0.5s; background: none; border: none;
+  font-family: var(--font-body); font-size: 0.78rem; letter-spacing: 0.06em;
+}
+nav.scrolled .nav-account { color: var(--text-body); }
+.nav-account:hover { color: var(--amber); }
+.nav-account svg { flex-shrink: 0; }
+
+/* Account dropdown */
+.account-dropdown {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  background: #fff; border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 2px; min-width: 180px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  z-index: 500; display: none; flex-direction: column;
+  overflow: hidden;
+}
+.account-dropdown.open { display: flex; }
+.account-dropdown a, .account-dropdown button {
+  padding: 0.75rem 1.2rem;
+  font-family: var(--font-body); font-size: 0.82rem;
+  color: var(--text-body); text-decoration: none;
+  background: none; border: none; cursor: pointer;
+  text-align: left; transition: background 0.15s;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.account-dropdown a:last-child, .account-dropdown button:last-child { border-bottom: none; }
+.account-dropdown a:hover, .account-dropdown button:hover { background: #faf8f5; }
+.account-dropdown-header {
+  padding: 0.75rem 1.2rem; font-size: 0.7rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.08); font-weight: 500;
+}
+
+.nav-account-wrap { position: relative; }
+
+@media (max-width: 768px) {
+  .auth-panel { max-width: 100%; }
+  .nav-account-name { display: none; }
+}
 </style>
 </head>
 <body>
@@ -2370,9 +2511,29 @@ input.invalid, select.invalid { border-color: var(--rose); }
     <li><a href="#bio" data-i18n="nav_about">À Propos</a></li>
     <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
   </ul>
-  <div class="nav-cart" onclick="toggleCart()">
-    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
-    <div class="cart-count" id="cartCount">0</div>
+  <div style="display:flex;align-items:center;gap:0.2rem">
+    <div class="nav-account-wrap" id="navAccountWrap">
+      <!-- Guest state -->
+      <button class="nav-account" id="navAccountBtn" onclick="openAuthPanel('login')">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span class="nav-account-name" id="navAccountName" data-i18n="nav_account">Compte</span>
+      </button>
+      <!-- Logged-in state (hidden until auth) -->
+      <button class="nav-account" id="navUserBtn" onclick="toggleAccountDropdown()" style="display:none">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span class="nav-account-name" id="navUserName"></span>
+      </button>
+      <div class="account-dropdown" id="accountDropdown">
+        <div class="account-dropdown-header" id="accountDropdownEmail"></div>
+        <a href="#" onclick="openAuthPanel('orders');return false" data-i18n="account_orders">Mes Commandes</a>
+        <a href="#" onclick="openAuthPanel('wishlist');return false" data-i18n="account_wishlist">Ma Liste de Souhaits</a>
+        <button onclick="authLogout()" data-i18n="account_logout">Déconnexion</button>
+      </div>
+    </div>
+    <div class="nav-cart" onclick="toggleCart()">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+      <div class="cart-count" id="cartCount">0</div>
+    </div>
   </div>
   <button class="nav-toggle" onclick="toggleMobile()">
     <span></span><span></span><span></span>
@@ -2387,6 +2548,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
   <a href="#quiz" onclick="toggleMobile()" data-i18n="nav_diagnostic">Diagnostic</a>
   <a href="#bio" onclick="toggleMobile()" data-i18n="nav_about">À Propos</a>
   <a href="#contact" onclick="toggleMobile()" data-i18n="nav_contact">Contact</a>
+  <a href="#" onclick="toggleMobile();openAuthPanel(_authUser?'orders':'login');return false" data-i18n="nav_account">Compte</a>
 </div>
 
 <!-- HERO -->
@@ -3495,6 +3657,14 @@ const LANG = {
   fr: {
     nav_about: 'À Propos', nav_story: 'Notre Univers', nav_selection: 'La Sélection',
     nav_ecrins: 'Coffrets', nav_chronicle: 'Chronique', nav_diagnostic: 'Diagnostic', nav_contact: 'Contact',
+    nav_account: 'Compte',
+    auth_tab_login: 'Connexion', auth_tab_register: 'Créer un compte',
+    auth_email: 'Email', auth_password: 'Mot de passe',
+    auth_firstname: 'Prénom', auth_lastname: 'Nom', auth_phone: 'Téléphone (optionnel)',
+    auth_login_btn: 'Se connecter', auth_register_btn: 'Créer mon compte',
+    auth_no_account: 'Pas encore de compte ?', auth_create: 'Créer un compte',
+    auth_have_account: 'Déjà un compte ?', auth_signin: 'Se connecter',
+    account_orders: 'Mes Commandes', account_wishlist: 'Ma Liste de Souhaits', account_logout: 'Déconnexion',
     hero_pre: 'Votre Maison de Parfum de Niche', hero_tagline: 'Là où le parfum devient présence',
     hero_cta1: 'Découvrir la Sélection', hero_cta2: 'Voir les Écrins', hero_scroll: 'Défiler pour découvrir',
     ecrins_label: 'Les Écrins', ecrins_title: 'L\'expérience parfum complète — réunie dans un écrin',
@@ -3626,6 +3796,14 @@ const LANG = {
   ar: {
     nav_about: 'من نحن', nav_story: 'عالمنا', nav_selection: 'التشكيلة',
     nav_ecrins: 'الأطقم', nav_chronicle: 'السجل', nav_diagnostic: 'التشخيص', nav_contact: 'اتصل بنا',
+    nav_account: 'حسابي',
+    auth_tab_login: 'تسجيل الدخول', auth_tab_register: 'إنشاء حساب',
+    auth_email: 'البريد الإلكتروني', auth_password: 'كلمة المرور',
+    auth_firstname: 'الاسم', auth_lastname: 'اللقب', auth_phone: 'الهاتف (اختياري)',
+    auth_login_btn: 'تسجيل الدخول', auth_register_btn: 'إنشاء حسابي',
+    auth_no_account: 'ليس لديكِ حساب؟', auth_create: 'إنشاء حساب',
+    auth_have_account: 'لديكِ حساب بالفعل؟', auth_signin: 'تسجيل الدخول',
+    account_orders: 'طلباتي', account_wishlist: 'قائمة أمنياتي', account_logout: 'تسجيل الخروج',
     hero_pre: 'بيتك للعطور الراقية', hero_tagline: 'حيث يصبح العطر حضوراً',
     hero_cta1: 'اكتشف التشكيلة', hero_cta2: 'اكتشف الأطقم', hero_scroll: 'مرّر للاكتشاف',
     ecrins_label: 'الأطقم', ecrins_title: 'تجربة العطر الكاملة — مجتمعة في طقم واحد',
@@ -3757,6 +3935,14 @@ const LANG = {
   en: {
     nav_about: 'About', nav_story: 'Our Universe', nav_selection: 'The Selection',
     nav_ecrins: 'Coffrets', nav_chronicle: 'Chronicle', nav_diagnostic: 'Diagnostic', nav_contact: 'Contact',
+    nav_account: 'Account',
+    auth_tab_login: 'Sign In', auth_tab_register: 'Create Account',
+    auth_email: 'Email', auth_password: 'Password',
+    auth_firstname: 'First Name', auth_lastname: 'Last Name', auth_phone: 'Phone (optional)',
+    auth_login_btn: 'Sign In', auth_register_btn: 'Create my account',
+    auth_no_account: 'No account yet?', auth_create: 'Create Account',
+    auth_have_account: 'Already have an account?', auth_signin: 'Sign In',
+    account_orders: 'My Orders', account_wishlist: 'My Wishlist', account_logout: 'Sign Out',
     hero_pre: 'Your Niche Fragrance Home', hero_tagline: 'Where Scent Becomes Presence',
     hero_cta1: 'Explore the Selection', hero_cta2: 'Discover the Écrins', hero_scroll: 'Scroll to discover',
     ecrins_label: 'Les Écrins', ecrins_title: 'The complete fragrance experience — in one écrin',
@@ -4824,7 +5010,325 @@ window.addEventListener('popstate', function() {
     }
   }
 });
+
+// ══════════════════════════════════════════════════
+// AUTH SYSTEM
+// ══════════════════════════════════════════════════
+
+const API = '/api/v1';
+
+let _authUser = null;
+
+function getToken() { return localStorage.getItem('la_token'); }
+function setToken(t) { localStorage.setItem('la_token', t); }
+function clearToken() { localStorage.removeItem('la_token'); }
+
+function getAuthHeaders() {
+  const t = getToken();
+  return t ? { 'Authorization': 'Bearer ' + t, 'Content-Type': 'application/json' } : { 'Content-Type': 'application/json' };
+}
+
+// ── Panel open/close ──────────────────────────────
+
+let _authPanelView = 'login'; // 'login' | 'register' | 'orders' | 'wishlist'
+
+function openAuthPanel(view) {
+  view = view || 'login';
+  if (_authUser) {
+    // Logged in — show account panels
+    if (view === 'orders') _showOrdersPanel();
+    else if (view === 'wishlist') _showWishlistPanel();
+    else _showOrdersPanel();
+  } else {
+    switchAuthTab(view === 'register' ? 'register' : 'login');
+  }
+  document.getElementById('authOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAuthPanel() {
+  document.getElementById('authOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function authOverlayClick(e) {
+  if (e.target === document.getElementById('authOverlay')) closeAuthPanel();
+}
+
+function switchAuthTab(tab) {
+  document.getElementById('loginForm').style.display    = tab === 'login'    ? 'flex' : 'none';
+  document.getElementById('registerForm').style.display = tab === 'register' ? 'flex' : 'none';
+  document.getElementById('ordersPanel').style.display  = 'none';
+  document.getElementById('wishlistPanel').style.display = 'none';
+  document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+  document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
+  _authPanelView = tab;
+}
+
+// ── Login ─────────────────────────────────────────
+
+async function authLogin() {
+  const email    = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errEl    = document.getElementById('loginError');
+  const btn      = document.getElementById('loginSubmit');
+  errEl.classList.remove('visible'); errEl.textContent = '';
+  if (!email || !password) { _authErr(errEl, 'Veuillez remplir tous les champs.'); return; }
+  btn.disabled = true; btn.textContent = '…';
+  try {
+    const res = await fetch(API + '/auth/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if (!res.ok) { _authErr(errEl, data.detail || 'Erreur de connexion.'); return; }
+    setToken(data.access_token);
+    _authUser = data.user;
+    _onAuthSuccess();
+  } catch(e) {
+    _authErr(errEl, 'Impossible de se connecter. Réessayez.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = T('auth_login_btn') || 'Se connecter';
+  }
+}
+
+// ── Register ──────────────────────────────────────
+
+async function authRegister() {
+  const first_name = document.getElementById('regFirstName').value.trim();
+  const last_name  = document.getElementById('regLastName').value.trim();
+  const email      = document.getElementById('regEmail').value.trim();
+  const phone      = document.getElementById('regPhone').value.trim();
+  const password   = document.getElementById('regPassword').value;
+  const errEl      = document.getElementById('registerError');
+  const sucEl      = document.getElementById('registerSuccess');
+  const btn        = document.getElementById('registerSubmit');
+  errEl.classList.remove('visible'); sucEl.classList.remove('visible');
+  if (!first_name || !email || !password) { _authErr(errEl, 'Prénom, email et mot de passe sont requis.'); return; }
+  btn.disabled = true; btn.textContent = '…';
+  try {
+    const res = await fetch(API + '/auth/register', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, first_name, last_name: last_name || null, phone: phone || null, lang: document.documentElement.lang || 'fr' })
+    });
+    const data = await res.json();
+    if (!res.ok) { _authErr(errEl, data.detail || 'Erreur lors de la création.'); return; }
+    setToken(data.access_token);
+    _authUser = data.user;
+    sucEl.textContent = 'Bienvenue ' + data.user.first_name + ' !';
+    sucEl.classList.add('visible');
+    setTimeout(() => { _onAuthSuccess(); }, 900);
+  } catch(e) {
+    _authErr(errEl, 'Impossible de créer le compte. Réessayez.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = T('auth_register_btn') || 'Créer mon compte';
+  }
+}
+
+// ── Logout ────────────────────────────────────────
+
+function authLogout() {
+  clearToken(); _authUser = null;
+  _updateNavAuth();
+  closeAuthPanel();
+  toggleAccountDropdown(true);
+}
+
+// ── Account dropdown ──────────────────────────────
+
+function toggleAccountDropdown(forceClose) {
+  const dd = document.getElementById('accountDropdown');
+  if (forceClose || dd.classList.contains('open')) {
+    dd.classList.remove('open');
+  } else {
+    document.getElementById('accountDropdownEmail').textContent = _authUser ? _authUser.email : '';
+    dd.classList.add('open');
+  }
+}
+
+// Close dropdown when clicking elsewhere
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-account-wrap')) {
+    const dd = document.getElementById('accountDropdown');
+    if (dd) dd.classList.remove('open');
+  }
+});
+
+// ── Orders & Wishlist panels ──────────────────────
+
+async function _showOrdersPanel() {
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('registerForm').style.display = 'none';
+  document.getElementById('wishlistPanel').style.display = 'none';
+  document.getElementById('ordersPanel').style.display = 'flex';
+  document.getElementById('tabLogin').classList.remove('active');
+  document.getElementById('tabRegister').classList.remove('active');
+  const listEl = document.getElementById('ordersList');
+  listEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">Chargement…</p>';
+  try {
+    const res = await fetch(API + '/auth/orders', { headers: getAuthHeaders() });
+    const orders = await res.json();
+    if (!orders.length) { listEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">Aucune commande pour l\'instant.</p>'; return; }
+    listEl.innerHTML = orders.map(o => `
+      <div style="border:1px solid rgba(0,0,0,0.08);border-radius:2px;padding:0.8rem 1rem;background:#fff">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem">
+          <span style="font-family:var(--font-serif);font-size:0.95rem">${o.reference}</span>
+          <span style="font-size:0.72rem;padding:2px 8px;background:var(--bg-section);border-radius:10px;letter-spacing:0.05em">${o.status}</span>
+        </div>
+        <div style="font-size:0.78rem;color:var(--text-muted)">${o.total} MAD · ${o.created_at.slice(0,10)}</div>
+      </div>
+    `).join('');
+  } catch(e) { listEl.innerHTML = '<p style="color:#c0392b;font-size:0.8rem">Erreur de chargement.</p>'; }
+}
+
+async function _showWishlistPanel() {
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('registerForm').style.display = 'none';
+  document.getElementById('ordersPanel').style.display = 'none';
+  document.getElementById('wishlistPanel').style.display = 'flex';
+  document.getElementById('tabLogin').classList.remove('active');
+  document.getElementById('tabRegister').classList.remove('active');
+  const listEl = document.getElementById('wishlistList');
+  listEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">Chargement…</p>';
+  try {
+    const res = await fetch(API + '/auth/wishlist', { headers: getAuthHeaders() });
+    const items = await res.json();
+    if (!items.length) { listEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">Aucun parfum en liste de souhaits.</p>'; return; }
+    listEl.innerHTML = items.map(i => `
+      <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(0,0,0,0.06);padding:0.6rem 0">
+        <span style="font-size:0.88rem">${i.product_name}</span>
+        <button onclick="removeWishlist('${i.product_name}', this)" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:1.1rem" title="Retirer">&times;</button>
+      </div>
+    `).join('');
+  } catch(e) { listEl.innerHTML = '<p style="color:#c0392b;font-size:0.8rem">Erreur de chargement.</p>'; }
+}
+
+async function removeWishlist(name, btn) {
+  btn.disabled = true;
+  await fetch(API + '/auth/wishlist/' + encodeURIComponent(name), { method: 'DELETE', headers: getAuthHeaders() });
+  btn.closest('div[style]').remove();
+}
+
+// ── Nav state update ──────────────────────────────
+
+function _updateNavAuth() {
+  const loggedIn = !!_authUser;
+  document.getElementById('navAccountBtn').style.display = loggedIn ? 'none' : '';
+  document.getElementById('navUserBtn').style.display    = loggedIn ? '' : 'none';
+  if (loggedIn) {
+    document.getElementById('navUserName').textContent = _authUser.first_name;
+  }
+}
+
+function _onAuthSuccess() {
+  _updateNavAuth();
+  closeAuthPanel();
+}
+
+// ── Re-check token on load ────────────────────────
+
+async function _checkStoredToken() {
+  const t = getToken();
+  if (!t) return;
+  try {
+    const res = await fetch(API + '/auth/me', { headers: getAuthHeaders() });
+    if (res.ok) { _authUser = await res.json(); _updateNavAuth(); }
+    else clearToken();
+  } catch(e) { /* offline, keep token for later */ }
+}
+
+// Run on page load (after DOMContentLoaded is already fired for PDP setup)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', _checkStoredToken);
+} else {
+  _checkStoredToken();
+}
+
+// ── Error helper ──────────────────────────────────
+
+function _authErr(el, msg) {
+  el.textContent = msg; el.classList.add('visible');
+}
 </script>
+
+<!-- AUTH PANEL -->
+<div class="auth-overlay" id="authOverlay" onclick="authOverlayClick(event)">
+  <div class="auth-panel" id="authPanel">
+    <div class="auth-panel-header">
+      <span style="font-family:var(--font-serif);font-size:1.1rem;letter-spacing:0.06em;font-weight:400">LAMYSK AURA</span>
+      <button class="auth-panel-close" onclick="closeAuthPanel()">&times;</button>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')" data-i18n="auth_tab_login">Connexion</button>
+      <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')" data-i18n="auth_tab_register">Créer un compte</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div class="auth-form-wrap" id="loginForm">
+      <div class="auth-error" id="loginError"></div>
+      <div class="auth-field">
+        <label data-i18n="auth_email">Email</label>
+        <input type="email" id="loginEmail" autocomplete="email" placeholder="votre@email.com" onkeydown="if(event.key==='Enter')authLogin()">
+      </div>
+      <div class="auth-field">
+        <label data-i18n="auth_password">Mot de passe</label>
+        <input type="password" id="loginPassword" autocomplete="current-password" placeholder="••••••" onkeydown="if(event.key==='Enter')authLogin()">
+      </div>
+      <button class="auth-submit" id="loginSubmit" onclick="authLogin()" data-i18n="auth_login_btn">Se connecter</button>
+      <p style="text-align:center;font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem">
+        <span data-i18n="auth_no_account">Pas encore de compte ?</span>
+        <a href="#" onclick="switchAuthTab('register');return false" style="color:var(--amber)" data-i18n="auth_create">Créer un compte</a>
+      </p>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div class="auth-form-wrap" id="registerForm" style="display:none">
+      <div class="auth-error" id="registerError"></div>
+      <div class="auth-success" id="registerSuccess"></div>
+      <div class="auth-row">
+        <div class="auth-field">
+          <label data-i18n="auth_firstname">Prénom</label>
+          <input type="text" id="regFirstName" autocomplete="given-name" placeholder="Prénom">
+        </div>
+        <div class="auth-field">
+          <label data-i18n="auth_lastname">Nom</label>
+          <input type="text" id="regLastName" autocomplete="family-name" placeholder="Nom">
+        </div>
+      </div>
+      <div class="auth-field">
+        <label data-i18n="auth_email">Email</label>
+        <input type="email" id="regEmail" autocomplete="email" placeholder="votre@email.com">
+      </div>
+      <div class="auth-field">
+        <label data-i18n="auth_phone">Téléphone (optionnel)</label>
+        <input type="tel" id="regPhone" autocomplete="tel" placeholder="+212 6XX XXX XXX">
+      </div>
+      <div class="auth-field">
+        <label data-i18n="auth_password">Mot de passe</label>
+        <input type="password" id="regPassword" autocomplete="new-password" placeholder="6 caractères minimum" onkeydown="if(event.key==='Enter')authRegister()">
+      </div>
+      <button class="auth-submit" id="registerSubmit" onclick="authRegister()" data-i18n="auth_register_btn">Créer mon compte</button>
+      <p style="text-align:center;font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem">
+        <span data-i18n="auth_have_account">Déjà un compte ?</span>
+        <a href="#" onclick="switchAuthTab('login');return false" style="color:var(--amber)" data-i18n="auth_signin">Se connecter</a>
+      </p>
+    </div>
+
+    <!-- MY ORDERS (logged in) -->
+    <div class="auth-form-wrap" id="ordersPanel" style="display:none">
+      <h3 style="font-family:var(--font-serif);font-size:1.2rem;font-weight:400;margin:0 0 1rem" data-i18n="account_orders">Mes Commandes</h3>
+      <div id="ordersList" style="display:flex;flex-direction:column;gap:0.8rem"></div>
+    </div>
+
+    <!-- MY WISHLIST (logged in) -->
+    <div class="auth-form-wrap" id="wishlistPanel" style="display:none">
+      <h3 style="font-family:var(--font-serif);font-size:1.2rem;font-weight:400;margin:0 0 1rem" data-i18n="account_wishlist">Ma Liste de Souhaits</h3>
+      <div id="wishlistList" style="display:flex;flex-direction:column;gap:0.8rem"></div>
+    </div>
+  </div>
+</div>
 
 <!-- PRODUCT DETAIL PAGE OVERLAY -->
 <div class="pdp-overlay" id="pdpOverlay">

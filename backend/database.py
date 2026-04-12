@@ -82,6 +82,33 @@ async def init_db():
             )
         """)
 
+        # ── USERS (registered accounts) ───────────────────────────
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                id            INTEGER PRIMARY KEY AUTOINCREMENT,
+                email         TEXT    NOT NULL UNIQUE,
+                password_hash TEXT    NOT NULL,
+                first_name    TEXT    NOT NULL,
+                last_name     TEXT,
+                phone         TEXT,
+                city          TEXT,
+                lang          TEXT    NOT NULL DEFAULT 'fr',
+                created_at    TEXT    NOT NULL DEFAULT (datetime('now')),
+                updated_at    TEXT    NOT NULL DEFAULT (datetime('now'))
+            )
+        """)
+
+        # ── USER WISHLISTS ─────────────────────────────────────────
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS user_wishlists (
+                id           INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id      INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                product_name TEXT    NOT NULL,
+                added_at     TEXT    NOT NULL DEFAULT (datetime('now')),
+                UNIQUE(user_id, product_name)
+            )
+        """)
+
         # ── CUSTOMERS ─────────────────────────────────────────────
         await db.execute("""
             CREATE TABLE IF NOT EXISTS customers (
@@ -110,6 +137,7 @@ async def init_db():
             CREATE TABLE IF NOT EXISTS orders (
                 id              INTEGER PRIMARY KEY AUTOINCREMENT,
                 reference       TEXT    NOT NULL UNIQUE,   -- e.g. LA-XYZ123
+                user_id         INTEGER REFERENCES users(id),
                 customer_id     INTEGER REFERENCES customers(id),
                 first_name      TEXT    NOT NULL,
                 last_name       TEXT,

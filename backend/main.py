@@ -13,7 +13,7 @@ from fastapi.responses import FileResponse
 from pathlib import Path
 
 from .database import init_db
-from .routers import products, orders, misc
+from .routers import products, orders, misc, auth
 
 # ── APP SETUP ─────────────────────────────────────────────────────────────────
 
@@ -56,6 +56,7 @@ app.add_middleware(
 app.include_router(products.router, prefix="/api/v1")
 app.include_router(orders.router,   prefix="/api/v1")
 app.include_router(misc.router,     prefix="/api/v1")
+app.include_router(auth.router,     prefix="/api/v1")
 
 
 # ── HEALTH CHECK ──────────────────────────────────────────────────────────────
