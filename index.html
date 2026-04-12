@@ -2598,7 +2598,7 @@ nav.scrolled .nav-account { color: var(--text-body); }
   </a>
   <ul class="nav-links">
     <li><a href="#selection" data-i18n="nav_selection">La Sélection</a></li>
-    <li><a href="#selection" onclick="setTimeout(goToEcrins,50)" data-i18n="nav_ecrins">Coffrets</a></li>
+    <li><a href="#chronicle" data-i18n="nav_chronicle">La Chronique</a></li>
     <li><a href="#quiz" data-i18n="nav_diagnostic">Diagnostic</a></li>
     <li><a href="#bio" data-i18n="nav_about">À Propos</a></li>
     <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
@@ -2635,7 +2635,7 @@ nav.scrolled .nav-account { color: var(--text-body); }
 <div class="mobile-menu" id="mobileMenu">
   <button class="mobile-close" onclick="toggleMobile()">&times;</button>
   <a href="#selection" onclick="toggleMobile()" data-i18n="nav_selection">La Sélection</a>
-  <a href="#selection" onclick="toggleMobile();setTimeout(goToEcrins,50)" data-i18n="nav_ecrins">Coffrets</a>
+  <a href="#chronicle" onclick="toggleMobile()" data-i18n="nav_chronicle">La Chronique</a>
   <a href="#quiz" onclick="toggleMobile()" data-i18n="nav_diagnostic">Diagnostic</a>
   <a href="#bio" onclick="toggleMobile()" data-i18n="nav_about">À Propos</a>
   <a href="#contact" onclick="toggleMobile()" data-i18n="nav_contact">Contact</a>
@@ -2685,13 +2685,6 @@ nav.scrolled .nav-account { color: var(--text-body); }
   </div>
 </div>
 
-<!-- ECRIN BANNER -->
-<section class="ecrin-banner" id="ecrins-banner">
-  <span class="section-label" data-i18n="ecrins_label">Les Écrins</span>
-  <h2 data-i18n="ecrins_title">L'expérience parfum complète — réunie dans un écrin</h2>
-  <p data-i18n="ecrins_sub">Le parfum parfait ne se porte pas. Il se compose.</p>
-  <a href="#selection" class="btn btn-primary" onclick="setTimeout(goToEcrins,50)" data-i18n="ecrins_cta">Voir les Coffrets</a>
-</section>
 
 <!-- THE SELECTION -->
 <section class="selection" id="selection">
@@ -3115,91 +3108,23 @@ nav.scrolled .nav-account { color: var(--text-body); }
   </div>
 </section>
 
-<!-- BIO -->
-<section class="bio" id="bio">
-  <div class="bio-grid container">
-    <div class="bio-visual reveal">
-      <div class="bio-img-main"></div>
-      <div class="bio-accent"></div>
-    </div>
-    <div class="bio-content reveal">
-      <span class="section-label" data-i18n="bio_label">À Propos</span>
-      <h2 class="section-title" data-i18n="bio_title">L'Âme <em>Authentique</em></h2>
-      <div class="bio-text">
-        <p class="highlight" data-i18n="bio_highlight">Certains héritages ne se transmettent pas en mots. Ils se respirent.</p>
-        <p data-i18n="bio_p1">Le mien tient entre les plis d'un caftan, le bois d'un vieux meuble en cèdre et l'air doux d'une maison marocaine en été. Ma grand-mère n'était pas parfumeuse — elle incarnait un parfum.</p>
-        <p data-i18n="bio_p2">Ce parfum racontait sa vie : les grandes Eaux de Cologne françaises d'un côté, les trésors de l'Orient de l'autre — dahn al oud, bakhour, musc blanc. Et entre les deux, le Maroc intime : eau de fleur d'oranger, serghina, loban.</p>
-        <p data-i18n="bio_p3">Aujourd'hui, ce rêve a un nom : <strong>LAMYSK AURA</strong> — une galerie olfactive où je réunis des parfums rares et artisanaux, choisis pour leur âme.</p>
-      </div>
-      <p class="bio-signature" data-i18n="bio_signature">Bienvenue dans mon monde. Bienvenue dans l'Aura.</p>
-    </div>
+<!-- CHRONICLE -->
+<section class="chronicle" id="chronicle">
+  <div class="chronicle-header reveal">
+    <span class="section-label" data-i18n="chron_label">La Chronique</span>
+    <h2 class="section-title" data-i18n="chron_title">Un parfum compris est un parfum mieux <em>porté</em></h2>
+    <p data-i18n="chron_desc">Des familles olfactives aux secrets du layering — chaque chronique est une invitation à sentir autrement.</p>
   </div>
-</section>
-
-<!-- BRAND TABS -->
-<section class="brand-section" id="brand">
-  <div class="brand-tabs">
-    <span class="section-label" data-i18n="brand_label">Notre Univers</span>
-    <div class="tab-nav" style="margin-top:1rem;">
-      <button class="tab-btn active" onclick="switchTab(this, 'sillage')" data-i18n="tab_sillage">Sillage</button>
-      <button class="tab-btn" onclick="switchTab(this, 'philosophy')" data-i18n="tab_philosophy">Philosophie</button>
-      <button class="tab-btn" onclick="switchTab(this, 'promise')" data-i18n="tab_promise">Promesse</button>
-    </div>
-
-    <div class="tab-content active" id="sillage">
-      <h3 data-i18n="sillage_title">LAMYSK AURA n'a pas été créée. Elle s'est imposée.</h3>
-      <p data-i18n="sillage_p1">Née de l'obsession d'une exploratrice olfactive, elle existe au croisement de la découverte et de la dévotion.</p>
-      <p data-i18n="sillage_p2">Nous ne créons pas de parfums, nous les curons. Nous cherchons les créateurs les plus discrets et sincères — ceux qui ont choisi la profondeur plutôt que la visibilité.</p>
-      <p class="tagline" data-i18n="brand_tagline">Galerie olfactive — Maroc</p>
-    </div>
-
-    <div class="tab-content" id="philosophy">
-      <h3 data-i18n="philo_title">Un parfum n'est jamais un simple produit</h3>
-      <p data-i18n="philo_p1">C'est une rencontre. Entre un lieu et un souvenir. Entre une matière première et une émotion. Entre un créateur et celle qui le portera comme un selham précieux.</p>
-      <p data-i18n="philo_p2">Notre sélection ne suit aucune tendance. Elle ne suit qu'une seule exigence : l'émotion. Chaque parfum doit raconter quelque chose de vrai.</p>
-      <p class="tagline" data-i18n="brand_tagline">Galerie olfactive — Maroc</p>
-    </div>
-
-    <div class="tab-content" id="promise">
-      <h3 data-i18n="promise_title">Révéler le parfum qui était déjà le vôtre</h3>
-      <p data-i18n="promise_p1">Chercher ce que d'autres ignorent. Porter ce qu'on ne trouve pas ailleurs. Chaque pièce de notre sélection laisse une empreinte — pas juste sur la peau, mais dans la mémoire.</p>
-      <p style="font-weight:500; text-align:center; margin-top:1.5rem;" data-i18n="promise_p2">C'est notre promesse.</p>
-    </div>
+  <div class="families-grid">
+    <div class="family-card reveal"><h4 data-i18n="fam_woody">Boisé</h4><div class="family-sub">Oud · Santal · Cèdre · Vétiver</div><p data-i18n="fam_woody_desc">Une présence qui ne se justifie pas. Elle s'impose, naturellement.</p><div class="family-notes">Santal 33 · Tam Dao · Halfeti</div></div>
+    <div class="family-card reveal"><h4 data-i18n="fam_soft">Doux — La Famille Douce</h4><div class="family-sub">Musqué · Poudré · Lacté</div><p data-i18n="fam_soft_desc">Ni fleur, ni bois, ni épice — juste la douceur dans ses formes les plus intimes.</p><div class="family-notes">Musc Ravageur · Infusion d'Iris · Santal Blush</div></div>
+    <div class="family-card reveal"><h4 data-i18n="fam_floral">Floral</h4><div class="family-sub">Rose de Taïf · Jasmin · Tubéreuse · Fleur d'Oranger</div><p data-i18n="fam_floral_desc">Le langage éternel de la parfumerie — infini dans ses expressions.</p><div class="family-notes">Carnal Flower · Beyond Love · Fleur de Cassie</div></div>
+    <div class="family-card reveal"><h4 data-i18n="fam_spicy">Épicé</h4><div class="family-sub">Poivre Noir · Cardamome · Safran · Cannelle</div><p data-i18n="fam_spicy_desc">Le parfum du voyage — il vous transporte avant même d'avoir quitté la pièce.</p><div class="family-notes">Oud Satin Mood · Ambre Sultan · Halfeti Dark</div></div>
+    <div class="family-card reveal"><h4 data-i18n="fam_citrus">Hespéridé</h4><div class="family-sub">Bergamote · Citron · Pamplemousse · Yuzu</div><p data-i18n="fam_citrus_desc">La famille la plus fraîche. Comme une fenêtre ouverte un matin lumineux.</p><div class="family-notes">Clémentine California · Under the Lemon Trees · Io Capri</div></div>
+    <div class="family-card reveal"><h4 data-i18n="fam_gourmand">Gourmand</h4><div class="family-sub">Vanille · Caramel · Chocolat · Praline</div><p data-i18n="fam_gourmand_desc">Le parfum qui transforme votre peau en pâtisserie — dangereux et délicieux.</p><div class="family-notes">Tobacco Vanille · Vanilla 28 · Portrait of a Lady</div></div>
+    <div class="family-card reveal"><h4 data-i18n="fam_fruity">Fruité</h4><div class="family-sub">Pêche · Poire · Figue · Fruits Rouges</div><p data-i18n="fam_fruity_desc">Le sourire d'un parfum — immédiat, généreux, irrésistible.</p><div class="family-notes">En Passant · Flower Market · Miss Charming</div></div>
+    <div class="family-card reveal"><h4 data-i18n="fam_aquatic">Aquatique</h4><div class="family-sub">Calone · Sel Marin · Lotus · Bois Flotté</div><p data-i18n="fam_aquatic_desc">Le parfum de l'horizon — toujours présent, jamais pesant.</p><div class="family-notes">Sailing Day · Do Son · Molecule 01</div></div>
   </div>
-</section>
-
-<!-- VALUES -->
-<section class="values reveal" id="values">
-  <div class="values-header">
-    <span class="section-label" data-i18n="values_label">Nos Valeurs</span>
-    <h2 class="section-title" style="margin-top:0.8rem;" data-i18n="values_title">Trois Piliers de <em>Vérité</em></h2>
-  </div>
-  <div class="values-grid">
-    <div class="value-card">
-      <div class="value-num">01</div>
-      <h4 data-i18n="val1_title">Authenticité</h4>
-      <p data-i18n="val1_text">Chaque parfum existe parce qu'il est vrai. Vrai dans ses origines, ses matières, les mains qui l'ont créé.</p>
-    </div>
-    <div class="value-card">
-      <div class="value-num">02</div>
-      <h4 data-i18n="val2_title">Rareté</h4>
-      <p data-i18n="val2_text">Pas rare par exclusivité. Rare parce que certaines choses ne se produisent pas en masse. Le confidentiel, le discrètement extraordinaire.</p>
-    </div>
-    <div class="value-card">
-      <div class="value-num">03</div>
-      <h4 data-i18n="val3_title">Révélation</h4>
-      <p data-i18n="val3_text">Le bon parfum ne s'annonce pas. Il vous dévoile. Notre rôle n'est pas de vous vendre un parfum — c'est de vous aider à trouver celui qui a toujours été le vôtre.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ABSOLUS BANNER -->
-<section class="absolus-banner">
-  <span class="section-label">Les Absolus</span>
-  <h2 data-i18n="absolus_banner_title">Là où l'Orient rencontre l'Occident</h2>
-  <p data-i18n="absolus_banner_sub">L'excellence olfactive dans sa forme la plus pure</p>
-  <div class="absolus-brands">AMOUAGE · FRÉDÉRIC MALLE · MATIÈRE PREMIÈRE · ROJA PARFUMS · XERJOFF · MEMO PARIS · PARFUMS DE MARLY · CLIVE CHRISTIAN</div>
-  <a href="#selection" class="btn btn-primary" onclick="setTimeout(()=>{document.querySelector('[onclick*=absolus]').click()},300)" data-i18n="absolus_cta">Découvrir Les Absolus</a>
 </section>
 
 <!-- LAYERING -->
@@ -3292,24 +3217,84 @@ nav.scrolled .nav-account { color: var(--text-body); }
   </div>
 </section>
 
-<!-- CHRONICLE -->
-<section class="chronicle" id="chronicle">
-  <div class="chronicle-header reveal">
-    <span class="section-label" data-i18n="chron_label">La Chronique</span>
-    <h2 class="section-title" data-i18n="chron_title">Un parfum compris est un parfum mieux <em>porté</em></h2>
-    <p data-i18n="chron_desc">Des familles olfactives aux secrets du layering — chaque chronique est une invitation à sentir autrement.</p>
-  </div>
-  <div class="families-grid">
-    <div class="family-card reveal"><div class="family-icon">B</div><h4 data-i18n="fam_woody">Boisé</h4><div class="family-sub">Oud · Santal · Cèdre · Vétiver</div><p data-i18n="fam_woody_desc">Une présence qui ne se justifie pas. Elle s'impose, naturellement.</p><div class="family-notes">Santal 33 · Tam Dao · Halfeti</div></div>
-    <div class="family-card reveal"><div class="family-icon">D</div><h4 data-i18n="fam_soft">Doux — La Famille Douce</h4><div class="family-sub">Musqué · Poudré · Lacté</div><p data-i18n="fam_soft_desc">Ni fleur, ni bois, ni épice — juste la douceur dans ses formes les plus intimes.</p><div class="family-notes">Musc Ravageur · Infusion d'Iris · Santal Blush</div></div>
-    <div class="family-card reveal"><div class="family-icon">F</div><h4 data-i18n="fam_floral">Floral</h4><div class="family-sub">Rose de Taïf · Jasmin · Tubéreuse · Fleur d'Oranger</div><p data-i18n="fam_floral_desc">Le langage éternel de la parfumerie — infini dans ses expressions.</p><div class="family-notes">Carnal Flower · Beyond Love · Fleur de Cassie</div></div>
-    <div class="family-card reveal"><div class="family-icon">É</div><h4 data-i18n="fam_spicy">Épicé</h4><div class="family-sub">Poivre Noir · Cardamome · Safran · Cannelle</div><p data-i18n="fam_spicy_desc">Le parfum du voyage — il vous transporte avant même d'avoir quitté la pièce.</p><div class="family-notes">Oud Satin Mood · Ambre Sultan · Halfeti Dark</div></div>
-    <div class="family-card reveal"><div class="family-icon">H</div><h4 data-i18n="fam_citrus">Hespéridé</h4><div class="family-sub">Bergamote · Citron · Pamplemousse · Yuzu</div><p data-i18n="fam_citrus_desc">La famille la plus fraîche. Comme une fenêtre ouverte un matin lumineux.</p><div class="family-notes">Clémentine California · Under the Lemon Trees · Io Capri</div></div>
-    <div class="family-card reveal"><div class="family-icon">G</div><h4 data-i18n="fam_gourmand">Gourmand</h4><div class="family-sub">Vanille · Caramel · Chocolat · Praline</div><p data-i18n="fam_gourmand_desc">Le parfum qui transforme votre peau en pâtisserie — dangereux et délicieux.</p><div class="family-notes">Tobacco Vanille · Vanilla 28 · Portrait of a Lady</div></div>
-    <div class="family-card reveal"><div class="family-icon">Fr</div><h4 data-i18n="fam_fruity">Fruité</h4><div class="family-sub">Pêche · Poire · Figue · Fruits Rouges</div><p data-i18n="fam_fruity_desc">Le sourire d'un parfum — immédiat, généreux, irrésistible.</p><div class="family-notes">En Passant · Flower Market · Miss Charming</div></div>
-    <div class="family-card reveal"><div class="family-icon">A</div><h4 data-i18n="fam_aquatic">Aquatique</h4><div class="family-sub">Calone · Sel Marin · Lotus · Bois Flotté</div><p data-i18n="fam_aquatic_desc">Le parfum de l'horizon — toujours présent, jamais pesant.</p><div class="family-notes">Sailing Day · Do Son · Molecule 01</div></div>
+<!-- BIO -->
+<section class="bio" id="bio">
+  <div class="bio-grid container">
+    <div class="bio-visual reveal">
+      <div class="bio-img-main"></div>
+      <div class="bio-accent"></div>
+    </div>
+    <div class="bio-content reveal">
+      <span class="section-label" data-i18n="bio_label">À Propos</span>
+      <h2 class="section-title" data-i18n="bio_title">L'Âme <em>Authentique</em></h2>
+      <div class="bio-text">
+        <p class="highlight" data-i18n="bio_highlight">Certains héritages ne se transmettent pas en mots. Ils se respirent.</p>
+        <p data-i18n="bio_p1">Le mien tient entre les plis d'un caftan, le bois d'un vieux meuble en cèdre et l'air doux d'une maison marocaine en été. Ma grand-mère n'était pas parfumeuse — elle incarnait un parfum.</p>
+        <p data-i18n="bio_p2">Ce parfum racontait sa vie : les grandes Eaux de Cologne françaises d'un côté, les trésors de l'Orient de l'autre — dahn al oud, bakhour, musc blanc. Et entre les deux, le Maroc intime : eau de fleur d'oranger, serghina, loban.</p>
+        <p data-i18n="bio_p3">Aujourd'hui, ce rêve a un nom : <strong>LAMYSK AURA</strong> — une galerie olfactive où je réunis des parfums rares et artisanaux, choisis pour leur âme.</p>
+      </div>
+      <p class="bio-signature" data-i18n="bio_signature">Bienvenue dans mon monde. Bienvenue dans l'Aura.</p>
+    </div>
   </div>
 </section>
+
+<!-- BRAND TABS -->
+<section class="brand-section" id="brand">
+  <div class="brand-tabs">
+    <span class="section-label" data-i18n="brand_label">Notre Univers</span>
+    <div class="tab-nav" style="margin-top:1rem;">
+      <button class="tab-btn active" onclick="switchTab(this, 'sillage')" data-i18n="tab_sillage">Sillage</button>
+      <button class="tab-btn" onclick="switchTab(this, 'philosophy')" data-i18n="tab_philosophy">Philosophie</button>
+      <button class="tab-btn" onclick="switchTab(this, 'promise')" data-i18n="tab_promise">Promesse</button>
+    </div>
+
+    <div class="tab-content active" id="sillage">
+      <h3 data-i18n="sillage_title">LAMYSK AURA n'a pas été créée. Elle s'est imposée.</h3>
+      <p data-i18n="sillage_p1">Née de l'obsession d'une exploratrice olfactive, elle existe au croisement de la découverte et de la dévotion.</p>
+      <p data-i18n="sillage_p2">Nous ne créons pas de parfums, nous les curons. Nous cherchons les créateurs les plus discrets et sincères — ceux qui ont choisi la profondeur plutôt que la visibilité.</p>
+      <p class="tagline" data-i18n="brand_tagline">Galerie olfactive — Maroc</p>
+    </div>
+
+    <div class="tab-content" id="philosophy">
+      <h3 data-i18n="philo_title">Un parfum n'est jamais un simple produit</h3>
+      <p data-i18n="philo_p1">C'est une rencontre. Entre un lieu et un souvenir. Entre une matière première et une émotion. Entre un créateur et celle qui le portera comme un selham précieux.</p>
+      <p data-i18n="philo_p2">Notre sélection ne suit aucune tendance. Elle ne suit qu'une seule exigence : l'émotion. Chaque parfum doit raconter quelque chose de vrai.</p>
+      <p class="tagline" data-i18n="brand_tagline">Galerie olfactive — Maroc</p>
+    </div>
+
+    <div class="tab-content" id="promise">
+      <h3 data-i18n="promise_title">Révéler le parfum qui était déjà le vôtre</h3>
+      <p data-i18n="promise_p1">Chercher ce que d'autres ignorent. Porter ce qu'on ne trouve pas ailleurs. Chaque pièce de notre sélection laisse une empreinte — pas juste sur la peau, mais dans la mémoire.</p>
+      <p style="font-weight:500; text-align:center; margin-top:1.5rem;" data-i18n="promise_p2">C'est notre promesse.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="values reveal" id="values">
+  <div class="values-header">
+    <span class="section-label" data-i18n="values_label">Nos Valeurs</span>
+    <h2 class="section-title" style="margin-top:0.8rem;" data-i18n="values_title">Trois Piliers de <em>Vérité</em></h2>
+  </div>
+  <div class="values-grid">
+    <div class="value-card">
+      <div class="value-num">01</div>
+      <h4 data-i18n="val1_title">Authenticité</h4>
+      <p data-i18n="val1_text">Chaque parfum existe parce qu'il est vrai. Vrai dans ses origines, ses matières, les mains qui l'ont créé.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-num">02</div>
+      <h4 data-i18n="val2_title">Rareté</h4>
+      <p data-i18n="val2_text">Pas rare par exclusivité. Rare parce que certaines choses ne se produisent pas en masse. Le confidentiel, le discrètement extraordinaire.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-num">03</div>
+      <h4 data-i18n="val3_title">Révélation</h4>
+      <p data-i18n="val3_text">Le bon parfum ne s'annonce pas. Il vous dévoile. Notre rôle n'est pas de vous vendre un parfum — c'est de vous aider à trouver celui qui a toujours été le vôtre.</p>
+    </div>
+  </div>
+</section>
+
 
 <!-- FAQ -->
 <section class="faq" id="faq">
