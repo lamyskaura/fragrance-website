@@ -1,26 +1,19 @@
 """
 Orders router — place orders, track status, admin management.
 """
-from fastapi import APIRouter, Depends, HTTPException, Header, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from typing import List, Optional
 import aiosqlite
-import os
 import string
 import random
-from datetime import datetime
 
 from ..database import get_db
+from ..deps import require_admin
 from ..schemas.order import OrderCreate, OrderOut, OrderItemOut, OrderStatusUpdate
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
 
-ADMIN_KEY = os.getenv("ADMIN_KEY", "changeme-in-production")
 DELIVERY_COSTS = {"home": 40, "express": 70}
-
-
-def require_admin(x_admin_key: str = Header(None)):
-    if x_admin_key != ADMIN_KEY:
-        raise HTTPException(status_code=401, detail="Invalid admin key")
 
 
 def _generate_ref() -> str:
@@ -225,5 +218,18 @@ async def dashboard_stats(db: aiosqlite.Connection = Depends(get_db)):
            ORDER BY day"""
     )
     stats["last_30_days"] = [dict(r) for r in await cursor.fetchall()]
+
+    # ── Cross-table counts for the overview KPI cards ─────────────────────
+    cursor = await db.execute("SELECT COUNT(*) FROM customers")
+    stats["total_customers"] = (await cursor.fetchone())[0]
+
+    cursor = await db.execute("SELECT COUNT(*) FROM newsletter")
+    stats["newsletter_subscribers"] = (await cursor.fetchone())[0]
+
+    cursor = await db.execute("SELECT COUNT(*) FROM quiz_results")
+    stats["quiz_submissions"] = (await cursor.fetchone())[0]
+
+    cursor = await db.execute("SELECT COUNT(*) FROM contact_messages WHERE replied=0")
+    stats["unreplied_messages"] = (await cursor.fetchone())[0]
 
     return stats

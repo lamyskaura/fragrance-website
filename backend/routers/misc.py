@@ -1,25 +1,18 @@
 """
-Miscellaneous routes: newsletter, quiz results, contact messages.
+Miscellaneous routes: newsletter, quiz results, contact messages, customers.
 """
-from fastapi import APIRouter, Depends, HTTPException, Header
+from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 import aiosqlite
-import os
 
 from ..database import get_db
+from ..deps import require_admin
 from ..schemas.misc import (
     NewsletterSubscribe, QuizResultCreate,
     ContactMessageCreate, MessageOut
 )
 
 router = APIRouter(tags=["Misc"])
-
-ADMIN_KEY = os.getenv("ADMIN_KEY", "changeme-in-production")
-
-
-def require_admin(x_admin_key: str = Header(None)):
-    if x_admin_key != ADMIN_KEY:
-        raise HTTPException(status_code=401, detail="Invalid admin key")
 
 
 # ── NEWSLETTER ────────────────────────────────────────────────────────────────
@@ -100,3 +93,20 @@ async def mark_replied(msg_id: int, db: aiosqlite.Connection = Depends(get_db)):
     await db.execute("UPDATE contact_messages SET replied=1 WHERE id=?", (msg_id,))
     await db.commit()
     return {"detail": "Marked as replied"}
+
+
+# ── CUSTOMERS ─────────────────────────────────────────────────────────────────
+
+@router.get("/customers", dependencies=[Depends(require_admin)])
+async def list_customers(db: aiosqlite.Connection = Depends(get_db)):
+    cursor = await db.execute(
+        """SELECT c.id, c.phone, c.first_name, c.last_name, c.email, c.city,
+                  c.created_at, COUNT(o.id) as order_count,
+                  COALESCE(SUM(o.total), 0) as total_spent
+           FROM customers c
+           LEFT JOIN orders o ON o.customer_id = c.id AND o.status != 'cancelled'
+           GROUP BY c.id
+           ORDER BY c.created_at DESC"""
+    )
+    rows = await cursor.fetchall()
+    return [dict(r) for r in rows]

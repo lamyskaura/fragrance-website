@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAMYSK AURA — Administration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --navy:      #0d1b2a;
+  --navy-2:    #162437;
+  --gold:      #c9a96e;
+  --gold-lt:   #e8c88a;
+  --parchment: #f8f5f0;
+  --white:     #ffffff;
+  --border:    #ede8e0;
+  --text:      #1a1a2e;
+  --muted:     #7b7d8a;
+  --pending:   #f59e0b;
+  --confirmed: #3b82f6;
+  --shipped:   #8b5cf6;
+  --delivered: #10b981;
+  --cancelled: #ef4444;
+  --sidebar-w: 230px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--parchment);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── LOGIN ───────────────────────────────────────────────────────── */
+#login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--navy) 0%, #1a3a5c 60%, #0d2338 100%);
+}
+
+.login-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 48px 40px;
+  width: 380px;
+  box-shadow: 0 24px 80px rgba(0,0,0,.4);
+  text-align: center;
+}
+
+.login-brand { margin-bottom: 32px; }
+.login-brand .brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  letter-spacing: 4px;
+  color: var(--navy);
+  text-transform: uppercase;
+}
+.login-brand .brand-sub {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.login-divider {
+  width: 40px; height: 1px;
+  background: var(--gold);
+  margin: 0 auto 28px;
+}
+
+.login-card input[type="password"] {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color .2s;
+  margin-bottom: 12px;
+}
+.login-card input[type="password"]:focus { border-color: var(--gold); }
+
+.btn-login {
+  width: 100%;
+  padding: 13px;
+  background: var(--navy);
+  color: var(--gold);
+  border: none;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .2s;
+}
+.btn-login:hover { background: var(--navy-2); }
+
+.login-error {
+  background: #fff0f0;
+  color: var(--cancelled);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 12px;
+  display: none;
+}
+
+/* ── LAYOUT ──────────────────────────────────────────────────────── */
+#app { display: none; height: 100vh; overflow: hidden; }
+
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+}
+
+.sidebar-brand {
+  padding: 28px 24px 22px;
+  border-bottom: 1px solid rgba(201,169,110,.15);
+}
+.sidebar-brand .brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  letter-spacing: 3px;
+  color: var(--white);
+  text-transform: uppercase;
+}
+.sidebar-brand .brand-sub {
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 16px 12px;
+  overflow-y: auto;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: rgba(255,255,255,.6);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  margin-bottom: 2px;
+  user-select: none;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+.nav-item:hover { background: rgba(255,255,255,.06); color: var(--white); }
+.nav-item.active { background: rgba(201,169,110,.15); color: var(--gold); }
+.nav-item svg { flex-shrink: 0; opacity: .8; }
+.nav-item.active svg { opacity: 1; }
+
+.nav-badge {
+  margin-left: auto;
+  background: var(--cancelled);
+  color: white;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 7px;
+}
+
+.sidebar-footer {
+  padding: 16px 12px;
+  border-top: 1px solid rgba(255,255,255,.07);
+}
+.btn-logout {
+  width: 100%;
+  padding: 9px 12px;
+  background: none;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 8px;
+  color: rgba(255,255,255,.5);
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all .15s;
+}
+.btn-logout:hover { border-color: var(--cancelled); color: var(--cancelled); }
+
+.main-wrapper {
+  margin-left: var(--sidebar-w);
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  position: sticky; top: 0;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 5;
+}
+.topbar h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--navy);
+}
+.topbar-date { font-size: 12px; color: var(--muted); }
+
+.content { padding: 28px 32px; flex: 1; }
+
+/* ── KPI CARDS ───────────────────────────────────────────────────── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 24px;
+}
+.kpi-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 22px 24px;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gold);
+}
+.kpi-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.kpi-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--navy);
+  line-height: 1;
+}
+.kpi-sub { font-size: 12px; color: var(--muted); margin-top: 6px; }
+.kpi-icon {
+  position: absolute;
+  top: 18px; right: 20px;
+  width: 36px; height: 36px;
+  background: var(--parchment);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold);
+}
+
+/* ── CHARTS ROW ──────────────────────────────────────────────────── */
+.charts-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+.chart-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid var(--border);
+}
+.chart-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  color: var(--navy);
+  margin-bottom: 18px;
+}
+.chart-card canvas { max-height: 220px; }
+
+/* ── TABLES ROW ──────────────────────────────────────────────────── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+.table-card {
+  background: var(--white);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.table-card-header {
+  padding: 18px 24px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.table-card-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  color: var(--navy);
+}
+
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--parchment);
+  border-bottom: 1px solid var(--border);
+}
+tbody tr { border-bottom: 1px solid var(--border); }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: #faf8f5; }
+tbody td { padding: 11px 16px; font-size: 13px; }
+
+/* ── TOOLBAR ─────────────────────────────────────────────────────── */
+.toolbar {
+  display: flex; gap: 10px; align-items: center;
+  margin-bottom: 16px; flex-wrap: wrap;
+}
+.toolbar input, .toolbar select {
+  padding: 9px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  background: var(--white);
+  color: var(--text);
+  transition: border-color .2s;
+}
+.toolbar input { flex: 1; min-width: 200px; }
+.toolbar input:focus, .toolbar select:focus { border-color: var(--gold); }
+
+.btn {
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  cursor: pointer;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  transition: all .15s;
+}
+.btn-primary { background: var(--navy); color: var(--gold); }
+.btn-primary:hover { background: var(--navy-2); }
+.btn-outline { background: none; border: 1.5px solid var(--border); color: var(--text); }
+.btn-outline:hover { border-color: var(--gold); color: var(--navy); }
+.btn-sm { padding: 5px 12px; font-size: 11px; }
+.btn-gold { background: var(--gold); color: var(--navy); }
+.btn-gold:hover { background: var(--gold-lt); }
+
+/* ── STATUS BADGE ────────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.badge-pending   { background: #fef3c7; color: #b45309; }
+.badge-confirmed { background: #dbeafe; color: #1d4ed8; }
+.badge-shipped   { background: #ede9fe; color: #7c3aed; }
+.badge-delivered { background: #d1fae5; color: #065f46; }
+.badge-cancelled { background: #fee2e2; color: #b91c1c; }
+
+/* ── SECTION WRAPPER ─────────────────────────────────────────────── */
+.section { display: none; }
+.section.active { display: block; }
+
+/* ── FULL TABLE WRAPPER ──────────────────────────────────────────── */
+.tbl-wrap {
+  background: var(--white);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.tbl-wrap table thead th:first-child,
+.tbl-wrap table tbody td:first-child { padding-left: 24px; }
+.tbl-wrap table thead th:last-child,
+.tbl-wrap table tbody td:last-child  { padding-right: 24px; }
+
+.tbl-empty {
+  text-align: center;
+  padding: 40px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ── MODAL ───────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.5);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+  display: none;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 36px;
+  width: 420px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.25);
+}
+.modal h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  margin-bottom: 6px;
+  color: var(--navy);
+}
+.modal p { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+.modal select {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  margin-bottom: 20px;
+}
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+/* ── NEWSLETTER STAT ─────────────────────────────────────────────── */
+.stat-row {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 20px;
+}
+.stat-pill {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 8px 20px;
+  font-size: 13px;
+  color: var(--navy);
+  font-weight: 500;
+}
+.stat-pill strong { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 16px; }
+
+/* ── QUIZ CHART ──────────────────────────────────────────────────── */
+.quiz-layout { display: grid; grid-template-columns: 260px 1fr; gap: 18px; margin-bottom: 24px; }
+
+/* ── LOADING / ERROR ─────────────────────────────────────────────── */
+.loading {
+  text-align: center; padding: 60px;
+  color: var(--muted); font-size: 13px;
+}
+.loading::before { content: '⟳ '; animation: spin 1s linear infinite; display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.toast {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  background: var(--navy);
+  color: var(--white);
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
+  z-index: 200;
+  display: none;
+  max-width: 300px;
+}
+.toast.success { border-left: 3px solid var(--delivered); }
+.toast.error   { border-left: 3px solid var(--cancelled); }
+.toast.show { display: block; }
+
+/* ── MISC ────────────────────────────────────────────────────────── */
+a { color: inherit; }
+.text-muted { color: var(--muted); }
+.text-right { text-align: right; }
+.nowrap { white-space: nowrap; }
+.truncate { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="brand-name">Lamysk Aura</div>
+      <div class="brand-sub">Administration</div>
+    </div>
+    <div class="login-divider"></div>
+    <div id="login-error" class="login-error"></div>
+    <input type="password" id="admin-key-input" placeholder="Clé administrateur"
+           onkeydown="if(event.key==='Enter') login()">
+    <button class="btn-login" onclick="login()">Accéder au tableau de bord</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ APP -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-name">Lamysk Aura</div>
+      <div class="brand-sub">Administration</div>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" onclick="nav('overview')">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Vue d'ensemble
+      </button>
+      <button class="nav-item" onclick="nav('orders')">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        Commandes
+        <span id="badge-pending" class="nav-badge" style="display:none"></span>
+      </button>
+      <button class="nav-item" onclick="nav('newsletter')">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        Newsletter
+      </button>
+      <button class="nav-item" onclick="nav('messages')">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+        Messages
+        <span id="badge-msgs" class="nav-badge" style="display:none"></span>
+      </button>
+      <button class="nav-item" onclick="nav('quiz')">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        Quiz olfactif
+      </button>
+      <button class="nav-item" onclick="nav('customers')">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Clients
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="btn-logout" onclick="logout()">Déconnexion</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-wrapper">
+    <header class="topbar">
+      <h1 id="page-title">Vue d'ensemble</h1>
+      <span class="topbar-date" id="topbar-date"></span>
+    </header>
+    <div class="content">
+
+      <!-- ── OVERVIEW ───────────────────────────────────────────── -->
+      <section id="s-overview" class="section active">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon">
+              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="kpi-label">Chiffre d'affaires</div>
+            <div class="kpi-value" id="kpi-revenue">—</div>
+            <div class="kpi-sub">commandes non annulées</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">
+              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+            </div>
+            <div class="kpi-label">Commandes totales</div>
+            <div class="kpi-value" id="kpi-orders">—</div>
+            <div class="kpi-sub" id="kpi-pending-sub">dont — en attente</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">
+              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <div class="kpi-label">Clients inscrits</div>
+            <div class="kpi-value" id="kpi-customers">—</div>
+            <div class="kpi-sub" id="kpi-newsletter-sub">— abonnés newsletter</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon">
+              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+            </div>
+            <div class="kpi-label">Messages non traités</div>
+            <div class="kpi-value" id="kpi-messages">—</div>
+            <div class="kpi-sub" id="kpi-quiz-sub">— participations quiz</div>
+          </div>
+        </div>
+
+        <div class="charts-row">
+          <div class="chart-card">
+            <h3>Revenus — 30 derniers jours (MAD)</h3>
+            <canvas id="chart-revenue"></canvas>
+          </div>
+          <div class="chart-card">
+            <h3>Commandes par statut</h3>
+            <canvas id="chart-status"></canvas>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="table-card">
+            <div class="table-card-header"><h3>Top produits vendus</h3></div>
+            <table>
+              <thead><tr><th>#</th><th>Produit</th><th class="text-right">Qté vendues</th></tr></thead>
+              <tbody id="tbl-top-products"><tr><td colspan="3" class="loading">Chargement</td></tr></tbody>
+            </table>
+          </div>
+          <div class="table-card">
+            <div class="table-card-header"><h3>Top villes</h3></div>
+            <table>
+              <thead><tr><th>#</th><th>Ville</th><th class="text-right">Commandes</th></tr></thead>
+              <tbody id="tbl-top-cities"><tr><td colspan="3" class="loading">Chargement</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── ORDERS ─────────────────────────────────────────────── -->
+      <section id="s-orders" class="section">
+        <div class="toolbar">
+          <input type="text" id="orders-search" placeholder="Rechercher référence, client, ville…" oninput="filterOrders()">
+          <select id="orders-filter" onchange="filterOrders()">
+            <option value="">Tous les statuts</option>
+            <option value="pending">En attente</option>
+            <option value="confirmed">Confirmée</option>
+            <option value="shipped">Expédiée</option>
+            <option value="delivered">Livrée</option>
+            <option value="cancelled">Annulée</option>
+          </select>
+          <button class="btn btn-outline" onclick="loadOrders()">
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:4px"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            Actualiser
+          </button>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Référence</th>
+                <th>Client</th>
+                <th>Ville</th>
+                <th>Livraison</th>
+                <th>Total</th>
+                <th>Statut</th>
+                <th>Date</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tbl-orders"><tr><td colspan="8" class="loading">Chargement</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ── NEWSLETTER ──────────────────────────────────────────── -->
+      <section id="s-newsletter" class="section">
+        <div class="toolbar">
+          <span id="newsletter-count" class="stat-pill"></span>
+          <input type="text" id="newsletter-search" placeholder="Rechercher email…" oninput="filterNewsletter()">
+          <button class="btn btn-gold" onclick="exportNewsletterCSV()">
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:4px"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Exporter CSV
+          </button>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Email</th><th>Langue</th><th>Inscrit le</th></tr></thead>
+            <tbody id="tbl-newsletter"><tr><td colspan="4" class="loading">Chargement</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ── MESSAGES ───────────────────────────────────────────── -->
+      <section id="s-messages" class="section">
+        <div class="toolbar">
+          <input type="text" id="messages-search" placeholder="Rechercher nom, message…" oninput="filterMessages()">
+          <select id="messages-filter" onchange="filterMessages()">
+            <option value="">Tous les messages</option>
+            <option value="0">Non traités</option>
+            <option value="1">Traités</option>
+          </select>
+          <button class="btn btn-outline" onclick="loadMessages()">Actualiser</button>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Nom</th><th>Téléphone</th><th>Message</th><th>Date</th><th>Statut</th><th></th></tr></thead>
+            <tbody id="tbl-messages"><tr><td colspan="6" class="loading">Chargement</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ── QUIZ ───────────────────────────────────────────────── -->
+      <section id="s-quiz" class="section">
+        <div class="quiz-layout">
+          <div class="chart-card">
+            <h3>Profils olfactifs</h3>
+            <canvas id="chart-quiz"></canvas>
+          </div>
+          <div>
+            <div class="tbl-wrap">
+              <table>
+                <thead><tr><th>Profil</th><th>Code promo</th><th>Téléphone</th><th>Email</th><th>Date</th></tr></thead>
+                <tbody id="tbl-quiz"><tr><td colspan="5" class="loading">Chargement</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CUSTOMERS ──────────────────────────────────────────── -->
+      <section id="s-customers" class="section">
+        <div class="toolbar">
+          <input type="text" id="customers-search" placeholder="Rechercher nom, téléphone, ville…" oninput="filterCustomers()">
+          <span id="customers-count" class="stat-pill"></span>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Nom</th><th>Téléphone</th><th>Email</th><th>Ville</th><th class="text-right">Commandes</th><th class="text-right">Dépensé</th><th>Depuis</th></tr></thead>
+            <tbody id="tbl-customers"><tr><td colspan="7" class="loading">Chargement</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+    </div><!-- /content -->
+  </div><!-- /main-wrapper -->
+</div><!-- /app -->
+
+<!-- ─────────────────────────────────── ORDER STATUS MODAL -->
+<div id="modal-overlay" class="modal-overlay" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h3>Mettre à jour le statut</h3>
+    <p id="modal-subtitle">Commande <strong id="modal-ref-text"></strong></p>
+    <select id="modal-status-select">
+      <option value="pending">En attente</option>
+      <option value="confirmed">Confirmée</option>
+      <option value="shipped">Expédiée</option>
+      <option value="delivered">Livrée</option>
+      <option value="cancelled">Annulée</option>
+    </select>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="saveOrderStatus()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────── TOAST -->
+<div id="toast" class="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════ STATE
+
+const S = {
+  key: sessionStorage.getItem('adminKey') || '',
+  section: 'overview',
+  charts: {},
+  raw: {
+    orders: [], newsletter: [], messages: [], quiz: [], customers: []
+  },
+  modal: { ref: null }
+}
+
+// ═══════════════════════════════════════════════════════════ API
+
+const API = {
+  base: window.location.origin,
+  h() {
+    return { 'Content-Type': 'application/json', 'X-Admin-Key': S.key }
+  },
+  async get(path) {
+    const r = await fetch(this.base + path, { headers: this.h() })
+    if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.detail || r.status) }
+    return r.json()
+  },
+  async patch(path, body) {
+    const r = await fetch(this.base + path, { method: 'PATCH', headers: this.h(), body: JSON.stringify(body) })
+    if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.detail || r.status) }
+    return r.json()
+  }
+}
+
+// ═══════════════════════════════════════════════════════════ HELPERS
+
+const STATUSES = {
+  pending:   { label: 'En attente',  cls: 'badge-pending' },
+  confirmed: { label: 'Confirmée',   cls: 'badge-confirmed' },
+  shipped:   { label: 'Expédiée',    cls: 'badge-shipped' },
+  delivered: { label: 'Livrée',      cls: 'badge-delivered' },
+  cancelled: { label: 'Annulée',     cls: 'badge-cancelled' }
+}
+
+const PROFILES = {
+  woody:   { label: 'Boisé',    color: '#8B7355' },
+  floral:  { label: 'Floral',   color: '#E8A0BF' },
+  spicy:   { label: 'Épicé',    color: '#C9A96E' },
+  citrus:  { label: 'Citrus',   color: '#F4C542' },
+  soft:    { label: 'Doux',     color: '#A8D5E2' }
+}
+
+const DELIVERY = { home: 'Standard', express: 'Express' }
+const LANGS = { fr: '🇫🇷 FR', ar: '🇲🇦 AR', en: '🇬🇧 EN' }
+
+function badge(status) {
+  const s = STATUSES[status] || { label: status, cls: '' }
+  return `<span class="badge ${s.cls}">${s.label}</span>`
+}
+
+function mad(n) {
+  return new Intl.NumberFormat('fr-MA', { maximumFractionDigits: 0 }).format(n || 0) + ' MAD'
+}
+
+function dt(s) {
+  if (!s) return '—'
+  return new Date(s).toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })
+}
+
+function esc(s) {
+  if (!s) return ''
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+}
+
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast')
+  el.textContent = msg
+  el.className = `toast ${type} show`
+  setTimeout(() => el.classList.remove('show'), 3000)
+}
+
+// ═══════════════════════════════════════════════════════════ AUTH
+
+async function login() {
+  const key = document.getElementById('admin-key-input').value.trim()
+  if (!key) return
+  S.key = key
+  const errEl = document.getElementById('login-error')
+  errEl.style.display = 'none'
+  try {
+    await API.get('/api/v1/orders/admin/stats')
+    sessionStorage.setItem('adminKey', key)
+    document.getElementById('login-screen').style.display = 'none'
+    document.getElementById('app').style.display = 'flex'
+    initDashboard()
+  } catch {
+    errEl.textContent = 'Clé incorrecte. Vérifiez la variable ADMIN_KEY.'
+    errEl.style.display = 'block'
+    S.key = ''
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('adminKey')
+  location.reload()
+}
+
+// ═══════════════════════════════════════════════════════════ NAVIGATION
+
+function nav(section) {
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'))
+  event.currentTarget.classList.add('active')
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'))
+  document.getElementById('s-' + section).classList.add('active')
+  const titles = {
+    overview: "Vue d'ensemble", orders: 'Commandes',
+    newsletter: 'Newsletter', messages: 'Messages',
+    quiz: 'Quiz olfactif', customers: 'Clients'
+  }
+  document.getElementById('page-title').textContent = titles[section] || section
+  S.section = section
+  if (section === 'orders')     loadOrders()
+  if (section === 'newsletter') loadNewsletter()
+  if (section === 'messages')   loadMessages()
+  if (section === 'quiz')       loadQuiz()
+  if (section === 'customers')  loadCustomers()
+}
+
+// ═══════════════════════════════════════════════════════════ INIT
+
+function initDashboard() {
+  const d = new Date()
+  document.getElementById('topbar-date').textContent =
+    d.toLocaleDateString('fr-FR', { weekday:'long', day:'2-digit', month:'long', year:'numeric' })
+  loadOverview()
+}
+
+// ═══════════════════════════════════════════════════════════ OVERVIEW
+
+let revenueChart, statusChart
+
+async function loadOverview() {
+  try {
+    const s = await API.get('/api/v1/orders/admin/stats')
+
+    // KPI cards
+    document.getElementById('kpi-revenue').textContent = mad(s.total_revenue_mad)
+    document.getElementById('kpi-orders').textContent = s.total_orders
+    document.getElementById('kpi-pending-sub').textContent = `dont ${s.pending_orders} en attente`
+    document.getElementById('kpi-customers').textContent = s.total_customers ?? '—'
+    document.getElementById('kpi-newsletter-sub').textContent = `${s.newsletter_subscribers ?? 0} abonnés newsletter`
+    document.getElementById('kpi-messages').textContent = s.unreplied_messages ?? '—'
+    document.getElementById('kpi-quiz-sub').textContent = `${s.quiz_submissions ?? 0} participations quiz`
+
+    // Sidebar badges
+    const bp = document.getElementById('badge-pending')
+    if (s.pending_orders > 0) { bp.textContent = s.pending_orders; bp.style.display = 'inline-block' }
+    const bm = document.getElementById('badge-msgs')
+    if ((s.unreplied_messages ?? 0) > 0) { bm.textContent = s.unreplied_messages; bm.style.display = 'inline-block' }
+
+    // Revenue chart
+    const days = s.last_30_days || []
+    const labels = days.map(d => d.day.slice(5)) // MM-DD
+    const revs = days.map(d => d.revenue || 0)
+    const ctx1 = document.getElementById('chart-revenue').getContext('2d')
+    if (revenueChart) revenueChart.destroy()
+    revenueChart = new Chart(ctx1, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Revenus (MAD)',
+          data: revs,
+          borderColor: '#c9a96e',
+          backgroundColor: 'rgba(201,169,110,.1)',
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: '#c9a96e',
+          tension: .4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+          y: { grid: { color: '#f0ece4' }, ticks: { font: { size: 11 }, callback: v => v.toLocaleString('fr-FR') + ' MAD' } }
+        }
+      }
+    })
+
+    // Status donut
+    const byStatus = s.by_status || {}
+    const statusLabels = Object.keys(byStatus).map(k => STATUSES[k]?.label || k)
+    const statusColors = Object.keys(byStatus).map(k => ({
+      pending:'#f59e0b', confirmed:'#3b82f6', shipped:'#8b5cf6', delivered:'#10b981', cancelled:'#ef4444'
+    }[k] || '#999'))
+    const ctx2 = document.getElementById('chart-status').getContext('2d')
+    if (statusChart) statusChart.destroy()
+    statusChart = new Chart(ctx2, {
+      type: 'doughnut',
+      data: {
+        labels: statusLabels,
+        datasets: [{ data: Object.values(byStatus), backgroundColor: statusColors, borderWidth: 0 }]
+      },
+      options: {
+        responsive: true,
+        cutout: '65%',
+        plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 10 } } }
+      }
+    })
+
+    // Top products
+    const tp = s.top_products || []
+    document.getElementById('tbl-top-products').innerHTML = tp.length
+      ? tp.map((p,i) => `<tr><td class="text-muted">${i+1}</td><td>${esc(p.name)}</td><td class="text-right"><strong>${p.total_sold}</strong></td></tr>`).join('')
+      : `<tr><td colspan="3" class="tbl-empty">Aucune vente</td></tr>`
+
+    // Top cities
+    const tc = s.top_cities || []
+    document.getElementById('tbl-top-cities').innerHTML = tc.length
+      ? tc.map((c,i) => `<tr><td class="text-muted">${i+1}</td><td>${esc(c.city)}</td><td class="text-right"><strong>${c.cnt}</strong></td></tr>`).join('')
+      : `<tr><td colspan="3" class="tbl-empty">Aucune commande</td></tr>`
+
+  } catch (e) {
+    toast('Erreur chargement stats: ' + e.message, 'error')
+  }
+}
+
+// ═══════════════════════════════════════════════════════════ ORDERS
+
+async function loadOrders() {
+  document.getElementById('tbl-orders').innerHTML = '<tr><td colspan="8" class="loading">Chargement</td></tr>'
+  try {
+    S.raw.orders = await API.get('/api/v1/orders/?limit=200')
+    filterOrders()
+  } catch (e) {
+    toast('Erreur commandes: ' + e.message, 'error')
+  }
+}
+
+function filterOrders() {
+  const q = (document.getElementById('orders-search')?.value || '').toLowerCase()
+  const st = document.getElementById('orders-filter')?.value || ''
+  let rows = S.raw.orders
+  if (st) rows = rows.filter(o => o.status === st)
+  if (q)  rows = rows.filter(o =>
+    (o.reference||'').toLowerCase().includes(q) ||
+    (o.first_name||'').toLowerCase().includes(q) ||
+    (o.last_name||'').toLowerCase().includes(q) ||
+    (o.city||'').toLowerCase().includes(q) ||
+    (o.phone||'').toLowerCase().includes(q)
+  )
+  const tbody = document.getElementById('tbl-orders')
+  if (!rows.length) { tbody.innerHTML = '<tr><td colspan="8" class="tbl-empty">Aucune commande trouvée</td></tr>'; return }
+  tbody.innerHTML = rows.map(o => `
+    <tr>
+      <td><code style="font-size:12px;color:var(--navy)">${esc(o.reference)}</code></td>
+      <td><div>${esc(o.first_name)} ${esc(o.last_name||'')}</div><div class="text-muted" style="font-size:11px">${esc(o.phone)}</div></td>
+      <td>${esc(o.city)}</td>
+      <td><span style="font-size:12px">${DELIVERY[o.delivery_method]||o.delivery_method}</span></td>
+      <td class="nowrap"><strong>${mad(o.total)}</strong></td>
+      <td>${badge(o.status)}</td>
+      <td class="nowrap text-muted" style="font-size:12px">${dt(o.created_at)}</td>
+      <td><button class="btn btn-sm btn-outline" onclick="openModal('${esc(o.reference)}','${esc(o.status)}')">Modifier</button></td>
+    </tr>`).join('')
+}
+
+// ── Modal
+function openModal(ref, currentStatus) {
+  S.modal.ref = ref
+  document.getElementById('modal-ref-text').textContent = ref
+  document.getElementById('modal-status-select').value = currentStatus
+  document.getElementById('modal-overlay').classList.add('open')
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open')
+  S.modal.ref = null
+}
+
+async function saveOrderStatus() {
+  const status = document.getElementById('modal-status-select').value
+  try {
+    await API.patch(`/api/v1/orders/${S.modal.ref}/status`, { status })
+    closeModal()
+    toast(`Commande ${S.modal.ref} → ${STATUSES[status]?.label || status}`)
+    await loadOrders()
+    // Refresh pending badge
+    loadOverview()
+  } catch (e) {
+    toast('Erreur: ' + e.message, 'error')
+  }
+}
+
+// ═══════════════════════════════════════════════════════════ NEWSLETTER
+
+async function loadNewsletter() {
+  document.getElementById('tbl-newsletter').innerHTML = '<tr><td colspan="4" class="loading">Chargement</td></tr>'
+  try {
+    S.raw.newsletter = await API.get('/api/v1/newsletter')
+    const cnt = document.getElementById('newsletter-count')
+    cnt.innerHTML = `<strong>${S.raw.newsletter.length}</strong> abonnés`
+    filterNewsletter()
+  } catch (e) { toast('Erreur newsletter: ' + e.message, 'error') }
+}
+
+function filterNewsletter() {
+  const q = (document.getElementById('newsletter-search')?.value || '').toLowerCase()
+  let rows = S.raw.newsletter
+  if (q) rows = rows.filter(r => (r.email||'').toLowerCase().includes(q))
+  const tbody = document.getElementById('tbl-newsletter')
+  if (!rows.length) { tbody.innerHTML = '<tr><td colspan="4" class="tbl-empty">Aucun abonné</td></tr>'; return }
+  tbody.innerHTML = rows.map((r,i) => `
+    <tr>
+      <td class="text-muted">${i+1}</td>
+      <td>${esc(r.email)}</td>
+      <td>${LANGS[r.lang]||r.lang}</td>
+      <td class="text-muted nowrap" style="font-size:12px">${dt(r.created_at)}</td>
+    </tr>`).join('')
+}
+
+function exportNewsletterCSV() {
+  if (!S.raw.newsletter.length) { toast('Aucun abonné à exporter', 'error'); return }
+  const header = 'Email,Langue,Date inscription\n'
+  const body = S.raw.newsletter.map(r =>
+    `"${r.email}","${r.lang}","${r.created_at}"`
+  ).join('\n')
+  const blob = new Blob(['\ufeff' + header + body], { type: 'text/csv;charset=utf-8;' })
+  const a = document.createElement('a')
+  a.href = URL.createObjectURL(blob)
+  a.download = `newsletter_lamyskaura_${new Date().toISOString().slice(0,10)}.csv`
+  a.click()
+  toast(`${S.raw.newsletter.length} abonnés exportés`)
+}
+
+// ═══════════════════════════════════════════════════════════ MESSAGES
+
+async function loadMessages() {
+  document.getElementById('tbl-messages').innerHTML = '<tr><td colspan="6" class="loading">Chargement</td></tr>'
+  try {
+    S.raw.messages = await API.get('/api/v1/contact')
+    filterMessages()
+  } catch (e) { toast('Erreur messages: ' + e.message, 'error') }
+}
+
+function filterMessages() {
+  const q  = (document.getElementById('messages-search')?.value || '').toLowerCase()
+  const ft = document.getElementById('messages-filter')?.value ?? ''
+  let rows = S.raw.messages
+  if (ft !== '') rows = rows.filter(r => String(r.replied) === ft)
+  if (q) rows = rows.filter(r =>
+    (r.name||'').toLowerCase().includes(q) ||
+    (r.message||'').toLowerCase().includes(q) ||
+    (r.phone||'').toLowerCase().includes(q)
+  )
+  const tbody = document.getElementById('tbl-messages')
+  if (!rows.length) { tbody.innerHTML = '<tr><td colspan="6" class="tbl-empty">Aucun message</td></tr>'; return }
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td>${esc(r.name||'—')}</td>
+      <td class="nowrap">${esc(r.phone||'—')}</td>
+      <td><div class="truncate" title="${esc(r.message)}">${esc(r.message)}</div></td>
+      <td class="nowrap text-muted" style="font-size:12px">${dt(r.created_at)}</td>
+      <td>${r.replied
+        ? '<span class="badge badge-delivered">Traité</span>'
+        : '<span class="badge badge-pending">Non traité</span>'}</td>
+      <td>${r.replied ? '' : `<button class="btn btn-sm btn-outline" onclick="markReplied(${r.id})">Marquer traité</button>`}</td>
+    </tr>`).join('')
+}
+
+async function markReplied(id) {
+  try {
+    await API.patch(`/api/v1/contact/${id}/replied`, {})
+    toast('Message marqué comme traité')
+    await loadMessages()
+    loadOverview()
+  } catch (e) { toast('Erreur: ' + e.message, 'error') }
+}
+
+// ═══════════════════════════════════════════════════════════ QUIZ
+
+let quizChart
+
+async function loadQuiz() {
+  document.getElementById('tbl-quiz').innerHTML = '<tr><td colspan="5" class="loading">Chargement</td></tr>'
+  try {
+    const [results, stats] = await Promise.all([
+      API.get('/api/v1/quiz'),
+      API.get('/api/v1/quiz/stats')
+    ])
+    S.raw.quiz = results
+
+    // Donut chart
+    const ctx = document.getElementById('chart-quiz').getContext('2d')
+    if (quizChart) quizChart.destroy()
+    quizChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: stats.map(s => PROFILES[s.profile]?.label || s.profile),
+        datasets: [{
+          data: stats.map(s => s.count),
+          backgroundColor: stats.map(s => PROFILES[s.profile]?.color || '#999'),
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true, cutout: '60%',
+        plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 8 } } }
+      }
+    })
+
+    // Table
+    const tbody = document.getElementById('tbl-quiz')
+    if (!results.length) { tbody.innerHTML = '<tr><td colspan="5" class="tbl-empty">Aucune participation</td></tr>'; return }
+    tbody.innerHTML = results.map(r => {
+      const p = PROFILES[r.profile] || { label: r.profile, color: '#999' }
+      return `<tr>
+        <td><span class="badge" style="background:${p.color}22;color:${p.color}">${p.label}</span></td>
+        <td><code style="font-size:12px">${esc(r.promo_code)}</code></td>
+        <td>${esc(r.phone||'—')}</td>
+        <td>${esc(r.email||'—')}</td>
+        <td class="text-muted nowrap" style="font-size:12px">${dt(r.created_at)}</td>
+      </tr>`
+    }).join('')
+  } catch (e) { toast('Erreur quiz: ' + e.message, 'error') }
+}
+
+// ═══════════════════════════════════════════════════════════ CUSTOMERS
+
+async function loadCustomers() {
+  document.getElementById('tbl-customers').innerHTML = '<tr><td colspan="7" class="loading">Chargement</td></tr>'
+  try {
+    S.raw.customers = await API.get('/api/v1/customers')
+    const cnt = document.getElementById('customers-count')
+    cnt.innerHTML = `<strong>${S.raw.customers.length}</strong> clients`
+    filterCustomers()
+  } catch (e) { toast('Erreur clients: ' + e.message, 'error') }
+}
+
+function filterCustomers() {
+  const q = (document.getElementById('customers-search')?.value || '').toLowerCase()
+  let rows = S.raw.customers
+  if (q) rows = rows.filter(r =>
+    (r.first_name||'').toLowerCase().includes(q) ||
+    (r.last_name||'').toLowerCase().includes(q) ||
+    (r.phone||'').toLowerCase().includes(q) ||
+    (r.city||'').toLowerCase().includes(q) ||
+    (r.email||'').toLowerCase().includes(q)
+  )
+  const tbody = document.getElementById('tbl-customers')
+  if (!rows.length) { tbody.innerHTML = '<tr><td colspan="7" class="tbl-empty">Aucun client trouvé</td></tr>'; return }
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td>${esc(r.first_name||'')} ${esc(r.last_name||'')}</td>
+      <td class="nowrap">${esc(r.phone||'—')}</td>
+      <td class="text-muted">${esc(r.email||'—')}</td>
+      <td>${esc(r.city||'—')}</td>
+      <td class="text-right"><strong>${r.order_count}</strong></td>
+      <td class="text-right nowrap">${mad(r.total_spent)}</td>
+      <td class="text-muted nowrap" style="font-size:12px">${dt(r.created_at)}</td>
+    </tr>`).join('')
+}
+
+// ═══════════════════════════════════════════════════════════ BOOT
+
+;(function boot() {
+  if (S.key) {
+    // Try auto-login with stored key
+    API.get('/api/v1/orders/admin/stats')
+      .then(() => {
+        document.getElementById('login-screen').style.display = 'none'
+        document.getElementById('app').style.display = 'flex'
+        initDashboard()
+      })
+      .catch(() => { sessionStorage.removeItem('adminKey'); S.key = '' })
+  }
+})()
+</script>
+</body>
+</html>

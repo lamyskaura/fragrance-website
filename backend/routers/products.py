@@ -3,22 +3,15 @@ Products router — CRUD for products and their size variants.
 Public: GET /products, GET /products/{slug}
 Admin:  POST/PATCH/DELETE (protected by X-Admin-Key header)
 """
-from fastapi import APIRouter, Depends, HTTPException, Header
+from fastapi import APIRouter, Depends, HTTPException
 from typing import List, Optional
 import aiosqlite
-import os
 
 from ..database import get_db
+from ..deps import require_admin
 from ..schemas.product import ProductOut, ProductCreate, ProductUpdate, VariantCreate, VariantOut
 
 router = APIRouter(prefix="/products", tags=["Products"])
-
-ADMIN_KEY = os.getenv("ADMIN_KEY", "changeme-in-production")
-
-
-def require_admin(x_admin_key: str = Header(None)):
-    if x_admin_key != ADMIN_KEY:
-        raise HTTPException(status_code=401, detail="Invalid admin key")
 
 
 # ── HELPERS ───────────────────────────────────────────────────────────────────
