@@ -2976,7 +2976,7 @@ input.invalid, select.invalid { border-color: var(--rose); }
         </div>
         <div class="checkout-nav">
           <button class="btn-ck-back" onclick="ckBack(3)">← Retour</button>
-          <button class="btn-ck-next" onclick="ckSubmit()" data-i18n="ck_confirm">Confirmer la commande</button>
+          <button class="btn-ck-next" onclick="ckSubmit(this)" data-i18n="ck_confirm">Confirmer la commande</button>
         </div>
       </div>
 
@@ -3010,10 +3010,12 @@ const CONFIG = {
   currency: 'MAD',
   currencySymbol: 'MAD',
   currencyPosition: 'after',
-  // ⚠️ IMPORTANT: Remplacez avec votre vrai numéro WhatsApp (format international sans +)
+  // ⚠️ IMPORTANT: Numéro WhatsApp au format international (avec ou sans +, les deux marchent)
   whatsappNumber: '+212632968664',
   deliveryPrices: { home: 40, express: 70 },
-  storeName: 'LAMYSK AURA'
+  storeName: 'LAMYSK AURA',
+  // API base — same origin (FastAPI serves both frontend and /api/v1)
+  apiBase: '/api/v1'
 };
 
 let selectedDelivery = 'home';
@@ -3692,52 +3694,113 @@ function generateOrderRef() {
   return 'LA-' + Date.now().toString(36).toUpperCase().slice(-6);
 }
 
-function ckSubmit() {
-  const ref = generateOrderRef();
+async function ckSubmit(btn) {
+  if (btn) { btn.disabled = true; btn.textContent = '…'; }
+
+  const payload = {
+    first_name: (document.getElementById('ck-fname').value || '').trim(),
+    last_name:  (document.getElementById('ck-lname').value || '').trim() || null,
+    phone:      document.getElementById('ck-phone').value.trim(),
+    email:      document.getElementById('ck-email').value.trim() || null,
+    address:    document.getElementById('ck-address').value.trim(),
+    city:       document.getElementById('ck-city').value,
+    zip_code:   document.getElementById('ck-zip').value.trim() || null,
+    notes:      document.getElementById('ck-notes').value.trim() || null,
+    delivery_method: selectedDelivery,
+    payment_method:  selectedPayment,
+    lang: currentLang,
+    items: cart.map(item => ({
+      name:       item.name,
+      brand:      item.brand || null,
+      size_label: item.size  || null,
+      unit_price: item.price,
+      quantity:   item.qty
+    }))
+  };
+
+  let ref = generateOrderRef(); // fallback
+  try {
+    const res = await fetch(CONFIG.apiBase + '/orders/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      ref = data.reference;
+    }
+  } catch (e) { /* API unreachable — use client-side ref */ }
+
   document.getElementById('ck-order-ref').textContent = ref;
   showCkStep(4);
+  if (btn) { btn.disabled = false; btn.textContent = T('ck_confirm') || 'Confirmer la commande'; }
+}
+
+function waNum() {
+  // Strip leading + for wa.me URL (both formats work but + can cause issues on some clients)
+  return CONFIG.whatsappNumber.replace(/^\+/, '');
 }
 
 function sendOrderWhatsApp() {
-  const fname = document.getElementById('ck-fname').value;
-  const lname = document.getElementById('ck-lname').value;
-  const phone = document.getElementById('ck-phone').value;
-  const email = document.getElementById('ck-email').value;
-  const address = document.getElementById('ck-address').value;
-  const city = document.getElementById('ck-city').value;
-  const zip = document.getElementById('ck-zip').value;
-  const notes = document.getElementById('ck-notes').value;
-  const ref = document.getElementById('ck-order-ref').textContent;
+  const fname   = document.getElementById('ck-fname').value.trim();
+  const lname   = document.getElementById('ck-lname').value.trim();
+  const phone   = document.getElementById('ck-phone').value.trim();
+  const email   = document.getElementById('ck-email').value.trim();
+  const address = document.getElementById('ck-address').value.trim();
+  const city    = document.getElementById('ck-city').value;
+  const zip     = document.getElementById('ck-zip').value.trim();
+  const notes   = document.getElementById('ck-notes').value.trim();
+  const ref     = document.getElementById('ck-order-ref').textContent;
+
   const delivery = CONFIG.deliveryPrices[selectedDelivery] || 40;
   const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
-  const total = subtotal + delivery;
-  const paymentLabel = selectedPayment === 'cod'
-    ? (currentLang==='ar'?'الدفع عند التسليم':currentLang==='en'?'Cash on Delivery':'Paiement à la livraison')
-    : (currentLang==='ar'?'تحويل بنكي':currentLang==='en'?'Bank transfer':'Virement bancaire');
-  const deliveryLabel = selectedDelivery === 'express'
-    ? (currentLang==='ar'?'توصيل سريع':currentLang==='en'?'Express Delivery':'Livraison Express')
-    : (currentLang==='ar'?'توصيل للمنزل':currentLang==='en'?'Home Delivery':'Livraison à domicile');
+  const total    = subtotal + delivery;
 
-  let msg = `🛍️ *NOUVELLE COMMANDE — ${CONFIG.storeName}*\n`;
-  msg += `📋 *Réf:* ${ref}\n\n`;
-  msg += `👤 *Client:* ${fname} ${lname}\n`;
-  msg += `📱 *Tél:* ${phone}\n`;
-  if (email) msg += `📧 *Email:* ${email}\n`;
-  msg += `📍 *Adresse:* ${address}, ${city}${zip ? ' ' + zip : ''}, Maroc\n\n`;
-  msg += `*🛒 Articles:*\n`;
-  cart.forEach((item, i) => {
-    msg += `  ${i+1}. ${item.name}${item.size?' ('+item.size+')':''} × ${item.qty} — ${formatPrice(item.price * item.qty)}\n`;
+  const sep = '──────────────────────';
+  const isAr = currentLang === 'ar', isEn = currentLang === 'en';
+
+  const payLabel = selectedPayment === 'cod'
+    ? (isAr ? 'الدفع عند التسليم' : isEn ? 'Cash on Delivery' : 'Paiement à la livraison')
+    : (isAr ? 'تحويل بنكي'        : isEn ? 'Bank transfer'     : 'Virement bancaire');
+
+  const delLabel = selectedDelivery === 'express'
+    ? (isAr ? 'توصيل سريع (24-48h)' : isEn ? 'Express (24-48h)' : 'Express 24-48h')
+    : (isAr ? 'توصيل للمنزل'         : isEn ? 'Home delivery'    : 'Domicile 2-4j');
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('fr-MA') + ' ' + now.toLocaleTimeString('fr-MA', {hour:'2-digit',minute:'2-digit'});
+
+  let msg = '';
+  msg += `🛍️ *NOUVELLE COMMANDE — ${CONFIG.storeName}*\n`;
+  msg += `${sep}\n`;
+  msg += `📋 Réf: *${ref}*   🕐 ${dateStr}\n\n`;
+
+  msg += `👤 *${fname}${lname ? ' ' + lname : ''}*\n`;
+  msg += `📱 ${phone}\n`;
+  if (email) msg += `📧 ${email}\n`;
+  msg += `\n`;
+
+  msg += `📍 *Adresse*\n`;
+  msg += `${address}\n`;
+  msg += `${city}${zip ? ' ' + zip : ''}, Maroc\n`;
+  msg += `🚚 ${delLabel}\n\n`;
+
+  msg += `🛒 *Articles*\n`;
+  cart.forEach(item => {
+    const label = item.name + (item.size ? ` (${item.size})` : '');
+    msg += `• ${label} × ${item.qty}  →  *${item.price * item.qty} MAD*\n`;
   });
-  msg += `\n🚚 *Livraison:* ${deliveryLabel} — ${formatPrice(delivery)}\n`;
-  msg += `💰 *TOTAL: ${formatPrice(total)}*\n`;
-  msg += `💳 *Paiement:* ${paymentLabel}\n`;
-  if (notes) msg += `📝 *Notes:* ${notes}\n`;
-  msg += `\n_Merci pour votre confiance — ${CONFIG.storeName}_`;
+  msg += `${sep}\n`;
+  msg += `Sous-total : ${subtotal} MAD\n`;
+  msg += `🚚 Livraison : ${delivery} MAD\n`;
+  msg += `💰 *TOTAL : ${total} MAD*\n`;
+  msg += `${sep}\n`;
+  msg += `💳 ${payLabel}\n`;
+  if (notes) msg += `📝 ${notes}\n`;
+  msg += `\n_${CONFIG.storeName} — lamyskaurafragrance.com_`;
 
-  const url = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
+  window.open(`https://wa.me/${waNum()}?text=${encodeURIComponent(msg)}`, '_blank');
 
-  // Clear cart after order
   setTimeout(() => {
     cart = [];
     saveCart();
@@ -3750,26 +3813,36 @@ function sendOrderWhatsApp() {
 // WHATSAPP DIRECT & CONTACT
 // ═══════════════════════════════════════════
 function openWhatsAppDirect() {
-  const greeting = currentLang === 'ar' ? 'مرحباً، أود الاستفسار عن طلب.' : currentLang === 'en' ? 'Hello, I would like to enquire about an order.' : 'Bonjour, je souhaite renseigner une commande.';
-  window.open(`https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(greeting)}`, '_blank');
+  const greeting = currentLang === 'ar' ? 'مرحباً، أود الاستفسار عن طلب.' : currentLang === 'en' ? 'Hello, I would like to enquire about an order.' : 'Bonjour, je souhaite me renseigner sur une commande.';
+  window.open(`https://wa.me/${waNum()}?text=${encodeURIComponent(greeting)}`, '_blank');
 }
 
-function sendContactWhatsApp() {
-  const name = document.getElementById('cf-name').value.trim();
+async function sendContactWhatsApp() {
+  const name  = document.getElementById('cf-name').value.trim();
   const phone = document.getElementById('cf-phone').value.trim();
-  const msg = document.getElementById('cf-msg').value.trim();
+  const msg   = document.getElementById('cf-msg').value.trim();
   if (!msg) { document.getElementById('cf-msg').focus(); return; }
-  let text = `✉️ *Message via LAMYSK AURA*\n`;
-  if (name) text += `👤 *Nom:* ${name}\n`;
-  if (phone) text += `📱 *Tél:* ${phone}\n`;
-  text += `💬 *Message:*\n${msg}`;
-  window.open(`https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(text)}`, '_blank');
+
+  // Save to backend (fire-and-forget)
+  fetch(CONFIG.apiBase + '/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: name || null, phone: phone || null, message: msg })
+  }).catch(() => {});
+
+  // Send via WhatsApp
+  const sep = '──────────────────────';
+  let text = `✉️ *MESSAGE — ${CONFIG.storeName}*\n${sep}\n`;
+  if (name)  text += `👤 *${name}*\n`;
+  if (phone) text += `📱 ${phone}\n`;
+  text += `\n💬 ${msg}\n${sep}\n_lamyskaurafragrance.com_`;
+  window.open(`https://wa.me/${waNum()}?text=${encodeURIComponent(text)}`, '_blank');
 }
 
 // Init WhatsApp links on page
 document.addEventListener('DOMContentLoaded', function() {
   const waLink = document.getElementById('wa-social-link');
-  if (waLink) waLink.href = `https://wa.me/${CONFIG.whatsappNumber}`;
+  if (waLink) waLink.href = `https://wa.me/${waNum()}`;
 });
 
 // ═══════════════════════════════════════════
@@ -3827,22 +3900,41 @@ function showResult() {
   let profile = Object.keys(counts).reduce((a,b) => counts[a] > counts[b] ? a : b);
   const icons = { woody:'🌲', floral:'🌸', spicy:'🌶️', citrus:'🍋', soft:'🤍' };
   const codes = { woody:'AURA-WOODY15', floral:'AURA-FLORAL15', spicy:'AURA-SPICY15', citrus:'AURA-CITRUS15', soft:'AURA-SOFT15' };
+  const promoCode = codes[profile];
   document.getElementById('profileIcon').textContent = icons[profile];
   document.getElementById('profileTitle').textContent = T('profile_' + profile + '_title');
   document.getElementById('profileDesc').textContent = T('profile_' + profile + '_desc');
-  document.getElementById('promoCode').textContent = codes[profile];
+  document.getElementById('promoCode').textContent = promoCode;
   document.getElementById('quizResult').classList.add('active');
+
+  // Save quiz result to backend (fire-and-forget)
+  fetch(CONFIG.apiBase + '/quiz', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ profile, promo_code: promoCode, lang: currentLang })
+  }).catch(() => {});
 }
 
 // ═══════════════════════════════════════════
 // NEWSLETTER
 // ═══════════════════════════════════════════
-function subscribeNL() {
-  const email = document.getElementById('nlEmail').value;
-  if (email) {
-    alert(currentLang === 'ar' ? 'مرحباً في عالم LAMYSK AURA!' : currentLang === 'fr' ? 'Bienvenue dans l\'univers LAMYSK AURA !' : 'Welcome to the LAMYSK AURA world!');
-    document.getElementById('nlEmail').value = '';
-  }
+async function subscribeNL() {
+  const input = document.getElementById('nlEmail');
+  const email = input.value.trim();
+  if (!email || !email.includes('@')) { input.focus(); return; }
+
+  try {
+    await fetch(CONFIG.apiBase + '/newsletter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, lang: currentLang })
+    });
+  } catch (e) {}
+
+  const msg = currentLang === 'ar' ? 'مرحباً في عالم LAMYSK AURA! 🌹' : currentLang === 'en' ? 'Welcome to the LAMYSK AURA world! 🌹' : 'Bienvenue dans l\'univers LAMYSK AURA ! 🌹';
+  input.value = '';
+  input.placeholder = msg;
+  setTimeout(() => { input.placeholder = input.dataset.placeholder || 'Votre adresse email'; }, 4000);
 }
 
 // ═══════════════════════════════════════════
