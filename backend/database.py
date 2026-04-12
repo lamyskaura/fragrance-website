@@ -5,8 +5,14 @@ All tables are created on startup if they don't exist.
 import aiosqlite
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
-DB_PATH = Path(__file__).parent.parent / "data" / "lamyskaura.db"
+load_dotenv()
+
+# On cloud platforms (Render, Railway) with a mounted disk, set DATA_DIR env var.
+# Falls back to a local ./data/ directory for development.
+_data_dir = os.environ.get("DATA_DIR") or str(Path(__file__).parent.parent / "data")
+DB_PATH = Path(_data_dir) / "lamyskaura.db"
 
 
 async def get_db() -> aiosqlite.Connection:
