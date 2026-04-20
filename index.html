@@ -208,26 +208,33 @@ nav.scrolled .nav-toggle span { background: var(--text-dark); }
 /* ── HERO ── */
 .hero {
   height: 100vh;
-  min-height: 650px;
+  min-height: 700px;
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   text-align: center;
   overflow: hidden;
+  padding-bottom: 8vh;
 }
 .hero-bg {
   position: absolute; inset: 0;
-  background-image: url('images/hero.jpg');
+  background-image: url('images/hero_lamysk.jpg');
   background-size: cover;
-  background-position: center;
+  background-position: center 25%;
+  background-color: var(--deep);
 }
 .hero-bg::after {
   content: '';
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse at 30% 50%, rgba(196,149,106,0.1) 0%, transparent 60%),
-    linear-gradient(170deg, rgba(26,21,16,0.85) 0%, rgba(10,10,10,0.7) 40%, rgba(26,21,16,0.85) 100%);
+    radial-gradient(ellipse 70% 55% at 50% 85%, rgba(10,8,6,0.55) 0%, rgba(10,8,6,0.35) 40%, transparent 80%),
+    linear-gradient(180deg,
+      rgba(26,21,16,0.00) 0%,
+      rgba(26,21,16,0.05) 25%,
+      rgba(10,8,6,0.35) 55%,
+      rgba(10,8,6,0.78) 85%,
+      rgba(8,6,4,0.92) 100%);
 }
 .hero-grain {
   position: absolute; inset: 0;
@@ -383,7 +390,7 @@ html[dir="rtl"] .btn { font-family: 'Noto Naskh Arabic', sans-serif; letter-spac
   position: absolute;
   bottom: 3rem;
   left: 50%; transform: translateX(-50%);
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.55);
   font-size: 0.65rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
@@ -452,7 +459,7 @@ html[dir="rtl"] .ecrin-banner p { font-family: 'Noto Naskh Arabic', serif; }
 .bio-img-main {
   width: 100%;
   height: 100%;
-  background-image: url('https://images.pexels.com/photos/3059609/pexels-photo-3059609.jpeg?auto=compress&cs=tinysrgb&w=800');
+  background-image: url('images/bio_maghreb.jpg');
   background-size: cover;
   background-position: center;
   position: relative;
@@ -559,18 +566,18 @@ html[dir="rtl"] .tab-content p { text-align: right; font-family: 'Noto Naskh Ara
   margin-top: 1.5rem;
 }
 
-/* ── VALUES ── */
-.values { padding: 6rem 2rem; background: var(--bg-section); }
-.values-header { text-align: center; margin-bottom: 3.5rem; }
+/* ── VALUES (compact strip form) ── */
+.values { padding: 3.5rem 2rem; background: var(--bg-section); }
+.values-header { text-align: center; margin-bottom: 2rem; }
 .values-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  gap: 1.5rem;
   max-width: 1000px;
   margin: 0 auto;
 }
 .value-card {
-  padding: 2.5rem 2rem;
+  padding: 1.8rem 1.5rem;
   background: var(--white);
   border: 1px solid rgba(196,149,106,0.12);
   transition: all 0.4s ease;
@@ -594,26 +601,26 @@ html[dir="rtl"] .value-card::before { transform-origin: right; }
 }
 .value-num {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   font-weight: 300;
   color: var(--gold-light);
   line-height: 1;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.5rem;
 }
 .value-card h4 {
   font-family: 'Jost', sans-serif;
   font-weight: 500;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--text-dark);
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem;
 }
 html[dir="rtl"] .value-card h4 { font-family: 'Noto Naskh Arabic', sans-serif; letter-spacing: 0.05em; }
 .value-card p {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1rem;
-  line-height: 1.7;
+  font-size: 0.92rem;
+  line-height: 1.55;
   color: var(--text-body);
 }
 html[dir="rtl"] .value-card p { font-family: 'Noto Naskh Arabic', serif; }
@@ -1097,7 +1104,11 @@ html[dir="rtl"] .product-wish { right: auto; left: 0.8rem; }
 
 /* ── ABSOLUS BANNER ── */
 .absolus-banner {
-  background: linear-gradient(135deg, var(--deep) 0%, #2a1f15 100%);
+  background-image:
+    linear-gradient(135deg, rgba(26,21,16,0.78) 0%, rgba(42,31,21,0.85) 100%),
+    url('images/banner_absolus.jpg');
+  background-size: cover;
+  background-position: center;
   padding: 5rem 2rem;
   text-align: center;
   position: relative;
@@ -1106,7 +1117,7 @@ html[dir="rtl"] .product-wish { right: auto; left: 0.8rem; }
 .absolus-banner::before {
   content: '';
   position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 60% 40%, rgba(196,149,106,0.1) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 60% 40%, rgba(196,149,106,0.15) 0%, transparent 60%);
 }
 .absolus-banner .section-label { color: var(--gold); margin-bottom: 1rem; position: relative; }
 .absolus-banner h2 {
@@ -1139,6 +1150,45 @@ html[dir="rtl"] .absolus-banner h2 { font-family: 'Noto Naskh Arabic', serif; }
   position: relative;
 }
 .absolus-banner .btn { position: relative; }
+
+/* ── ÉCRINS BANNER (light counterpart) ── */
+.ecrins-banner {
+  background-image:
+    linear-gradient(135deg, rgba(248,242,233,0.85) 0%, rgba(237,224,201,0.9) 100%),
+    url('images/banner_ecrins.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 5rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.ecrins-banner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 40% 60%, rgba(196,149,106,0.2) 0%, transparent 60%);
+}
+.ecrins-banner .section-label { color: var(--gold); margin-bottom: 1rem; position: relative; }
+.ecrins-banner h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  color: var(--deep);
+  max-width: 700px;
+  margin: 0 auto 1rem;
+  line-height: 1.3;
+  position: relative;
+}
+html[dir="rtl"] .ecrins-banner h2 { font-family: 'Noto Naskh Arabic', serif; }
+.ecrins-banner p {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--text-body);
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+.ecrins-banner .btn { position: relative; }
 
 /* ── LAYERING ── */
 .layering { padding: 6rem 2rem; background: var(--bg-section); }
@@ -1325,6 +1375,76 @@ html[dir="rtl"] .quiz-rec { text-align: right; flex-direction: row-reverse; }
   padding: 0.5rem 1.1rem;
   letter-spacing: 0.15em;
 }
+.quiz-parfums-section {
+  margin-top: 2.2rem;
+  padding-top: 1.8rem;
+  border-top: 1px solid rgba(196,149,106,0.18);
+}
+.quiz-parfums-section h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--text-dark);
+  letter-spacing: 0.06em;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+html[dir="rtl"] .quiz-parfums-section h4 { font-family: 'Noto Naskh Arabic', serif; }
+.quiz-parfum-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.9rem;
+}
+.quiz-parfum-item {
+  cursor: pointer;
+  padding: 0.9rem 0.7rem 1rem;
+  border: 1px solid rgba(196,149,106,0.18);
+  background: var(--white);
+  text-align: center;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.quiz-parfum-item:hover {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+}
+.quiz-parfum-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #f7f2eb;
+  margin-bottom: 0.6rem;
+}
+.quiz-parfum-brand {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.6rem;
+  color: var(--taupe);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+.quiz-parfum-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: var(--text-dark);
+  line-height: 1.2;
+  margin-bottom: 0.35rem;
+}
+html[dir="rtl"] .quiz-parfum-name { font-family: 'Noto Naskh Arabic', serif; }
+.quiz-parfum-price {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.78rem;
+  color: var(--gold);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+@media (max-width: 640px) {
+  .quiz-parfum-list { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  .quiz-parfum-name { font-size: 0.92rem; }
+  .quiz-parfum-brand { font-size: 0.55rem; }
+}
 
 /* ── CHRONICLE ── */
 .chronicle { padding: 6rem 2rem; background: var(--bg-section); }
@@ -1441,6 +1561,23 @@ html[dir="rtl"] .testimonial blockquote { font-family: 'Noto Naskh Arabic', seri
 /* ── FAQ ── */
 .faq { padding: 6rem 2rem; background: var(--bg-section); }
 .faq-list { max-width: 700px; margin: 2.5rem auto 0; }
+.faq-more { display: none; }
+.faq-more.open { display: block; }
+.faq-toggle-more {
+  display: block;
+  margin: 1.5rem auto 0;
+  background: none;
+  border: 1px solid var(--gold-light);
+  color: var(--gold);
+  font-family: 'Jost', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.faq-toggle-more:hover { background: var(--gold); color: var(--white); }
 .faq-item { border-bottom: 1px solid rgba(196,149,106,0.15); }
 .faq-q {
   width: 100%;
@@ -2972,6 +3109,332 @@ nav.scrolled .nav-account { color: var(--text-body); }
           </div>
         </div>
       </div>
+      <!-- Mateir -->
+      <div class="product-card" data-pkey="match_mateir" data-head="Poivre noir, Safran" data-heart="Oud blond, Cuir" data-base="Ambre, Musc" data-desc="Une signature ambrée-épicée portée par un oud blond souple. Sillage texturé, presque minéral.">
+        <div class="product-img" style="background-image:url('images/match_mateir.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <span class="product-badge">Orient</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Mateir')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">MATCH — Paris</div>
+          <div class="product-name">Mateir</div>
+          <div class="product-notes">Bois ambré · Épices · Musc</div>
+          <div class="product-footer"><span class="product-price price-tag">750 MAD</span><button class="product-add" onclick="addToCart('Mateir', 'Orient', 750)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Mineral Oud -->
+      <div class="product-card" data-pkey="match_mineral_oud" data-head="Bergamote, Genièvre" data-heart="Oud, Vétiver fumé" data-base="Ambre gris, Santal" data-desc="L'oud dans sa facette la plus nette — minérale, presque salée. Un sillage tendu, contemporain.">
+        <div class="product-img" style="background-image:url('images/match_mineral_oud.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Mineral Oud')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">MATCH — Paris</div>
+          <div class="product-name">Mineral Oud</div>
+          <div class="product-notes">Oud · Minéral · Vétiver</div>
+          <div class="product-footer"><span class="product-price price-tag">780 MAD</span><button class="product-add" onclick="addToCart('Mineral Oud', 'Orient', 780)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Lun Felyn -->
+      <div class="product-card" data-pkey="match_lun_felyn" data-head="Bergamote, Violette" data-heart="Iris, Jasmin" data-base="Musc blanc, Bois de cachemire" data-desc="Le floral poudré dans sa forme la plus épurée. Iris crémeux et jasmin voilés d'un musc doux.">
+        <div class="product-img" style="background-image:url('images/match_lun_felyn.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Lun Felyn')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">MATCH — Paris</div>
+          <div class="product-name">Lun Felyn</div>
+          <div class="product-notes">Floral poudré · Iris · Musc</div>
+          <div class="product-footer"><span class="product-price price-tag">720 MAD</span><button class="product-add" onclick="addToCart('Lun Felyn', 'Orient', 720)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Falkon Matir -->
+      <div class="product-card" data-pkey="match_falkon_matir" data-head="Safran, Cardamome" data-heart="Cuir, Oud" data-base="Patchouli, Ambre" data-desc="Le vol du faucon dans un sillage cuiré-safrané. Masculin-féminin, solaire, dense.">
+        <div class="product-img" style="background-image:url('images/match_falkon_matir.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Falkon Matir')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">MATCH — Paris</div>
+          <div class="product-name">Falkon Matir</div>
+          <div class="product-notes">Cuir · Safran · Oud</div>
+          <div class="product-footer"><span class="product-price price-tag">780 MAD</span><button class="product-add" onclick="addToCart('Falkon Matir', 'Orient', 780)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Komitt -->
+      <div class="product-card" data-pkey="match_komitt" data-head="Fruits rouges, Poivre" data-heart="Rose noire, Prune" data-base="Patchouli, Oud" data-desc="Un sillage fruité-chypré audacieux. Rose noire et patchouli pour celles et ceux qui aiment se démarquer.">
+        <div class="product-img" style="background-image:url('images/match_komitt.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Komitt')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">MATCH — Paris</div>
+          <div class="product-name">Komitt</div>
+          <div class="product-notes">Fruits noirs · Rose · Patchouli</div>
+          <div class="product-footer"><span class="product-price price-tag">720 MAD</span><button class="product-add" onclick="addToCart('Komitt', 'Orient', 720)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- B'Oud Safron -->
+      <div class="product-card" data-pkey="match_boud_safron" data-head="Safran, Poivre rose" data-heart="Oud, Rose de Taïf" data-base="Ambre, Musc chaud" data-desc="L'alliance sacrée : oud royal et safran précieux. L'identité orientale absolue de la maison MATCH.">
+        <div class="product-img" style="background-image:url('images/match_boud_safron.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'B\'Oud Safron')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">MATCH — Paris</div>
+          <div class="product-name">B'Oud Safron</div>
+          <div class="product-notes">Oud · Safran · Ambre</div>
+          <div class="product-footer"><span class="product-price price-tag">780 MAD</span><button class="product-add" onclick="addToCart('B\'Oud Safron', 'Orient', 780)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Silq Quin -->
+      <div class="product-card" data-pkey="match_silq_quin" data-head="Bergamote, Cardamome" data-heart="Oud, Jasmin sambac" data-base="Musc, Vanille de Madagascar" data-desc="La soie de l'oud — version florale féminisée. Un sillage chaleureux, enveloppant, confidentiel.">
+        <div class="product-img" style="background-image:url('images/match_silq_quin.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Silq Quin')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">MATCH — Paris</div>
+          <div class="product-name">Silq Quin</div>
+          <div class="product-notes">Oud · Soie · Musc</div>
+          <div class="product-footer"><span class="product-price price-tag">720 MAD</span><button class="product-add" onclick="addToCart('Silq Quin', 'Orient', 720)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Leather -->
+      <div class="product-card" data-pkey="match_leather" data-head="Bergamote, Poivre" data-heart="Cuir, Tabac" data-base="Bois fumés, Ambre" data-desc="Le cuir dans sa version la plus sensuelle — tabac chaud, bois fumés. Un sillage puissant, aristocratique.">
+        <div class="product-img" style="background-image:url('images/match_leather.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Leather')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">MATCH — Paris</div>
+          <div class="product-name">Leather</div>
+          <div class="product-notes">Cuir · Tabac · Bois fumés</div>
+          <div class="product-footer"><span class="product-price price-tag">780 MAD</span><button class="product-add" onclick="addToCart('Leather', 'Orient', 780)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Bridal Musk -->
+      <div class="product-card" data-pkey="musk_bridal" data-head="Fleur d'oranger, Aldéhydes" data-heart="Musc blanc, Jasmin" data-base="Iris, Santal" data-desc="Le musc nuptial — blanc, lumineux, poudré. Un voile de pureté qui évoque la soie et les fleurs blanches.">
+        <div class="product-img" style="background-image:url('images/match_musk_bridal.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Bridal Musk')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">MATCH Musks — Paris</div>
+          <div class="product-name">Bridal Musk</div>
+          <div class="product-notes">Musc blanc · Fleur d’oranger · Poudré</div>
+          <div class="product-footer"><span class="product-price price-tag">650 MAD</span><button class="product-add" onclick="addToCart('Bridal Musk', 'Orient', 650)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Musk Lina -->
+      <div class="product-card" data-pkey="musk_lina" data-head="Pêche, Poire" data-heart="Musc doux, Rose" data-base="Vanille, Ambre" data-desc="Un musc gourmand, fruité et rosé. Tendre comme une caresse, adapté au quotidien.">
+        <div class="product-img" style="background-image:url('images/match_musk_lina.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Musk Lina')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">MATCH Musks — Paris</div>
+          <div class="product-name">Musk Lina</div>
+          <div class="product-notes">Musc · Rose · Pêche</div>
+          <div class="product-footer"><span class="product-price price-tag">650 MAD</span><button class="product-add" onclick="addToCart('Musk Lina', 'Orient', 650)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Musk Dvine -->
+      <div class="product-card" data-pkey="musk_dvine" data-head="Safran, Poivre" data-heart="Musc, Oud blanc" data-base="Ambre, Bois chaud" data-desc="Le musc divin — version noble et épicée. L'oud y apporte de la profondeur sans alourdir.">
+        <div class="product-img" style="background-image:url('images/match_musk_dvine.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Musk Dvine')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">MATCH Musks — Paris</div>
+          <div class="product-name">Musk Dvine</div>
+          <div class="product-notes">Musc · Oud · Safran</div>
+          <div class="product-footer"><span class="product-price price-tag">650 MAD</span><button class="product-add" onclick="addToCart('Musk Dvine', 'Orient', 650)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Musk Opiume -->
+      <div class="product-card" data-pkey="musk_opiume" data-head="Bergamote, Mandarine" data-heart="Musc, Opium" data-base="Ambre, Patchouli" data-desc="Le musc dans sa facette opiacée, orientale et sensuelle. Un sillage qui s'attarde et fascine.">
+        <div class="product-img" style="background-image:url('images/match_musk_opiume.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Musk Opiume')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">MATCH Musks — Paris</div>
+          <div class="product-name">Musk Opiume</div>
+          <div class="product-notes">Musc · Opium · Ambre oriental</div>
+          <div class="product-footer"><span class="product-price price-tag">650 MAD</span><button class="product-add" onclick="addToCart('Musk Opiume', 'Orient', 650)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Sehr Al Kalimat -->
+      <div class="product-card" data-pkey="lattafa_sehr_alkalimat" data-head="Bergamote, Cardamome" data-heart="Santal, Jasmin" data-base="Musc blanc, Vanille" data-desc="La magie des mots — accord poudré-vanillé qui s'installe sur la peau. Un classique contemporain des Émirats.">
+        <div class="product-img" style="background-image:url('images/lattafa_sehr_alkalimat.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Sehr Al Kalimat')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Lattafa — Dubaï</div>
+          <div class="product-name">Sehr Al Kalimat</div>
+          <div class="product-notes">Musc · Santal · Vanille</div>
+          <div class="product-footer"><span class="product-price price-tag">550 MAD</span><button class="product-add" onclick="addToCart('Sehr Al Kalimat', 'Orient', 550)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Woody Style -->
+      <div class="product-card" data-pkey="ao_woody_style" data-head="Citron, Bergamote" data-heart="Cèdre, Santal" data-base="Musc, Ambre" data-desc="Un boisé frais, lumineux. L'élégance orientale dans sa version la plus contemporaine — signé Arabian Oud.">
+        <div class="product-img" style="background-image:url('images/woody_style.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Woody Style')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Arabian Oud — Riyad</div>
+          <div class="product-name">Woody Style</div>
+          <div class="product-notes">Bois · Agrumes · Musc</div>
+          <div class="product-footer"><span class="product-price price-tag">650 MAD</span><button class="product-add" onclick="addToCart('Woody Style', 'Orient', 650)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Woody Intense -->
+      <div class="product-card" data-pkey="ao_woody_intense" data-head="Poivre, Bergamote" data-heart="Oud, Vétiver fumé" data-base="Patchouli, Ambre" data-desc="Le boisé dans sa version dense et masculine. Oud, vétiver et patchouli pour un sillage affirmé et tenace.">
+        <div class="product-img" style="background-image:url('images/woody_intense.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Woody Intense')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Arabian Oud — Riyad</div>
+          <div class="product-name">Woody Intense</div>
+          <div class="product-notes">Oud · Vétiver · Patchouli</div>
+          <div class="product-footer"><span class="product-price price-tag">750 MAD</span><button class="product-add" onclick="addToCart('Woody Intense', 'Orient', 750)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Rosewood -->
+      <div class="product-card" data-pkey="ao_rosewood" data-head="Bergamote, Poivre" data-heart="Bois de rose, Oud" data-base="Ambre, Cuir" data-desc="Le bois de rose drapé d'oud, dans un coffret noir laqué. La noblesse saoudienne dans sa forme la plus raffinée.">
+        <div class="product-img" style="background-image:url('images/arabian_oud_rosewood.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Rosewood')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Arabian Oud — Riyad</div>
+          <div class="product-name">Rosewood</div>
+          <div class="product-notes">Bois de rose · Oud · Ambre</div>
+          <div class="product-footer"><span class="product-price price-tag">1 100 MAD</span><button class="product-add" onclick="addToCart('Rosewood', 'Orient', 1100)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Saffron Oud -->
+      <div class="product-card" data-pkey="ao_saffron" data-head="Safran, Cardamome" data-heart="Oud, Rose" data-base="Ambre, Musc" data-desc="Le mariage ancestral du safran et de l'oud — chaud, profond, addictif. Le patrimoine olfactif du Golfe.">
+        <div class="product-img" style="background-image:url('images/arabian_oud_saffron.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Saffron Oud')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Arabian Oud — Riyad</div>
+          <div class="product-name">Saffron Oud</div>
+          <div class="product-notes">Safran · Oud · Rose</div>
+          <div class="product-footer"><span class="product-price price-tag">950 MAD</span><button class="product-add" onclick="addToCart('Saffron Oud', 'Orient', 950)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Musk Mubakhar -->
+      <div class="product-card" data-pkey="ao_musk_mubakhar" data-head="Bergamote, Cardamome" data-heart="Musc, Bakhour" data-base="Santal, Vanille" data-desc="Le musc mêlé à la fumée du bakhour — un parfum qui rappelle les rituels du Maghreb et de la Péninsule.">
+        <div class="product-img" style="background-image:url('images/arabian_oud_musk_mubakhar.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Musk Mubakhar')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Arabian Oud — Riyad</div>
+          <div class="product-name">Musk Mubakhar</div>
+          <div class="product-notes">Musc · Bakhour · Poudré</div>
+          <div class="product-footer"><span class="product-price price-tag">850 MAD</span><button class="product-add" onclick="addToCart('Musk Mubakhar', 'Orient', 850)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Vanilla Rose -->
+      <div class="product-card" data-pkey="ao_vanilla_rose" data-head="Poivre rose, Pêche" data-heart="Rose, Vanille" data-base="Ambre, Musc" data-desc="La rose et la vanille drapées d'ambre — tendre, gourmand, féminin. La douceur royale selon Arabian Oud.">
+        <div class="product-img" style="background-image:url('images/arabian_oud_vanilla_rose.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Vanilla Rose')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Arabian Oud — Riyad</div>
+          <div class="product-name">Vanilla Rose</div>
+          <div class="product-notes">Vanille · Rose · Ambre</div>
+          <div class="product-footer"><span class="product-price price-tag">950 MAD</span><button class="product-add" onclick="addToCart('Vanilla Rose', 'Orient', 950)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Kin Musk -->
+      <div class="product-card" data-pkey="gh_kin_musk" data-head="Bergamote, Aldéhydes" data-heart="Musc blanc, Cachemire" data-base="Santal, Ambre blanc" data-desc="Le musc familial — doux, cachemiré. Un voile clair qui s'installe sans s'imposer.">
+        <div class="product-img" style="background-image:url('images/ghawali_kin_musk.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Kin Musk')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Ghawali — by Ajmal</div>
+          <div class="product-name">Kin Musk</div>
+          <div class="product-notes">Musc · Cachemire · Blanc</div>
+          <div class="product-footer"><span class="product-price price-tag">650 MAD</span><button class="product-add" onclick="addToCart('Kin Musk', 'Orient', 650)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Untold -->
+      <div class="product-card" data-pkey="gh_untold" data-head="Safran, Cardamome" data-heart="Oud, Rose" data-base="Patchouli, Ambre" data-desc="L'indicible — un oud safrané profond qui s'exprime comme un murmure. Le raffinement Ajmal à son sommet.">
+        <div class="product-img" style="background-image:url('images/ghawali_untold.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Untold')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Ghawali — by Ajmal</div>
+          <div class="product-name">Untold</div>
+          <div class="product-notes">Oud · Safran · Patchouli</div>
+          <div class="product-footer"><span class="product-price price-tag">700 MAD</span><button class="product-add" onclick="addToCart('Untold', 'Orient', 700)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Dusk Outro -->
+      <div class="product-card" data-pkey="gh_dusk" data-head="Poivre rose, Bergamote" data-heart="Ambre, Vanille" data-base="Bois de santal, Musc" data-desc="Le crépuscule en parfum — ambre chaud, vanille crémeuse, bois apaisants. Pour les heures qui s'adoucissent.">
+        <div class="product-img" style="background-image:url('images/ghawali_dusk_outro.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Dusk Outro')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Ghawali — by Ajmal</div>
+          <div class="product-name">Dusk Outro</div>
+          <div class="product-notes">Ambre · Vanille · Bois</div>
+          <div class="product-footer"><span class="product-price price-tag">720 MAD</span><button class="product-add" onclick="addToCart('Dusk Outro', 'Orient', 720)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Love Note -->
+      <div class="product-card" data-pkey="gh_love_note" data-head="Fruits rouges, Pêche" data-heart="Rose, Pivoine" data-base="Musc blanc, Iris" data-desc="Un billet d'amour parfumé — rose fruitée, pivoine, musc tendre. Floral romantique par excellence.">
+        <div class="product-img" style="background-image:url('images/ghawali_love_note.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Love Note')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Ghawali — by Ajmal</div>
+          <div class="product-name">Love Note</div>
+          <div class="product-notes">Rose · Musc · Poudré</div>
+          <div class="product-footer"><span class="product-price price-tag">650 MAD</span><button class="product-add" onclick="addToCart('Love Note', 'Orient', 650)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Last Date -->
+      <div class="product-card" data-pkey="gh_last_date" data-head="Datte, Cannelle" data-heart="Miel, Oud" data-base="Tabac, Ambre" data-desc="Les dattes du désert sucrées de miel, réveillées par l'oud. Un gourmand oriental enveloppant.">
+        <div class="product-img" style="background-image:url('images/ghawali_last_date.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Last Date')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Ghawali — by Ajmal</div>
+          <div class="product-name">Last Date</div>
+          <div class="product-notes">Dattes · Miel · Oud</div>
+          <div class="product-footer"><span class="product-price price-tag">700 MAD</span><button class="product-add" onclick="addToCart('Last Date', 'Orient', 700)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- 9 P.M. Saudi -->
+      <div class="product-card" data-pkey="gh_9pm" data-head="Safran, Élémi" data-heart="Oud, Rose" data-base="Ambre, Cuir" data-desc="L'heure saoudienne où les parfums prennent leur pleine mesure. Oud souverain, ambre dense, signature intense.">
+        <div class="product-img" style="background-image:url('images/ghawali_9pm_saudi.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'9 P.M. Saudi')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Ghawali — by Ajmal</div>
+          <div class="product-name">9 P.M. Saudi</div>
+          <div class="product-notes">Oud · Ambre · Safran</div>
+          <div class="product-footer"><span class="product-price price-tag">780 MAD</span><button class="product-add" onclick="addToCart('9 P.M. Saudi', 'Orient', 780)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
     </div><!-- /products-track -->
     </div><!-- /products-carousel -->
   </div>
@@ -2986,6 +3449,33 @@ nav.scrolled .nav-account { color: var(--text-body); }
       <button class="carousel-arrow prev" onclick="scrollCarousel('occident-track',-1)" aria-label="Précédent">&#8592;</button>
       <button class="carousel-arrow next" onclick="scrollCarousel('occident-track',1)" aria-label="Suivant">&#8594;</button>
     <div class="products-track" id="occident-track">
+      <!-- Rosendo Mateu N°5 — Hair Perfume -->
+      <div class="product-card" data-head="Iris, Bergamote" data-heart="Rose, Ambre" data-base="Musc blanc, Vanille" data-desc="L'art parfumier catalan au service de la chevelure. Rosendo Mateu N°5 Hair Perfume enveloppe les cheveux d'un voile floral, ambré, sensuel et musqué — un sillage qui se dépose à chaque mouvement, sans alourdir la fibre.">
+        <div class="product-img" style="background-image:url('images/Rosendo_Mateu.jpg');background-size:cover;background-position:center">
+          <span class="product-badge">Occident</span>
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Rosendo Mateu N°5 Hair Perfume')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Rosendo Mateu — Barcelone</div>
+          <div class="product-name">N°5 Hair Perfume</div>
+          <div class="product-notes">Floral · Ambré · Musc sensuel</div>
+          <div class="product-footer"><span class="product-price price-tag">1 400 MAD</span><button class="product-add" onclick="addToCart('Rosendo Mateu N°5 Hair Perfume', 'Occident', 1400)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- Rosendo Mateu N°7 -->
+      <div class="product-card" data-head="Bergamote, Poivre noir" data-heart="Oud, Patchouli" data-base="Vanille, Ambre, Fève tonka" data-desc="Rosendo Mateu N°7 réunit l'Orient et la Méditerranée dans un Extrait de Parfum d'une densité remarquable — l'oud profond, le patchouli noble, la vanille chaude. Un sillage architectural, confidentiel, à porter comme une signature.">
+        <div class="product-img" style="background-image:url('images/Rosendo_Mateu.jpg');background-size:cover;background-position:center">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Rosendo Mateu N°7')" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Rosendo Mateu — Barcelone</div>
+          <div class="product-name">N°7 Patchouli Oud Vanilla</div>
+          <div class="product-notes">Oud · Patchouli · Vanille</div>
+          <div class="product-footer"><span class="product-price price-tag">1 800 MAD</span><button class="product-add" onclick="addToCart('Rosendo Mateu N°7', 'Occident', 1800)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
       <!-- Santal 33 — Le Labo -->
       <div class="product-card" data-head="Violette, Iris" data-heart="Santal du Pacifique, Cèdre" data-base="Musc, Ambre, Cardamome" data-desc="L'icône du parfum contemporain. Né à New York en 2006, Santal 33 de Le Labo s'est imposé comme le parfum le plus reconnaissable de notre époque — un sillage boisé, cuiré et sensuel que l'on porte comme une seconde peau.">
         <div class="product-img" style="background:linear-gradient(135deg,#c4b090,#8a6850)">
@@ -3076,6 +3566,45 @@ nav.scrolled .nav-account { color: var(--text-body); }
           <div class="product-name">Molecule 01</div>
           <div class="product-notes">Iso E Super · Boisé · Sensuel</div>
           <div class="product-footer"><span class="product-price price-tag">690 MAD</span><button class="product-add" onclick="addToCart('Molecule 01', 'Occident', 690)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- N°5 Parfum -->
+      <div class="product-card" data-pkey="rm_n5_parfum" data-head="Iris, Bergamote" data-heart="Rose, Ambre" data-base="Musc blanc, Vanille" data-desc="L'écho floral-ambré porté en Parfum. N°5 dans son flacon carré signature — iris, rose et musc sensuel avec la tenue d'un extrait.">
+        <div class="product-img" style="background-image:url('images/rosendo_n5_parfum.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'N°5 Parfum')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Rosendo Mateu — Barcelone</div>
+          <div class="product-name">N°5 Parfum</div>
+          <div class="product-notes">Floral · Ambré · Musc sensuel</div>
+          <div class="product-footer"><span class="product-price price-tag">1 700 MAD</span><button class="product-add" onclick="addToCart('N°5 Parfum', 'Occident', 1700)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- N°4 Après l'Amour -->
+      <div class="product-card" data-pkey="tk_n4" data-head="Pamplemousse, Aldéhydes" data-heart="Néroli, Benjoin" data-base="Musc, Ambre" data-desc="La tendresse d'un après. Thomas Kosmala a imaginé N°4 comme un parfum de peau — musc ambré, néroli apaisant.">
+        <div class="product-img" style="background-image:url('images/thomas_kosmala_n4.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'N°4 Après l\'Amour')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Thomas Kosmala — Paris</div>
+          <div class="product-name">N°4 Après l'Amour</div>
+          <div class="product-notes">Néroli · Musc · Ambre</div>
+          <div class="product-footer"><span class="product-price price-tag">1 450 MAD</span><button class="product-add" onclick="addToCart('N°4 Après l\'Amour', 'Occident', 1450)" data-i18n="add_bag">Ajouter</button></div>
+        </div>
+      </div>
+      <!-- N°9 Bukhoor Elixir -->
+      <div class="product-card" data-pkey="tk_n9" data-head="Cardamome, Safran" data-heart="Oud, Bakhoor, Encens" data-base="Ambre, Vanille" data-desc="Le rituel du bakhoor traduit en Elixir de Parfum. Oud, encens, safran et ambre — l'héritage maghrébin vu par un parfumeur parisien.">
+        <div class="product-img" style="background-image:url('images/thomas_kosmala_n9_bukhoor.png');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb">
+          <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'N°9 Bukhoor Elixir')" title="Ajouter aux favoris">&#9825;</button>
+          <button class="product-qv-btn" onclick="openQV(this.closest('.product-card'))">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">Thomas Kosmala — Paris</div>
+          <div class="product-name">N°9 Bukhoor Elixir</div>
+          <div class="product-notes">Bakhoor · Oud · Ambre</div>
+          <div class="product-footer"><span class="product-price price-tag">1 650 MAD</span><button class="product-add" onclick="addToCart('N°9 Bukhoor Elixir', 'Occident', 1650)" data-i18n="add_bag">Ajouter</button></div>
         </div>
       </div>
     </div><!-- /products-track -->
@@ -3251,6 +3780,14 @@ nav.scrolled .nav-account { color: var(--text-body); }
   </div>
 </section>
 
+<!-- ÉCRINS BANNER (post-Selection CTA) -->
+<section class="ecrins-banner reveal" id="ecrins-banner">
+  <span class="section-label" data-i18n="banner_ecrins_label">Les Écrins</span>
+  <h2 data-i18n="banner_ecrins_title">L'expérience parfum complète — réunie dans un écrin</h2>
+  <p data-i18n="banner_ecrins_sub">Base de layering · Signature · Produits complémentaires · Protocole LAMYSK AURA</p>
+  <a href="#selection" class="btn btn-primary" onclick="setTimeout(goToEcrins,50)" data-i18n="banner_ecrins_cta">Découvrir les Coffrets</a>
+</section>
+
 <!-- CHRONICLE -->
 <section class="chronicle" id="chronicle">
   <div class="chronicle-header reveal">
@@ -3260,13 +3797,12 @@ nav.scrolled .nav-account { color: var(--text-body); }
   </div>
   <div class="families-grid">
     <div class="family-card reveal"><h4 data-i18n="fam_woody">Boisé</h4><div class="family-sub">Oud · Santal · Cèdre · Vétiver</div><p data-i18n="fam_woody_desc">Une présence qui ne se justifie pas. Elle s'impose, naturellement.</p><div class="family-notes">Santal 33 · Tam Dao · Halfeti</div></div>
-    <div class="family-card reveal"><h4 data-i18n="fam_soft">Doux — La Famille Douce</h4><div class="family-sub">Musqué · Poudré · Lacté</div><p data-i18n="fam_soft_desc">Ni fleur, ni bois, ni épice — juste la douceur dans ses formes les plus intimes.</p><div class="family-notes">Musc Ravageur · Infusion d'Iris · Santal Blush</div></div>
     <div class="family-card reveal"><h4 data-i18n="fam_floral">Floral</h4><div class="family-sub">Rose de Taïf · Jasmin · Tubéreuse · Fleur d'Oranger</div><p data-i18n="fam_floral_desc">Le langage éternel de la parfumerie — infini dans ses expressions.</p><div class="family-notes">Carnal Flower · Beyond Love · Fleur de Cassie</div></div>
     <div class="family-card reveal"><h4 data-i18n="fam_spicy">Épicé</h4><div class="family-sub">Poivre Noir · Cardamome · Safran · Cannelle</div><p data-i18n="fam_spicy_desc">Le parfum du voyage — il vous transporte avant même d'avoir quitté la pièce.</p><div class="family-notes">Oud Satin Mood · Ambre Sultan · Halfeti Dark</div></div>
-    <div class="family-card reveal"><h4 data-i18n="fam_citrus">Hespéridé</h4><div class="family-sub">Bergamote · Citron · Pamplemousse · Yuzu</div><p data-i18n="fam_citrus_desc">La famille la plus fraîche. Comme une fenêtre ouverte un matin lumineux.</p><div class="family-notes">Clémentine California · Under the Lemon Trees · Io Capri</div></div>
-    <div class="family-card reveal"><h4 data-i18n="fam_gourmand">Gourmand</h4><div class="family-sub">Vanille · Caramel · Chocolat · Praline</div><p data-i18n="fam_gourmand_desc">Le parfum qui transforme votre peau en pâtisserie — dangereux et délicieux.</p><div class="family-notes">Tobacco Vanille · Vanilla 28 · Portrait of a Lady</div></div>
-    <div class="family-card reveal"><h4 data-i18n="fam_fruity">Fruité</h4><div class="family-sub">Pêche · Poire · Figue · Fruits Rouges</div><p data-i18n="fam_fruity_desc">Le sourire d'un parfum — immédiat, généreux, irrésistible.</p><div class="family-notes">En Passant · Flower Market · Miss Charming</div></div>
-    <div class="family-card reveal"><h4 data-i18n="fam_aquatic">Aquatique</h4><div class="family-sub">Calone · Sel Marin · Lotus · Bois Flotté</div><p data-i18n="fam_aquatic_desc">Le parfum de l'horizon — toujours présent, jamais pesant.</p><div class="family-notes">Sailing Day · Do Son · Molecule 01</div></div>
+    <div class="family-card reveal"><h4 data-i18n="fam_soft">Doux — La Famille Douce</h4><div class="family-sub">Musqué · Poudré · Lacté</div><p data-i18n="fam_soft_desc">Ni fleur, ni bois, ni épice — juste la douceur dans ses formes les plus intimes.</p><div class="family-notes">Musc Ravageur · Infusion d'Iris · Santal Blush</div></div>
+  </div>
+  <div style="text-align:center;margin-top:3rem;">
+    <a href="#chronicle" class="btn btn-outline" data-i18n="chron_cta" style="font-size:0.85rem;">Explorer toutes les familles olfactives</a>
   </div>
 </section>
 
@@ -3287,6 +3823,17 @@ nav.scrolled .nav-account { color: var(--text-body); }
       <a href="#selection" class="btn btn-dark" onclick="setTimeout(goToEcrins,50)" data-i18n="ecrins_cta">Voir les Coffrets</a>
     </div>
   </div>
+</section>
+
+<!-- ABSOLUS BANNER (mid-flow dark break before Quiz) -->
+<section class="absolus-banner reveal" id="absolus-banner">
+  <span class="section-label" data-i18n="banner_absolus_label">Les Absolus</span>
+  <h2 data-i18n="banner_absolus_title">Là où l'Orient rencontre l'Occident</h2>
+  <p data-i18n="banner_absolus_sub">L'excellence olfactive sans frontières.</p>
+  <div class="absolus-brands">
+    Amouage · Frédéric Malle · Matière Première · Roja Parfums · Xerjoff · Memo Paris · Parfums de Marly · Clive Christian
+  </div>
+  <a href="#selection" class="btn btn-outline" onclick="setTimeout(goToAbsolus,50)" data-i18n="banner_absolus_cta">Découvrir Les Absolus</a>
 </section>
 
 <!-- QUIZ -->
@@ -3360,7 +3907,7 @@ nav.scrolled .nav-account { color: var(--text-body); }
   </div>
 </section>
 
-<!-- BIO -->
+<!-- BIO + UNIVERS (fusionné) -->
 <section class="bio" id="bio">
   <div class="bio-grid container">
     <div class="bio-visual reveal">
@@ -3373,17 +3920,14 @@ nav.scrolled .nav-account { color: var(--text-body); }
       <div class="bio-text">
         <p class="highlight" data-i18n="bio_highlight">Certains héritages ne se transmettent pas en mots. Ils se respirent.</p>
         <p data-i18n="bio_p1">Le mien tient entre les plis d'un caftan, le bois d'un vieux meuble en cèdre et l'air doux d'une maison marocaine en été. Ma grand-mère n'était pas parfumeuse — elle incarnait un parfum.</p>
-        <p data-i18n="bio_p2">Ce parfum racontait sa vie : les grandes Eaux de Cologne françaises d'un côté, les trésors de l'Orient de l'autre — dahn al oud, bakhour, musc blanc. Et entre les deux, le Maroc intime : eau de fleur d'oranger, serghina, loban.</p>
         <p data-i18n="bio_p3">Aujourd'hui, ce rêve a un nom : <strong>LAMYSK AURA</strong> — une galerie olfactive où je réunis des parfums rares et artisanaux, choisis pour leur âme.</p>
       </div>
       <p class="bio-signature" data-i18n="bio_signature">Bienvenue dans mon monde. Bienvenue dans l'Aura.</p>
     </div>
   </div>
-</section>
 
-<!-- BRAND TABS -->
-<section class="brand-section" id="brand">
-  <div class="brand-tabs">
+  <!-- Notre Univers — tabs (Sillage · Philosophie · Promesse) -->
+  <div class="brand-tabs" id="brand" style="margin-top:5rem;">
     <span class="section-label" data-i18n="brand_label">Notre Univers</span>
     <div class="tab-nav" style="margin-top:1rem;">
       <button class="tab-btn active" onclick="switchTab(this, 'sillage')" data-i18n="tab_sillage">Sillage</button>
@@ -3450,9 +3994,12 @@ nav.scrolled .nav-account { color: var(--text-body); }
     <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text" data-i18n="faq2_q">Que contient un Coffret ?</span><span>+</span></button><div class="faq-a"><p data-i18n="faq2_a">Chaque coffret comprend un parfum de base pour le layering, un parfum signature, des produits complémentaires (poudre, dehn, brume cheveux, musc, lait corporel selon le coffret) et le Protocole LAMYSK AURA.</p></div></div>
     <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text" data-i18n="faq3_q">Livrez-vous partout au Maroc ?</span><span>+</span></button><div class="faq-a"><p data-i18n="faq3_a">Oui ! Livraison partout au Maroc. Chaque commande est soigneusement emballée pour protéger vos parfums.</p></div></div>
     <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text" data-i18n="faq4_q">Puis-je avoir des conseils personnalisés ?</span><span>+</span></button><div class="faq-a"><p data-i18n="faq4_a">Bien sûr. Faites notre quiz Diagnostic Olfactif ou contactez-nous directement pour une consultation personnalisée.</p></div></div>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text" data-i18n="faq5_q">C'est quoi le layering ?</span><span>+</span></button><div class="faq-a"><p data-i18n="faq5_a">Le layering, c'est l'art de construire son sillage en plusieurs étapes — du lait corporel au parfum signature jusqu'à la brume cheveux. Le résultat : un sillage plus riche et plus durable. Nos coffrets sont conçus pour ce rituel.</p></div></div>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text" data-i18n="faq6_q">Puis-je tester avant d'acheter un flacon complet ?</span><span>+</span></button><div class="faq-a"><p data-i18n="faq6_a">Oui. Notre Coffret Découverte (200 MAD) contient 5 échantillons de nos best-sellers. C'est le moyen idéal de trouver votre signature sans engagement. Le montant est déductible sur votre prochaine commande de flacon complet.</p></div></div>
-    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text" data-i18n="faq7_q">Comment fonctionne la commande ?</span><span>+</span></button><div class="faq-a"><p data-i18n="faq7_a">Ajoutez vos produits au panier, remplissez le formulaire de commande, et c'est fait. Notre équipe vous contacte sous 2h par WhatsApp pour confirmer les détails et organiser la livraison. Paiement à la livraison disponible.</p></div></div>
+    <div class="faq-more" id="faqMore">
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text" data-i18n="faq5_q">C'est quoi le layering ?</span><span>+</span></button><div class="faq-a"><p data-i18n="faq5_a">Le layering, c'est l'art de construire son sillage en plusieurs étapes — du lait corporel au parfum signature jusqu'à la brume cheveux. Le résultat : un sillage plus riche et plus durable. Nos coffrets sont conçus pour ce rituel.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text" data-i18n="faq6_q">Puis-je tester avant d'acheter un flacon complet ?</span><span>+</span></button><div class="faq-a"><p data-i18n="faq6_a">Oui. Notre Coffret Découverte (200 MAD) contient 5 échantillons de nos best-sellers. C'est le moyen idéal de trouver votre signature sans engagement. Le montant est déductible sur votre prochaine commande de flacon complet.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text" data-i18n="faq7_q">Comment fonctionne la commande ?</span><span>+</span></button><div class="faq-a"><p data-i18n="faq7_a">Ajoutez vos produits au panier, remplissez le formulaire de commande, et c'est fait. Notre équipe vous contacte sous 2h par WhatsApp pour confirmer les détails et organiser la livraison. Paiement à la livraison disponible.</p></div></div>
+    </div>
+    <button class="faq-toggle-more" onclick="toggleFaqMore(this)" data-i18n="faq_show_more">Voir plus de questions</button>
   </div>
 </section>
 
@@ -3460,7 +4007,7 @@ nav.scrolled .nav-account { color: var(--text-body); }
 <section class="newsletter">
   <span class="section-label">Newsletter</span>
   <h2 data-i18n="nl_title">Rejoignez l'univers LAMYSK AURA</h2>
-  <p data-i18n="nl_desc">Soyez la première à découvrir les nouveautés et coffrets exclusifs.</p>
+  <p data-i18n="nl_desc">Recevez en avant-première nos nouveautés et coffrets exclusifs.</p>
   <div class="newsletter-form">
     <input type="email" id="nlEmail" data-i18n-placeholder="nl_placeholder" placeholder="Votre adresse email">
     <button onclick="subscribeNL()" data-i18n="nl_btn">S'inscrire</button>
@@ -3888,6 +4435,13 @@ const LANG = {
     hero_cta1: 'Découvrir la Sélection', hero_cta2: 'Voir les Écrins', hero_scroll: 'Défiler pour découvrir',
     ecrins_label: 'Les Écrins', ecrins_title: 'L\'expérience parfum complète — réunie dans un écrin',
     ecrins_sub: 'Le parfum parfait ne se porte pas. Il se compose.', ecrins_cta: 'Voir les Coffrets',
+    banner_ecrins_label: 'Les Écrins', banner_ecrins_title: 'L\'expérience parfum complète — réunie dans un écrin',
+    banner_ecrins_sub: 'Base de layering · Signature · Produits complémentaires · Protocole LAMYSK AURA',
+    banner_ecrins_cta: 'Découvrir les Coffrets',
+    banner_absolus_label: 'Les Absolus', banner_absolus_title: 'Là où l\'Orient rencontre l\'Occident',
+    banner_absolus_sub: 'L\'excellence olfactive sans frontières.',
+    banner_absolus_cta: 'Découvrir Les Absolus',
+    faq_show_more: 'Voir plus de questions', faq_show_less: 'Voir moins',
     bio_label: 'À Propos', bio_title: 'L\'Âme <em>Authentique</em>',
     bio_highlight: 'Certains héritages ne se transmettent pas en mots. Ils se respirent.',
     bio_p1: 'Le mien tient entre les plis d\'un caftan, le bois d\'un vieux meuble en cèdre et l\'air doux d\'une maison marocaine en été. Ma grand-mère n\'était pas parfumeuse — elle incarnait un parfum.',
@@ -3946,10 +4500,12 @@ const LANG = {
     q4: 'Que doit révéler votre parfum ?', q4a: 'Douceur & réconfort', q4b: 'Force & authenticité', q4c: 'Mystère & séduction', q4d: 'Grâce & élégance',
     promo_label: 'Code Découverte', promo_desc: '15% de réduction · Valable 30 jours',
     quiz_explore: 'Découvrir Votre Coffret',
+    quiz_parfums_title: 'Parfums qui vous correspondent',
     pdp_composition: 'Composition', pdp_head: 'Tête', pdp_heart: 'Cœur', pdp_base: 'Fond',
     add_bag: 'Ajouter au Panier',
     chron_label: 'La Chronique', chron_title: 'Un parfum compris est un parfum mieux <em>porté</em>',
     chron_desc: 'Des familles olfactives aux secrets du layering — chaque chronique est une invitation à sentir autrement.',
+    chron_cta: 'Explorer toutes les familles olfactives',
     fam_woody: 'Boisé', fam_woody_desc: 'Une présence qui ne se justifie pas. Elle s\'impose, naturellement.',
     fam_soft: 'Doux', fam_soft_desc: 'Ni fleur, ni bois, ni épice — juste la douceur dans ses formes les plus intimes.',
     fam_floral: 'Floral', fam_floral_desc: 'Le langage éternel de la parfumerie — infini dans ses expressions.',
@@ -3970,7 +4526,7 @@ const LANG = {
     faq5_q: 'C\'est quoi le layering ?', faq5_a: 'Le layering, c\'est l\'art de construire son sillage en plusieurs étapes — du lait corporel au parfum signature jusqu\'à la brume cheveux. Le résultat : un sillage plus riche et plus durable. Nos coffrets sont conçus pour ce rituel.',
     faq6_q: 'Puis-je tester avant d\'acheter un flacon complet ?', faq6_a: 'Oui. Notre Coffret Découverte (200 MAD) contient 5 échantillons de nos best-sellers. C\'est le moyen idéal de trouver votre signature sans engagement. Le montant est déductible sur votre prochaine commande de flacon complet.',
     faq7_q: 'Comment fonctionne la commande ?', faq7_a: 'Ajoutez vos produits au panier, remplissez le formulaire de commande, et c\'est fait. Notre équipe vous contacte sous 2h par WhatsApp pour confirmer les détails et organiser la livraison. Paiement à la livraison disponible.',
-    nl_title: 'Rejoignez l\'univers LAMYSK AURA', nl_desc: 'Soyez la première à découvrir les nouveautés et coffrets exclusifs.',
+    nl_title: 'Rejoignez l\'univers LAMYSK AURA', nl_desc: 'Recevez en avant-première nos nouveautés et coffrets exclusifs.',
     nl_placeholder: 'Votre adresse email', nl_btn: 'S\'inscrire',
     footer_tagline: 'Votre Maison de Parfum de Niche.<br>Là où le parfum devient présence.',
     footer_explore: 'Explorer', footer_shop: 'Boutique', footer_connect: 'Contact',
@@ -4028,6 +4584,13 @@ const LANG = {
     hero_cta1: 'اكتشف التشكيلة', hero_cta2: 'اكتشف الأطقم', hero_scroll: 'مرّر للاكتشاف',
     ecrins_label: 'الأطقم', ecrins_title: 'تجربة العطر الكاملة — مجتمعة في طقم واحد',
     ecrins_sub: 'العطر المثالي لا يُلبس. بل يُؤلف.', ecrins_cta: 'اكتشف الأطقم',
+    banner_ecrins_label: 'الأطقم', banner_ecrins_title: 'تجربة العطر الكاملة — مجتمعة في طقم واحد',
+    banner_ecrins_sub: 'قاعدة الطبقات · العطر المميز · المنتجات المكملة · بروتوكول LAMYSK AURA',
+    banner_ecrins_cta: 'اكتشف الأطقم',
+    banner_absolus_label: 'المطلقات', banner_absolus_title: 'حيث يلتقي الشرق بالغرب',
+    banner_absolus_sub: 'التميّز العطري بلا حدود.',
+    banner_absolus_cta: 'اكتشف المطلقات',
+    faq_show_more: 'المزيد من الأسئلة', faq_show_less: 'عرض أقل',
     bio_label: 'من نحن', bio_title: 'الروح <em>الأصيلة</em>',
     bio_highlight: 'بعض الإرث لا يُنقل بالكلمات. بل يُستنشق.',
     bio_p1: 'إرثي يسكن بين ثنايا قفطان، وخشب خزانة أرز قديمة، ونسيم بيت مغربي في الصيف. جدتي لم تكن عطّارة — كانت عطراً بذاتها.',
@@ -4086,10 +4649,12 @@ const LANG = {
     q4: 'ماذا يجب أن يكشف عطركِ؟', q4a: 'الحنان والدفء', q4b: 'القوة والأصالة', q4c: 'الغموض والإغراء', q4d: 'الرقة والأنوثة',
     promo_label: 'كود الاكتشاف', promo_desc: '15% خصم · صالح 30 يوماً',
     quiz_explore: 'اكتشفي طقمكِ',
+    quiz_parfums_title: 'عطور تناسب ملفكِ',
     pdp_composition: 'التركيبة', pdp_head: 'رأس', pdp_heart: 'قلب', pdp_base: 'قاعدة',
     add_bag: 'أضيفي إلى الحقيبة',
     chron_label: 'السجل', chron_title: 'العطر المفهوم يُلبس <em>أفضل</em>',
     chron_desc: 'من العائلات العطرية إلى أسرار الطبقات — كل سجل دعوة للشم بشكل مختلف.',
+    chron_cta: 'استكشف جميع العائلات العطرية',
     fam_woody: 'خشبي', fam_woody_desc: 'حضور لا يحتاج تبريراً. يفرض نفسه بشكل طبيعي.',
     fam_soft: 'ناعم', fam_soft_desc: 'لا زهرة ولا خشب ولا توابل — فقط النعومة في أحلى تجلياتها.',
     fam_floral: 'زهري', fam_floral_desc: 'لغة العطور الأبدية — لا نهائية في تعبيراتها.',
@@ -4110,7 +4675,7 @@ const LANG = {
     faq5_q: 'ما هو الـ layering؟', faq5_a: 'الطبقات هو فن بناء الأثر العطري بخطوات متعددة — من اللوشن إلى العطر الرئيسي إلى رذاذ الشعر. النتيجة: أثر أغنى وأطول. أطقمنا مصممة لهذا الطقس.',
     faq6_q: 'هل يمكنني التجربة قبل شراء عبوة كاملة؟', faq6_a: 'نعم. صندوق الاكتشاف (200 درهم) يحتوي على 5 عينات من أكثر عطورنا طلباً. الطريقة المثالية لاكتشاف توقيعكِ دون التزام. المبلغ يُخصم من طلبكِ القادم.',
     faq7_q: 'كيف تتم عملية الطلب؟', faq7_a: 'أضيفي المنتجات إلى السلة، املأي نموذج الطلب، وانتهى الأمر. فريقنا يتواصل معكِ خلال ساعتين عبر واتساب لتأكيد التفاصيل وترتيب التوصيل. الدفع عند الاستلام متاح.',
-    nl_title: 'انضمّي إلى عالم LAMYSK AURA', nl_desc: 'كوني أول من يكتشف الجديد والأطقم الحصرية.',
+    nl_title: 'انضمّوا إلى عالم LAMYSK AURA', nl_desc: 'كونوا أول من يكتشف الجديد والأطقم الحصرية.',
     nl_placeholder: 'بريدكِ الإلكتروني', nl_btn: 'اشتراك',
     footer_tagline: 'بيتك للعطور الراقية.<br>حيث يصبح العطر حضوراً.',
     footer_explore: 'استكشف', footer_shop: 'المتجر', footer_connect: 'تواصل',
@@ -4168,6 +4733,13 @@ const LANG = {
     hero_cta1: 'Explore the Selection', hero_cta2: 'Discover the Écrins', hero_scroll: 'Scroll to discover',
     ecrins_label: 'Les Écrins', ecrins_title: 'The complete fragrance experience — in one écrin',
     ecrins_sub: 'The perfect fragrance is not worn. It is composed.', ecrins_cta: 'See the Coffrets',
+    banner_ecrins_label: 'Les Écrins', banner_ecrins_title: 'The complete fragrance experience — in one écrin',
+    banner_ecrins_sub: 'Layering base · Signature · Complementary products · LAMYSK AURA Protocol',
+    banner_ecrins_cta: 'Discover the Coffrets',
+    banner_absolus_label: 'Les Absolus', banner_absolus_title: 'Where Orient meets Occident',
+    banner_absolus_sub: 'Olfactory excellence without borders.',
+    banner_absolus_cta: 'Discover Les Absolus',
+    faq_show_more: 'See more questions', faq_show_less: 'See less',
     bio_label: 'About', bio_title: 'The <em>Authentic</em> Soul',
     bio_highlight: 'Some inheritances are not passed down in words. They are breathed in.',
     bio_p1: 'Mine lives between the folds of a caftan, the wood of an old cedar wardrobe, and the soft air of a Moroccan home in summer. My grandmother was not a perfumer — she embodied a fragrance.',
@@ -4226,10 +4798,12 @@ const LANG = {
     q4: 'What should your scent reveal?', q4a: 'Tenderness & comfort', q4b: 'Strength & authenticity', q4c: 'Mystery & seduction', q4d: 'Grace & elegance',
     promo_label: 'Discovery Code', promo_desc: '15% discount · Valid 30 days',
     quiz_explore: 'Explore Your Coffret',
+    quiz_parfums_title: 'Fragrances that match your profile',
     pdp_composition: 'Composition', pdp_head: 'Top', pdp_heart: 'Heart', pdp_base: 'Base',
     add_bag: 'Add to Bag',
     chron_label: 'The Chronicle', chron_title: 'A fragrance understood is a fragrance better <em>worn</em>',
     chron_desc: 'From fragrance families to the secrets of layering — each chronicle is an invitation to smell differently.',
+    chron_cta: 'Explore all fragrance families',
     fam_woody: 'Woody', fam_woody_desc: 'A presence that needs no justification. It simply imposes itself.',
     fam_soft: 'Soft', fam_soft_desc: 'Neither flower, nor wood, nor spice — just softness in its most intimate form.',
     fam_floral: 'Floral', fam_floral_desc: 'The timeless language of perfumery — infinite in its expressions.',
@@ -4300,6 +4874,226 @@ function T(key) {
   return LANG[currentLang][key] || LANG['fr'][key] || key;
 }
 
+// ═══════════════════════════════════════════
+// PRODUCT-LEVEL TRANSLATIONS (brand / name / notes)
+// Keyed by data-pkey set on .product-card. FR is the source of truth; AR/EN
+// are rendered only when the user switches language. Brand names stay Latin
+// in all langs (luxury convention); AR localises the city suffix.
+// ═══════════════════════════════════════════
+const PRODUCT_I18N = {
+  // ── MATCH — Paris ──────────────────────────
+  match_mateir: {
+    fr: { brand: 'MATCH — Paris', name: 'Mateir', notes: 'Bois ambré · Épices · Musc' },
+    ar: { brand: 'MATCH — باريس', name: 'مطير', notes: 'خشب عنبري · توابل · مسك' },
+    en: { brand: 'MATCH — Paris', name: 'Mateir', notes: 'Amber Wood · Spices · Musk' }
+  },
+  match_mineral_oud: {
+    fr: { brand: 'MATCH — Paris', name: 'Mineral Oud', notes: 'Oud · Minéral · Vétiver' },
+    ar: { brand: 'MATCH — باريس', name: 'عود معدني', notes: 'عود · معدني · فيتيفر' },
+    en: { brand: 'MATCH — Paris', name: 'Mineral Oud', notes: 'Oud · Mineral · Vetiver' }
+  },
+  match_lun_felyn: {
+    fr: { brand: 'MATCH — Paris', name: 'Lun Felyn', notes: 'Floral poudré · Iris · Musc' },
+    ar: { brand: 'MATCH — باريس', name: 'لون فيلين', notes: 'زهري بودرة · سوسن · مسك' },
+    en: { brand: 'MATCH — Paris', name: 'Lun Felyn', notes: 'Powdery Floral · Iris · Musk' }
+  },
+  match_falkon_matir: {
+    fr: { brand: 'MATCH — Paris', name: 'Falkon Matir', notes: 'Cuir · Safran · Oud' },
+    ar: { brand: 'MATCH — باريس', name: 'فالكون ماطر', notes: 'جلد · زعفران · عود' },
+    en: { brand: 'MATCH — Paris', name: 'Falkon Matir', notes: 'Leather · Saffron · Oud' }
+  },
+  match_komitt: {
+    fr: { brand: 'MATCH — Paris', name: 'Komitt', notes: 'Fruits noirs · Rose · Patchouli' },
+    ar: { brand: 'MATCH — باريس', name: 'كوميت', notes: 'فواكه سوداء · وردة · باتشولي' },
+    en: { brand: 'MATCH — Paris', name: 'Komitt', notes: 'Dark Fruits · Rose · Patchouli' }
+  },
+  match_boud_safron: {
+    fr: { brand: 'MATCH — Paris', name: "B'Oud Safron", notes: 'Oud · Safran · Ambre' },
+    ar: { brand: 'MATCH — باريس', name: 'بعود وزعفران', notes: 'عود · زعفران · عنبر' },
+    en: { brand: 'MATCH — Paris', name: "B'Oud Safron", notes: 'Oud · Saffron · Amber' }
+  },
+  match_silq_quin: {
+    fr: { brand: 'MATCH — Paris', name: 'Silq Quin', notes: 'Oud · Soie · Musc' },
+    ar: { brand: 'MATCH — باريس', name: 'سلك كوين', notes: 'عود · حرير · مسك' },
+    en: { brand: 'MATCH — Paris', name: 'Silq Quin', notes: 'Oud · Silk · Musk' }
+  },
+  match_leather: {
+    fr: { brand: 'MATCH — Paris', name: 'Leather', notes: 'Cuir · Tabac · Bois fumés' },
+    ar: { brand: 'MATCH — باريس', name: 'جلد', notes: 'جلد · تبغ · أخشاب مدخّنة' },
+    en: { brand: 'MATCH — Paris', name: 'Leather', notes: 'Leather · Tobacco · Smoked Woods' }
+  },
+
+  // ── MATCH Musks — Paris ────────────────────
+  musk_bridal: {
+    fr: { brand: 'MATCH Musks — Paris', name: 'Bridal Musk', notes: "Musc blanc · Fleur d'oranger · Poudré" },
+    ar: { brand: 'MATCH Musks — باريس', name: 'مسك العروس', notes: 'مسك أبيض · زهر البرتقال · بودرة' },
+    en: { brand: 'MATCH Musks — Paris', name: 'Bridal Musk', notes: 'White Musk · Orange Blossom · Powdery' }
+  },
+  musk_lina: {
+    fr: { brand: 'MATCH Musks — Paris', name: 'Musk Lina', notes: 'Musc · Rose · Pêche' },
+    ar: { brand: 'MATCH Musks — باريس', name: 'مسك لينا', notes: 'مسك · وردة · خوخ' },
+    en: { brand: 'MATCH Musks — Paris', name: 'Musk Lina', notes: 'Musk · Rose · Peach' }
+  },
+  musk_dvine: {
+    fr: { brand: 'MATCH Musks — Paris', name: 'Musk Dvine', notes: 'Musc · Oud · Safran' },
+    ar: { brand: 'MATCH Musks — باريس', name: 'مسك ديفاين', notes: 'مسك · عود · زعفران' },
+    en: { brand: 'MATCH Musks — Paris', name: 'Musk Dvine', notes: 'Musk · Oud · Saffron' }
+  },
+  musk_opiume: {
+    fr: { brand: 'MATCH Musks — Paris', name: 'Musk Opiume', notes: 'Musc · Opium · Ambre oriental' },
+    ar: { brand: 'MATCH Musks — باريس', name: 'مسك أفيون', notes: 'مسك · أفيون · عنبر شرقي' },
+    en: { brand: 'MATCH Musks — Paris', name: 'Musk Opiume', notes: 'Musk · Opium · Oriental Amber' }
+  },
+
+  // ── Lattafa — Dubaï ────────────────────────
+  lattafa_sehr_alkalimat: {
+    fr: { brand: 'Lattafa — Dubaï', name: 'Sehr Al Kalimat', notes: 'Musc · Santal · Vanille' },
+    ar: { brand: 'لطافة — دبي', name: 'سحر الكلمات', notes: 'مسك · خشب الصندل · فانيليا' },
+    en: { brand: 'Lattafa — Dubai', name: 'Sehr Al Kalimat', notes: 'Musk · Sandalwood · Vanilla' }
+  },
+
+  // ── Arabian Oud — Riyad ────────────────────
+  ao_woody_style: {
+    fr: { brand: 'Arabian Oud — Riyad', name: 'Woody Style', notes: 'Bois · Agrumes · Musc' },
+    ar: { brand: 'العربية للعود — الرياض', name: 'وودي ستايل', notes: 'خشب · حمضيات · مسك' },
+    en: { brand: 'Arabian Oud — Riyadh', name: 'Woody Style', notes: 'Wood · Citrus · Musk' }
+  },
+  ao_woody_intense: {
+    fr: { brand: 'Arabian Oud — Riyad', name: 'Woody Intense', notes: 'Oud · Vétiver · Patchouli' },
+    ar: { brand: 'العربية للعود — الرياض', name: 'وودي إنتنس', notes: 'عود · فيتيفر · باتشولي' },
+    en: { brand: 'Arabian Oud — Riyadh', name: 'Woody Intense', notes: 'Oud · Vetiver · Patchouli' }
+  },
+  ao_rosewood: {
+    fr: { brand: 'Arabian Oud — Riyad', name: 'Rosewood', notes: 'Bois de rose · Oud · Ambre' },
+    ar: { brand: 'العربية للعود — الرياض', name: 'خشب الورد', notes: 'خشب الورد · عود · عنبر' },
+    en: { brand: 'Arabian Oud — Riyadh', name: 'Rosewood', notes: 'Rosewood · Oud · Amber' }
+  },
+  ao_saffron: {
+    fr: { brand: 'Arabian Oud — Riyad', name: 'Saffron Oud', notes: 'Safran · Oud · Rose' },
+    ar: { brand: 'العربية للعود — الرياض', name: 'عود الزعفران', notes: 'زعفران · عود · وردة' },
+    en: { brand: 'Arabian Oud — Riyadh', name: 'Saffron Oud', notes: 'Saffron · Oud · Rose' }
+  },
+  ao_musk_mubakhar: {
+    fr: { brand: 'Arabian Oud — Riyad', name: 'Musk Mubakhar', notes: 'Musc · Bakhour · Poudré' },
+    ar: { brand: 'العربية للعود — الرياض', name: 'مسك مبخّر', notes: 'مسك · بخور · بودرة' },
+    en: { brand: 'Arabian Oud — Riyadh', name: 'Musk Mubakhar', notes: 'Musk · Bakhoor · Powdery' }
+  },
+  ao_vanilla_rose: {
+    fr: { brand: 'Arabian Oud — Riyad', name: 'Vanilla Rose', notes: 'Vanille · Rose · Ambre' },
+    ar: { brand: 'العربية للعود — الرياض', name: 'وردة الفانيليا', notes: 'فانيليا · وردة · عنبر' },
+    en: { brand: 'Arabian Oud — Riyadh', name: 'Vanilla Rose', notes: 'Vanilla · Rose · Amber' }
+  },
+
+  // ── Ghawali — by Ajmal ─────────────────────
+  gh_kin_musk: {
+    fr: { brand: 'Ghawali — by Ajmal', name: 'Kin Musk', notes: 'Musc · Cachemire · Blanc' },
+    ar: { brand: 'غوالي — من أجمل', name: 'مسك العائلة', notes: 'مسك · كشمير · أبيض' },
+    en: { brand: 'Ghawali — by Ajmal', name: 'Kin Musk', notes: 'Musk · Cashmere · White' }
+  },
+  gh_untold: {
+    fr: { brand: 'Ghawali — by Ajmal', name: 'Untold', notes: 'Oud · Safran · Patchouli' },
+    ar: { brand: 'غوالي — من أجمل', name: 'أنتولد', notes: 'عود · زعفران · باتشولي' },
+    en: { brand: 'Ghawali — by Ajmal', name: 'Untold', notes: 'Oud · Saffron · Patchouli' }
+  },
+  gh_dusk: {
+    fr: { brand: 'Ghawali — by Ajmal', name: 'Dusk Outro', notes: 'Ambre · Vanille · Bois' },
+    ar: { brand: 'غوالي — من أجمل', name: 'دسك أوترو', notes: 'عنبر · فانيليا · خشب' },
+    en: { brand: 'Ghawali — by Ajmal', name: 'Dusk Outro', notes: 'Amber · Vanilla · Woods' }
+  },
+  gh_love_note: {
+    fr: { brand: 'Ghawali — by Ajmal', name: 'Love Note', notes: 'Rose · Musc · Poudré' },
+    ar: { brand: 'غوالي — من أجمل', name: 'نغمة حب', notes: 'وردة · مسك · بودرة' },
+    en: { brand: 'Ghawali — by Ajmal', name: 'Love Note', notes: 'Rose · Musk · Powdery' }
+  },
+  gh_last_date: {
+    fr: { brand: 'Ghawali — by Ajmal', name: 'Last Date', notes: 'Dattes · Miel · Oud' },
+    ar: { brand: 'غوالي — من أجمل', name: 'آخر تمر', notes: 'تمر · عسل · عود' },
+    en: { brand: 'Ghawali — by Ajmal', name: 'Last Date', notes: 'Dates · Honey · Oud' }
+  },
+  gh_9pm: {
+    fr: { brand: 'Ghawali — by Ajmal', name: '9 P.M. Saudi', notes: 'Oud · Ambre · Safran' },
+    ar: { brand: 'غوالي — من أجمل', name: '٩ مساءً — سعودي', notes: 'عود · عنبر · زعفران' },
+    en: { brand: 'Ghawali — by Ajmal', name: '9 P.M. Saudi', notes: 'Oud · Amber · Saffron' }
+  },
+
+  // ── Rosendo Mateu — Barcelone ──────────────
+  rm_n5_parfum: {
+    fr: { brand: 'Rosendo Mateu — Barcelone', name: 'N°5 Parfum', notes: 'Floral · Ambré · Musc sensuel' },
+    ar: { brand: 'روسيندو ماتيو — برشلونة', name: 'رقم ٥ — عطر', notes: 'زهري · عنبري · مسك حسي' },
+    en: { brand: 'Rosendo Mateu — Barcelona', name: 'N°5 Parfum', notes: 'Floral · Amber · Sensual Musk' }
+  },
+
+  // ── Thomas Kosmala — Paris ─────────────────
+  tk_n4: {
+    fr: { brand: 'Thomas Kosmala — Paris', name: "N°4 Après l'Amour", notes: 'Néroli · Musc · Ambre' },
+    ar: { brand: 'توماس كوسمالا — باريس', name: 'رقم ٤ — ما بعد الحب', notes: 'نيرولي · مسك · عنبر' },
+    en: { brand: 'Thomas Kosmala — Paris', name: 'N°4 After Love', notes: 'Neroli · Musk · Amber' }
+  },
+  tk_n9: {
+    fr: { brand: 'Thomas Kosmala — Paris', name: 'N°9 Bukhoor Elixir', notes: 'Bakhoor · Oud · Ambre' },
+    ar: { brand: 'توماس كوسمالا — باريس', name: 'رقم ٩ — إكسير البخور', notes: 'بخور · عود · عنبر' },
+    en: { brand: 'Thomas Kosmala — Paris', name: 'N°9 Bukhoor Elixir', notes: 'Bakhoor · Oud · Amber' }
+  }
+};
+
+function applyProductI18n(lang) {
+  document.querySelectorAll('.product-card[data-pkey]').forEach(card => {
+    const key = card.getAttribute('data-pkey');
+    const t = PRODUCT_I18N[key] && PRODUCT_I18N[key][lang];
+    if (!t) return;
+    const b = card.querySelector('.product-brand');
+    const n = card.querySelector('.product-name');
+    const ns = card.querySelector('.product-notes');
+    if (b)  b.textContent  = t.brand;
+    if (n)  n.textContent  = t.name;
+    if (ns) ns.textContent = t.notes;
+  });
+}
+
+// ═══════════════════════════════════════════
+// PRODUCT META (price / image / category) — used by quiz recommender
+// ═══════════════════════════════════════════
+const PRODUCT_META = {
+  match_mateir:           { price: 750,  img: 'images/match_mateir.png',           cat: 'orient' },
+  match_mineral_oud:      { price: 780,  img: 'images/match_mineral_oud.png',      cat: 'orient' },
+  match_lun_felyn:        { price: 720,  img: 'images/match_lun_felyn.png',        cat: 'orient' },
+  match_falkon_matir:     { price: 780,  img: 'images/match_falkon_matir.png',     cat: 'orient' },
+  match_komitt:           { price: 720,  img: 'images/match_komitt.png',           cat: 'orient' },
+  match_boud_safron:      { price: 780,  img: 'images/match_boud_safron.png',      cat: 'orient' },
+  match_silq_quin:        { price: 720,  img: 'images/match_silq_quin.png',        cat: 'orient' },
+  match_leather:          { price: 780,  img: 'images/match_leather.png',          cat: 'orient' },
+  musk_bridal:            { price: 650,  img: 'images/match_musk_bridal.png',      cat: 'orient' },
+  musk_lina:              { price: 650,  img: 'images/match_musk_lina.png',        cat: 'orient' },
+  musk_dvine:             { price: 650,  img: 'images/match_musk_dvine.png',       cat: 'orient' },
+  musk_opiume:            { price: 650,  img: 'images/match_musk_opiume.png',      cat: 'orient' },
+  lattafa_sehr_alkalimat: { price: 550,  img: 'images/lattafa_sehr_alkalimat.png', cat: 'orient' },
+  ao_woody_style:         { price: 650,  img: 'images/woody_style.png',            cat: 'orient' },
+  ao_woody_intense:       { price: 750,  img: 'images/woody_intense.png',          cat: 'orient' },
+  ao_rosewood:            { price: 1100, img: 'images/arabian_oud_rosewood.png',   cat: 'orient' },
+  ao_saffron:             { price: 950,  img: 'images/arabian_oud_saffron.png',    cat: 'orient' },
+  ao_musk_mubakhar:       { price: 850,  img: 'images/arabian_oud_musk_mubakhar.png', cat: 'orient' },
+  ao_vanilla_rose:        { price: 950,  img: 'images/arabian_oud_vanilla_rose.png',  cat: 'orient' },
+  gh_kin_musk:            { price: 650,  img: 'images/ghawali_kin_musk.png',       cat: 'orient' },
+  gh_untold:              { price: 700,  img: 'images/ghawali_untold.png',         cat: 'orient' },
+  gh_dusk:                { price: 720,  img: 'images/ghawali_dusk_outro.png',     cat: 'orient' },
+  gh_love_note:           { price: 650,  img: 'images/ghawali_love_note.png',      cat: 'orient' },
+  gh_last_date:           { price: 700,  img: 'images/ghawali_last_date.png',      cat: 'orient' },
+  gh_9pm:                 { price: 780,  img: 'images/ghawali_9pm_saudi.png',      cat: 'orient' },
+  rm_n5_parfum:           { price: 1700, img: 'images/rosendo_n5_parfum.png',      cat: 'occident' },
+  tk_n4:                  { price: 1450, img: 'images/thomas_kosmala_n4.png',      cat: 'occident' },
+  tk_n9:                  { price: 1650, img: 'images/thomas_kosmala_n9_bukhoor.png', cat: 'occident' }
+};
+
+// Quiz → 3 matching parfums per olfactive profile. Each key is an answer value
+// fired by the quiz options (woody/floral/spicy/citrus/soft).
+const QUIZ_PARFUMS = {
+  woody:  ['ao_woody_intense', 'match_mineral_oud', 'match_leather'],
+  spicy:  ['match_falkon_matir', 'tk_n9',           'gh_9pm'],
+  floral: ['rm_n5_parfum',      'gh_love_note',     'match_lun_felyn'],
+  citrus: ['ao_woody_style',    'tk_n4',            'match_mateir'],
+  soft:   ['gh_kin_musk',       'musk_bridal',      'lattafa_sehr_alkalimat']
+};
+
 function setLang(lang) {
   currentLang = lang;
   // Update button states
@@ -4323,6 +5117,12 @@ function setLang(lang) {
     const key = el.getAttribute('data-i18n-placeholder');
     el.placeholder = T(key);
   });
+
+  // Translate product cards (brand / name / notes) for stamped cards
+  applyProductI18n(lang);
+
+  // Search index depends on visible card text — rebuild so queries match current lang
+  if (typeof _productIndex !== 'undefined') _productIndex = null;
 
   // Update cart
   updateCart();
@@ -4371,6 +5171,28 @@ function goToEcrins() {
   });
   // Scroll to the selection section
   document.getElementById('selection').scrollIntoView({ behavior: 'smooth' });
+}
+
+function goToAbsolus() {
+  document.querySelectorAll('.cat-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('absolus').classList.add('active');
+  document.querySelectorAll('.cat-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('onclick') && b.getAttribute('onclick').includes('absolus'));
+  });
+  document.getElementById('selection').scrollIntoView({ behavior: 'smooth' });
+}
+
+function toggleFaqMore(btn) {
+  const wrap = document.getElementById('faqMore');
+  const isOpen = wrap.classList.toggle('open');
+  const labelKey = isOpen ? 'faq_show_less' : 'faq_show_more';
+  btn.setAttribute('data-i18n', labelKey);
+  const fallback = { fr: { faq_show_more: 'Voir plus de questions', faq_show_less: 'Voir moins' },
+                     en: { faq_show_more: 'See more questions', faq_show_less: 'See less' },
+                     ar: { faq_show_more: 'المزيد من الأسئلة', faq_show_less: 'عرض أقل' } };
+  const lang = (document.documentElement.lang || 'fr').toLowerCase();
+  const dict = (typeof LANG !== 'undefined' && LANG[lang]) ? LANG[lang] : fallback[lang] || fallback.fr;
+  btn.textContent = dict[labelKey] || fallback[lang][labelKey];
 }
 
 // ═══════════════════════════════════════════
@@ -4818,7 +5640,8 @@ function showResult() {
         '<div class="quiz-rec-price">' + formatPrice(rec.price) + '</div>' +
         '<button class="btn btn-dark" onclick="addToCart(\'' + rec.name + '\',\'Les Écrins\',' + rec.price + ');setTimeout(goToEcrins,100)">' + addLabel + '</button>' +
       '</div>' +
-    '</div>';
+    '</div>' +
+    _renderQuizParfums(profile);
 
   // Save quiz result to backend (fire-and-forget)
   fetch(CONFIG.apiBase + '/quiz', {
@@ -4826,6 +5649,53 @@ function showResult() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ profile, promo_code: promoCode, lang: currentLang })
   }).catch(() => {});
+}
+
+function _renderQuizParfums(profile) {
+  const pkeys = QUIZ_PARFUMS[profile] || [];
+  if (!pkeys.length) return '';
+  const lang = currentLang;
+  const items = pkeys.map(pk => {
+    const meta = PRODUCT_META[pk];
+    const i18n = PRODUCT_I18N[pk] && PRODUCT_I18N[pk][lang];
+    if (!meta || !i18n) return '';
+    return (
+      '<div class="quiz-parfum-item" onclick="scrollToProduct(\'' + pk + '\')">' +
+        '<div class="quiz-parfum-img" style="background-image:url(\'' + meta.img + '\')"></div>' +
+        '<div class="quiz-parfum-brand">' + i18n.brand + '</div>' +
+        '<div class="quiz-parfum-name">' + i18n.name + '</div>' +
+        '<div class="quiz-parfum-price">' + formatPrice(meta.price) + '</div>' +
+      '</div>'
+    );
+  }).join('');
+  const title = T('quiz_parfums_title') || 'Parfums pour votre profil';
+  return (
+    '<div class="quiz-parfums-section">' +
+      '<h4>' + title + '</h4>' +
+      '<div class="quiz-parfum-list">' + items + '</div>' +
+    '</div>'
+  );
+}
+
+function scrollToProduct(pkey) {
+  const card = document.querySelector('.product-card[data-pkey="' + pkey + '"]');
+  if (!card) return;
+  const panel = card.closest('.cat-panel');
+  if (panel) {
+    const catId = panel.id;
+    document.querySelectorAll('.cat-panel').forEach(p => p.classList.remove('active'));
+    panel.classList.add('active');
+    document.querySelectorAll('.cat-btn').forEach(b => {
+      const oc = b.getAttribute('onclick') || '';
+      b.classList.toggle('active', oc.includes("'" + catId + "'"));
+    });
+  }
+  setTimeout(() => {
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    card.style.transition = 'box-shadow 0.6s ease';
+    card.style.boxShadow = '0 0 0 2px var(--gold)';
+    setTimeout(() => { card.style.boxShadow = ''; }, 1800);
+  }, 200);
 }
 
 // ═══════════════════════════════════════════
@@ -4884,14 +5754,15 @@ function _buildProductIndex() {
   const index = [];
   document.querySelectorAll('.product-card').forEach(card => {
     const name  = card.querySelector('.product-name')?.textContent.trim()  || '';
+    const brand = card.querySelector('.product-brand')?.textContent.trim() || '';
     const notes = card.querySelector('.product-notes')?.textContent.trim() || '';
     const cat   = card.closest('.cat-panel')?.id || '';
-    if (name) index.push({ name, notes, cat, card });
+    if (name) index.push({ name, brand, notes, cat, card });
   });
   document.querySelectorAll('.coffret-card').forEach(card => {
     const name  = card.querySelector('h4')?.textContent.trim() || '';
     const notes = card.querySelector('p')?.textContent.trim()  || '';
-    if (name) index.push({ name, notes, cat: 'ecrins', card });
+    if (name) index.push({ name, brand: '', notes, cat: 'ecrins', card });
   });
   return index;
 }
@@ -4911,7 +5782,9 @@ function heroSearchInput(val) {
 
   const q = val.toLowerCase();
   const matches = _productIndex.filter(p =>
-    p.name.toLowerCase().includes(q) || p.notes.toLowerCase().includes(q)
+    p.name.toLowerCase().includes(q) ||
+    p.brand.toLowerCase().includes(q) ||
+    p.notes.toLowerCase().includes(q)
   ).slice(0, 8);
 
   if (!matches.length) {
@@ -4922,15 +5795,20 @@ function heroSearchInput(val) {
 
   const catLabel = { orient:'Orient', occident:'Occident', absolus:'Les Absolus', ecrins:'Les Écrins', essentiels:'Les Essentiels' };
 
-  box.innerHTML = matches.map((p, i) => `
+  box.innerHTML = matches.map((p, i) => {
+    const nameLine = p.brand
+      ? `<span style="color:rgba(255,255,255,0.55);font-size:0.75rem;font-weight:300">${_highlight(p.brand, q)}</span> · ${_highlight(p.name, q)}`
+      : _highlight(p.name, q);
+    return `
     <div class="hero-suggestion" data-idx="${i}" onmousedown="heroSelectSuggestion(${i})">
       <div class="hero-suggestion-text">
-        <span class="hero-suggestion-name">${_highlight(p.name, q)}</span>
+        <span class="hero-suggestion-name">${nameLine}</span>
         ${p.notes ? `<span class="hero-suggestion-notes">${_highlight(p.notes, q)}</span>` : ''}
       </div>
       <span class="hero-suggestion-cat">${catLabel[p.cat] || ''}</span>
     </div>
-  `).join('');
+  `;
+  }).join('');
   box._matches = matches;
   box.classList.add('open');
 }
