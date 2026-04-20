@@ -200,5 +200,12 @@ async def init_db():
             )
         """)
 
+        # ── MIGRATIONS ────────────────────────────────────────────
+        # Older DBs may miss user_id on orders — add it if absent.
+        cur = await db.execute("PRAGMA table_info(orders)")
+        cols = {r["name"] for r in await cur.fetchall()}
+        if "user_id" not in cols:
+            await db.execute("ALTER TABLE orders ADD COLUMN user_id INTEGER REFERENCES users(id)")
+
         await db.commit()
         print(f"✅ Database initialized at {DB_PATH}")

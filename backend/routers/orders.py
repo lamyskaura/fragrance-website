@@ -9,6 +9,7 @@ import random
 
 from ..database import get_db
 from ..deps import require_admin
+from ..routers.auth import get_optional_user
 from ..schemas.order import OrderCreate, OrderOut, OrderItemOut, OrderStatusUpdate
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
@@ -38,7 +39,11 @@ async def _row_to_order(db, row) -> OrderOut:
 # ── PLACE AN ORDER ────────────────────────────────────────────────────────────
 
 @router.post("/", response_model=OrderOut, status_code=201)
-async def place_order(order: OrderCreate, db: aiosqlite.Connection = Depends(get_db)):
+async def place_order(
+    order: OrderCreate,
+    db: aiosqlite.Connection = Depends(get_db),
+    current_user = Depends(get_optional_user),
+):
     # Calculate totals
     delivery_cost = DELIVERY_COSTS.get(order.delivery_method, 40)
     subtotal = sum(item.unit_price * item.quantity for item in order.items)
@@ -64,14 +69,16 @@ async def place_order(order: OrderCreate, db: aiosqlite.Connection = Depends(get
     cursor = await db.execute("SELECT id FROM customers WHERE phone=?", (order.phone,))
     customer = await cursor.fetchone()
 
+    user_id = current_user["id"] if current_user else None
+
     # Insert order
     cursor = await db.execute(
         """INSERT INTO orders
-           (reference, customer_id, first_name, last_name, phone, email,
+           (reference, user_id, customer_id, first_name, last_name, phone, email,
             address, city, zip_code, notes, delivery_method, delivery_cost,
             payment_method, subtotal, total, lang)
-           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-        (ref, customer["id"], order.first_name, order.last_name, order.phone,
+           VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+        (ref, user_id, customer["id"], order.first_name, order.last_name, order.phone,
          order.email, order.address, order.city, order.zip_code, order.notes,
          order.delivery_method, delivery_cost, order.payment_method,
          subtotal, total, order.lang)

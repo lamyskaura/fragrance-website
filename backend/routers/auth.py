@@ -6,8 +6,8 @@ import os
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
+import bcrypt
 from fastapi import APIRouter, Depends, HTTPException, Header
-from passlib.context import CryptContext
 from jose import jwt, JWTError
 import aiosqlite
 
@@ -20,7 +20,19 @@ SECRET_KEY   = os.getenv("SECRET_KEY", "dev-secret-please-change-in-production")
 ALGORITHM    = "HS256"
 EXPIRE_DAYS  = 30
 
-_pwd = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def _hash_pw(password: str) -> str:
+    # bcrypt hard-limits secrets to 72 bytes; truncate defensively.
+    raw = password.encode("utf-8")[:72]
+    return bcrypt.hashpw(raw, bcrypt.gensalt()).decode("utf-8")
+
+
+def _verify_pw(password: str, hashed: str) -> bool:
+    raw = password.encode("utf-8")[:72]
+    try:
+        return bcrypt.checkpw(raw, hashed.encode("utf-8"))
+    except ValueError:
+        return False
 
 
 # ── TOKEN HELPERS ─────────────────────────────────────────────────
@@ -57,6 +69,20 @@ async def get_current_user(
     return user
 
 
+async def get_optional_user(
+    authorization: Optional[str] = Header(None),
+    db: aiosqlite.Connection = Depends(get_db),
+):
+    """Dependency: returns user row if a valid token is present, else None."""
+    if not authorization or not authorization.startswith("Bearer "):
+        return None
+    user_id = _decode_token(authorization[7:])
+    if not user_id:
+        return None
+    cursor = await db.execute("SELECT * FROM users WHERE id=?", (user_id,))
+    return await cursor.fetchone()
+
+
 def _safe(row) -> dict:
     """Return user dict without password_hash."""
     d = dict(row)
@@ -72,7 +98,7 @@ async def register(body: UserRegister, db: aiosqlite.Connection = Depends(get_db
     if await cursor.fetchone():
         raise HTTPException(status_code=409, detail="Cet email est déjà utilisé")
 
-    pw_hash = _pwd.hash(body.password)
+    pw_hash = _hash_pw(body.password)
     cursor = await db.execute(
         """INSERT INTO users (email, password_hash, first_name, last_name, phone, lang)
            VALUES (?,?,?,?,?,?)""",
@@ -93,7 +119,7 @@ async def register(body: UserRegister, db: aiosqlite.Connection = Depends(get_db
 async def login(body: UserLogin, db: aiosqlite.Connection = Depends(get_db)):
     cursor = await db.execute("SELECT * FROM users WHERE email=?", (body.email,))
     row = await cursor.fetchone()
-    if not row or not _pwd.verify(body.password, row["password_hash"]):
+    if not row or not _verify_pw(body.password, row["password_hash"]):
         raise HTTPException(status_code=401, detail="Email ou mot de passe incorrect")
 
     token = _make_token(row["id"])

@@ -4615,7 +4615,7 @@ async function ckSubmit(btn) {
   try {
     const res = await fetch(CONFIG.apiBase + '/orders/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: (typeof getAuthHeaders === 'function') ? getAuthHeaders() : { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
     if (res.ok) {
