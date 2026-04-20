@@ -219,22 +219,24 @@ nav.scrolled .nav-toggle span { background: var(--text-dark); }
 }
 .hero-bg {
   position: absolute; inset: 0;
-  background-image: url('images/hero_lamysk.jpg');
-  background-size: cover;
-  background-position: center 25%;
+  background-image: url('images/welcome_page.jpeg');
+  background-size: 135%;
+  background-position: 50% 15%;
+  background-repeat: no-repeat;
   background-color: var(--deep);
+  filter: saturate(0.78) brightness(0.82) contrast(1.05);
 }
 .hero-bg::after {
   content: '';
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse 70% 55% at 50% 85%, rgba(10,8,6,0.55) 0%, rgba(10,8,6,0.35) 40%, transparent 80%),
+    radial-gradient(ellipse 55% 45% at 50% 55%, rgba(4,3,2,0.82) 0%, rgba(4,3,2,0.55) 55%, rgba(4,3,2,0.20) 100%),
     linear-gradient(180deg,
-      rgba(26,21,16,0.00) 0%,
-      rgba(26,21,16,0.05) 25%,
-      rgba(10,8,6,0.35) 55%,
-      rgba(10,8,6,0.78) 85%,
-      rgba(8,6,4,0.92) 100%);
+      rgba(8,6,4,0.45) 0%,
+      rgba(8,6,4,0.20) 22%,
+      rgba(8,6,4,0.45) 62%,
+      rgba(6,4,2,0.88) 90%,
+      rgba(4,3,2,0.97) 100%);
 }
 .hero-grain {
   position: absolute; inset: 0;
