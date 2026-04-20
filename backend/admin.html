@@ -553,6 +553,14 @@ a { color: inherit; }
         <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
         Clients
       </button>
+      <button class="nav-item" onclick="nav('products')">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        Produits
+      </button>
+      <button class="nav-item" onclick="nav('i18n')">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
+        Traductions
+      </button>
     </nav>
     <div class="sidebar-footer">
       <button class="btn-logout" onclick="logout()">Déconnexion</button>
@@ -738,6 +746,48 @@ a { color: inherit; }
         </div>
       </section>
 
+      <!-- ── PRODUCTS ───────────────────────────────────────────── -->
+      <section id="s-products" class="section">
+        <div class="toolbar">
+          <input type="text" id="products-search" placeholder="Rechercher nom, marque, slug…" oninput="filterProducts()">
+          <select id="products-slot-filter" onchange="filterProducts()">
+            <option value="">Toutes les rangées</option>
+            <option value="signature">Signature</option>
+            <option value="match">MATCH</option>
+            <option value="match_musks">MATCH Musks</option>
+            <option value="lattafa">Lattafa</option>
+            <option value="arabian_oud">Arabian Oud</option>
+            <option value="ghawali">Ghawali</option>
+            <option value="niche">Niche Occident</option>
+            <option value="absolus">Absolus</option>
+            <option value="essentiels">Essentiels</option>
+          </select>
+          <span id="products-count" class="stat-pill"></span>
+          <button class="btn btn-gold" onclick="openProductEditor(null)">+ Nouveau produit</button>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th></th><th>Slug</th><th>Marque</th><th>Nom</th><th>Rangée</th><th class="text-right">Prix</th><th>Actif</th><th></th></tr></thead>
+            <tbody id="tbl-products"><tr><td colspan="8" class="loading">Chargement</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ── I18N (UI strings) ──────────────────────────────────── -->
+      <section id="s-i18n" class="section">
+        <div class="toolbar">
+          <input type="text" id="i18n-search" placeholder="Rechercher clé ou traduction…" oninput="filterI18n()">
+          <span id="i18n-count" class="stat-pill"></span>
+          <button class="btn btn-gold" onclick="openI18nEditor(null)">+ Nouvelle clé</button>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Clé</th><th>FR</th><th>AR</th><th>EN</th><th>Groupe</th><th></th></tr></thead>
+            <tbody id="tbl-i18n"><tr><td colspan="6" class="loading">Chargement</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
     </div><!-- /content -->
   </div><!-- /main-wrapper -->
 </div><!-- /app -->
@@ -757,6 +807,88 @@ a { color: inherit; }
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="closeModal()">Annuler</button>
       <button class="btn btn-primary" onclick="saveOrderStatus()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────── PRODUCT EDITOR MODAL -->
+<div id="product-modal" class="modal-overlay" onclick="closeProductEditor()">
+  <div class="modal" style="max-width:720px" onclick="event.stopPropagation()">
+    <h3 id="pm-title">Nouveau produit</h3>
+    <div class="pm-tabs" style="display:flex;gap:0.5rem;margin:0.75rem 0 1rem;border-bottom:1px solid #e5d9c6;padding-bottom:0.5rem">
+      <button class="btn btn-outline pm-tab-btn active" onclick="pmTab('base')">Base</button>
+      <button class="btn btn-outline pm-tab-btn" onclick="pmTab('fr')">FR</button>
+      <button class="btn btn-outline pm-tab-btn" onclick="pmTab('ar')">AR</button>
+      <button class="btn btn-outline pm-tab-btn" onclick="pmTab('en')">EN</button>
+    </div>
+
+    <div class="pm-pane" data-pane="base">
+      <label>Slug <span style="color:#a66">*</span><input id="pm-slug" placeholder="ex. match-mateir"></label>
+      <label>Catégorie <select id="pm-category">
+        <option value="orient">Orient</option>
+        <option value="occident">Occident</option>
+        <option value="absolus">Absolus</option>
+        <option value="ecrins">Écrins</option>
+        <option value="essentiels">Essentiels</option>
+      </select></label>
+      <label>Rangée (carousel_slot) <select id="pm-slot">
+        <option value="">—</option>
+        <option value="signature">Signature</option>
+        <option value="match">MATCH</option>
+        <option value="match_musks">MATCH Musks</option>
+        <option value="lattafa">Lattafa</option>
+        <option value="arabian_oud">Arabian Oud</option>
+        <option value="ghawali">Ghawali</option>
+        <option value="niche">Niche Occident</option>
+        <option value="absolus">Absolus</option>
+        <option value="essentiels">Essentiels</option>
+      </select></label>
+      <label>Prix (MAD) <input id="pm-price" type="number" min="0"></label>
+      <label>Image URL <input id="pm-image" placeholder="images/match_mateir.png"></label>
+      <label>Badge <input id="pm-badge" placeholder="Orient / Occident / Absolu"></label>
+      <label>Ordre <input id="pm-sort" type="number" value="0"></label>
+      <label style="display:flex;align-items:center;gap:0.5rem;margin-top:0.5rem">
+        <input id="pm-active" type="checkbox" checked> Actif (visible sur le site)
+      </label>
+    </div>
+    <div class="pm-pane" data-pane="fr" style="display:none">
+      <label>Marque FR <input id="pm-brand-fr"></label>
+      <label>Nom FR <input id="pm-name-fr"></label>
+      <label>Notes FR <input id="pm-notes-fr"></label>
+      <label>Description FR <textarea id="pm-desc-fr" rows="3"></textarea></label>
+    </div>
+    <div class="pm-pane" data-pane="ar" style="display:none" dir="rtl">
+      <label>العلامة التجارية <input id="pm-brand-ar"></label>
+      <label>الاسم <input id="pm-name-ar"></label>
+      <label>النوتات <input id="pm-notes-ar"></label>
+      <label>الوصف <textarea id="pm-desc-ar" rows="3"></textarea></label>
+    </div>
+    <div class="pm-pane" data-pane="en" style="display:none">
+      <label>Brand EN <input id="pm-brand-en"></label>
+      <label>Name EN <input id="pm-name-en"></label>
+      <label>Notes EN <input id="pm-notes-en"></label>
+      <label>Description EN <textarea id="pm-desc-en" rows="3"></textarea></label>
+    </div>
+
+    <div class="modal-actions" style="margin-top:1rem">
+      <button class="btn btn-outline" onclick="closeProductEditor()">Annuler</button>
+      <button class="btn btn-primary" onclick="saveProduct()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────── I18N EDITOR MODAL -->
+<div id="i18n-modal" class="modal-overlay" onclick="closeI18nEditor()">
+  <div class="modal" style="max-width:640px" onclick="event.stopPropagation()">
+    <h3 id="im-title">Traduction</h3>
+    <label>Clé <input id="im-key" placeholder="ex. nav_home"></label>
+    <label>Groupe <input id="im-group" placeholder="ex. nav / hero / quiz"></label>
+    <label>FR <input id="im-fr"></label>
+    <label>AR <input id="im-ar" dir="rtl"></label>
+    <label>EN <input id="im-en"></label>
+    <div class="modal-actions" style="margin-top:1rem">
+      <button class="btn btn-outline" onclick="closeI18nEditor()">Annuler</button>
+      <button class="btn btn-primary" onclick="saveI18n()">Enregistrer</button>
     </div>
   </div>
 </div>
@@ -879,7 +1011,8 @@ function nav(section) {
   const titles = {
     overview: "Vue d'ensemble", orders: 'Commandes',
     newsletter: 'Newsletter', messages: 'Messages',
-    quiz: 'Quiz olfactif', customers: 'Clients'
+    quiz: 'Quiz olfactif', customers: 'Clients',
+    products: 'Produits', i18n: 'Traductions'
   }
   document.getElementById('page-title').textContent = titles[section] || section
   S.section = section
@@ -888,6 +1021,8 @@ function nav(section) {
   if (section === 'messages')   loadMessages()
   if (section === 'quiz')       loadQuiz()
   if (section === 'customers')  loadCustomers()
+  if (section === 'products')   loadProducts()
+  if (section === 'i18n')       loadI18n()
 }
 
 // ═══════════════════════════════════════════════════════════ INIT
@@ -1225,6 +1360,233 @@ function filterCustomers() {
       <td class="text-right nowrap">${mad(r.total_spent)}</td>
       <td class="text-muted nowrap" style="font-size:12px">${dt(r.created_at)}</td>
     </tr>`).join('')
+}
+
+// ═══════════════════════════════════════════════════════════ PRODUCTS (CRUD)
+
+async function loadProducts() {
+  document.getElementById('tbl-products').innerHTML = '<tr><td colspan="8" class="loading">Chargement</td></tr>'
+  try {
+    S.raw.products = await API.get('/api/v1/products/?include_inactive=true')
+    const cnt = document.getElementById('products-count')
+    cnt.innerHTML = `<strong>${S.raw.products.length}</strong> produits`
+    filterProducts()
+  } catch (e) { toast('Erreur produits: ' + e.message, 'error') }
+}
+
+function filterProducts() {
+  const q = (document.getElementById('products-search')?.value || '').toLowerCase()
+  const slot = document.getElementById('products-slot-filter')?.value || ''
+  let rows = S.raw.products || []
+  if (slot) rows = rows.filter(r => r.carousel_slot === slot)
+  if (q) rows = rows.filter(r =>
+    (r.slug||'').toLowerCase().includes(q) ||
+    (r.name||'').toLowerCase().includes(q) ||
+    (r.brand||'').toLowerCase().includes(q) ||
+    (r.name_ar||'').toLowerCase().includes(q) ||
+    (r.name_en||'').toLowerCase().includes(q)
+  )
+  const tbody = document.getElementById('tbl-products')
+  if (!rows.length) { tbody.innerHTML = '<tr><td colspan="8" class="tbl-empty">Aucun produit</td></tr>'; return }
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td style="width:48px">${r.image_url
+        ? `<img src="/${esc(r.image_url)}" style="width:40px;height:40px;object-fit:cover;border-radius:4px;background:#f7f2eb">`
+        : '<div style="width:40px;height:40px;background:#ede4d5;border-radius:4px"></div>'}</td>
+      <td class="text-muted" style="font-size:12px"><code>${esc(r.slug)}</code></td>
+      <td>${esc(r.brand||'—')}</td>
+      <td>${esc(r.name||'—')}</td>
+      <td class="text-muted">${esc(r.carousel_slot||'—')}</td>
+      <td class="text-right nowrap">${r.price_mad ? mad(r.price_mad) : '—'}</td>
+      <td>${r.active ? '✓' : '<span style="color:#a66">✕</span>'}</td>
+      <td class="nowrap">
+        <button class="btn btn-outline" style="padding:4px 10px;font-size:12px" onclick="openProductEditor('${esc(r.slug)}')">Éditer</button>
+        <button class="btn btn-outline" style="padding:4px 10px;font-size:12px;color:#a66" onclick="deleteProduct('${esc(r.slug)}')">Désactiver</button>
+      </td>
+    </tr>`).join('')
+}
+
+let _editingSlug = null
+
+function pmTab(name) {
+  document.querySelectorAll('.pm-tab-btn').forEach((b, i) => {
+    b.classList.toggle('active', b.textContent.trim().toLowerCase() === name || (i === 0 && name === 'base'))
+  })
+  // use explicit active: match by pane name
+  document.querySelectorAll('.pm-tab-btn').forEach(b => b.classList.remove('active'))
+  const btns = Array.from(document.querySelectorAll('.pm-tab-btn'))
+  const targets = ['base','fr','ar','en']
+  btns[targets.indexOf(name)]?.classList.add('active')
+  document.querySelectorAll('.pm-pane').forEach(p => {
+    p.style.display = p.getAttribute('data-pane') === name ? '' : 'none'
+  })
+}
+
+function openProductEditor(slug) {
+  _editingSlug = slug
+  document.getElementById('pm-title').textContent = slug ? `Éditer — ${slug}` : 'Nouveau produit'
+  const p = slug ? (S.raw.products || []).find(x => x.slug === slug) : null
+  const set = (id, v) => document.getElementById(id).value = v ?? ''
+  set('pm-slug', p?.slug || '')
+  document.getElementById('pm-slug').disabled = !!slug  // immutable once created
+  set('pm-category', p?.category || 'orient')
+  set('pm-slot', p?.carousel_slot || '')
+  set('pm-price', p?.price_mad ?? '')
+  set('pm-image', p?.image_url || '')
+  set('pm-badge', p?.badge || '')
+  set('pm-sort', p?.sort_order ?? 0)
+  document.getElementById('pm-active').checked = p ? !!p.active : true
+  set('pm-brand-fr', p?.brand_fr || p?.brand || '')
+  set('pm-name-fr',  p?.name_fr  || p?.name  || '')
+  set('pm-notes-fr', p?.notes_fr || p?.notes || '')
+  set('pm-desc-fr',  p?.description_fr || p?.description || '')
+  set('pm-brand-ar', p?.brand_ar || '')
+  set('pm-name-ar',  p?.name_ar  || '')
+  set('pm-notes-ar', p?.notes_ar || '')
+  set('pm-desc-ar',  p?.description_ar || '')
+  set('pm-brand-en', p?.brand_en || '')
+  set('pm-name-en',  p?.name_en  || '')
+  set('pm-notes-en', p?.notes_en || '')
+  set('pm-desc-en',  p?.description_en || '')
+  pmTab('base')
+  document.getElementById('product-modal').classList.add('open')
+}
+
+function closeProductEditor() {
+  document.getElementById('product-modal').classList.remove('open')
+  _editingSlug = null
+}
+
+async function saveProduct() {
+  const val = id => document.getElementById(id).value.trim() || null
+  const num = id => { const v = document.getElementById(id).value; return v === '' ? null : parseInt(v, 10) }
+  const body = {
+    category:      val('pm-category'),
+    carousel_slot: val('pm-slot'),
+    price_mad:     num('pm-price'),
+    image_url:     val('pm-image'),
+    badge:         val('pm-badge'),
+    sort_order:    num('pm-sort') ?? 0,
+    active:        document.getElementById('pm-active').checked,
+    brand_fr:      val('pm-brand-fr'), name_fr:  val('pm-name-fr'),
+    notes_fr:      val('pm-notes-fr'), description_fr: val('pm-desc-fr'),
+    brand_ar:      val('pm-brand-ar'), name_ar:  val('pm-name-ar'),
+    notes_ar:      val('pm-notes-ar'), description_ar: val('pm-desc-ar'),
+    brand_en:      val('pm-brand-en'), name_en:  val('pm-name-en'),
+    notes_en:      val('pm-notes-en'), description_en: val('pm-desc-en'),
+  }
+  // Mirror FR into legacy fields
+  body.name  = body.name_fr || body.name_en || body.name_ar
+  body.brand = body.brand_fr || body.brand_en || body.brand_ar || 'Lamysk Aura Selection'
+  body.notes = body.notes_fr || body.notes_en || body.notes_ar
+  body.description = body.description_fr || body.description_en || body.description_ar
+  try {
+    if (_editingSlug) {
+      await API.patch(`/api/v1/products/${encodeURIComponent(_editingSlug)}`, body)
+      toast('Produit mis à jour', 'success')
+    } else {
+      const slug = val('pm-slug')
+      if (!slug) { toast('Slug requis', 'error'); return }
+      body.slug = slug
+      await API.post('/api/v1/products/', body)
+      toast('Produit créé', 'success')
+    }
+    closeProductEditor()
+    await loadProducts()
+  } catch (e) { toast('Échec: ' + e.message, 'error') }
+}
+
+async function deleteProduct(slug) {
+  if (!confirm(`Désactiver "${slug}" ?`)) return
+  try {
+    await API.del(`/api/v1/products/${encodeURIComponent(slug)}`)
+    toast('Produit désactivé', 'success')
+    await loadProducts()
+  } catch (e) { toast('Échec: ' + e.message, 'error') }
+}
+
+// ═══════════════════════════════════════════════════════════ I18N (UI strings)
+
+async function loadI18n() {
+  document.getElementById('tbl-i18n').innerHTML = '<tr><td colspan="6" class="loading">Chargement</td></tr>'
+  try {
+    S.raw.i18n = await API.get('/api/v1/i18n/admin')
+    document.getElementById('i18n-count').innerHTML = `<strong>${S.raw.i18n.length}</strong> clés`
+    filterI18n()
+  } catch (e) { toast('Erreur traductions: ' + e.message, 'error') }
+}
+
+function filterI18n() {
+  const q = (document.getElementById('i18n-search')?.value || '').toLowerCase()
+  let rows = S.raw.i18n || []
+  if (q) rows = rows.filter(r =>
+    (r.key||'').toLowerCase().includes(q) ||
+    (r.fr||'').toLowerCase().includes(q) ||
+    (r.ar||'').toLowerCase().includes(q) ||
+    (r.en||'').toLowerCase().includes(q) ||
+    (r.group_name||'').toLowerCase().includes(q)
+  )
+  const tbody = document.getElementById('tbl-i18n')
+  if (!rows.length) { tbody.innerHTML = '<tr><td colspan="6" class="tbl-empty">Aucune traduction</td></tr>'; return }
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td><code>${esc(r.key)}</code></td>
+      <td>${esc((r.fr||'').slice(0,80))}</td>
+      <td dir="rtl">${esc((r.ar||'').slice(0,80))}</td>
+      <td>${esc((r.en||'').slice(0,80))}</td>
+      <td class="text-muted">${esc(r.group_name||'—')}</td>
+      <td class="nowrap">
+        <button class="btn btn-outline" style="padding:4px 10px;font-size:12px" onclick="openI18nEditor('${esc(r.key)}')">Éditer</button>
+        <button class="btn btn-outline" style="padding:4px 10px;font-size:12px;color:#a66" onclick="deleteI18n('${esc(r.key)}')">Suppr.</button>
+      </td>
+    </tr>`).join('')
+}
+
+let _editingKey = null
+
+function openI18nEditor(key) {
+  _editingKey = key
+  document.getElementById('im-title').textContent = key ? `Traduction — ${key}` : 'Nouvelle clé'
+  const r = key ? (S.raw.i18n || []).find(x => x.key === key) : null
+  document.getElementById('im-key').value = r?.key || ''
+  document.getElementById('im-key').disabled = !!key
+  document.getElementById('im-group').value = r?.group_name || ''
+  document.getElementById('im-fr').value = r?.fr || ''
+  document.getElementById('im-ar').value = r?.ar || ''
+  document.getElementById('im-en').value = r?.en || ''
+  document.getElementById('i18n-modal').classList.add('open')
+}
+
+function closeI18nEditor() {
+  document.getElementById('i18n-modal').classList.remove('open')
+  _editingKey = null
+}
+
+async function saveI18n() {
+  const key = document.getElementById('im-key').value.trim()
+  if (!key) { toast('Clé requise', 'error'); return }
+  const body = {
+    key,
+    group_name: document.getElementById('im-group').value.trim() || null,
+    fr: document.getElementById('im-fr').value,
+    ar: document.getElementById('im-ar').value,
+    en: document.getElementById('im-en').value,
+  }
+  try {
+    await API.put(`/api/v1/i18n/${encodeURIComponent(key)}`, body)
+    toast('Traduction enregistrée', 'success')
+    closeI18nEditor()
+    await loadI18n()
+  } catch (e) { toast('Échec: ' + e.message, 'error') }
+}
+
+async function deleteI18n(key) {
+  if (!confirm(`Supprimer la clé "${key}" ?`)) return
+  try {
+    await API.del(`/api/v1/i18n/${encodeURIComponent(key)}`)
+    toast('Clé supprimée', 'success')
+    await loadI18n()
+  } catch (e) { toast('Échec: ' + e.message, 'error') }
 }
 
 // ═══════════════════════════════════════════════════════════ BOOT

@@ -27,11 +27,12 @@ async def _get_variants(db: aiosqlite.Connection, product_id: int) -> list:
 
 async def _row_to_product(db, row) -> ProductOut:
     variants = await _get_variants(db, row["id"])
-    return ProductOut(
-        id=row["id"], slug=row["slug"], name=row["name"], brand=row["brand"],
-        category=row["category"], notes=row["notes"], description=row["description"],
-        image_url=row["image_url"], badge=row["badge"], variants=variants
-    )
+    d = dict(row)
+    d["active"] = bool(d.get("active", 1))
+    d["variants"] = variants
+    # Drop legacy/internal columns Pydantic doesn't need
+    d.pop("created_at", None)
+    return ProductOut(**d)
 
 
 # ── PUBLIC ENDPOINTS ──────────────────────────────────────────────────────────
@@ -39,15 +40,22 @@ async def _row_to_product(db, row) -> ProductOut:
 @router.get("/", response_model=List[ProductOut])
 async def list_products(
     category: Optional[str] = None,
+    carousel_slot: Optional[str] = None,
+    include_inactive: bool = False,
     db: aiosqlite.Connection = Depends(get_db)
 ):
-    """List all active products, optionally filtered by category."""
+    """List products, optionally filtered by category or carousel_slot."""
+    where = [] if include_inactive else ["active=1"]
+    params: list = []
     if category:
-        cursor = await db.execute(
-            "SELECT * FROM products WHERE active=1 AND category=? ORDER BY id", (category,)
-        )
-    else:
-        cursor = await db.execute("SELECT * FROM products WHERE active=1 ORDER BY category, id")
+        where.append("category=?"); params.append(category)
+    if carousel_slot:
+        where.append("carousel_slot=?"); params.append(carousel_slot)
+    sql = "SELECT * FROM products"
+    if where:
+        sql += " WHERE " + " AND ".join(where)
+    sql += " ORDER BY sort_order ASC, id ASC"
+    cursor = await db.execute(sql, params)
     rows = await cursor.fetchall()
     return [await _row_to_product(db, r) for r in rows]
 
@@ -70,11 +78,12 @@ async def create_product(
     db: aiosqlite.Connection = Depends(get_db)
 ):
     try:
+        fields = product.model_dump()
+        cols = ", ".join(fields.keys())
+        placeholders = ", ".join(["?"] * len(fields))
         cursor = await db.execute(
-            """INSERT INTO products (slug, name, brand, category, notes, description, image_url, badge)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
-            (product.slug, product.name, product.brand, product.category,
-             product.notes, product.description, product.image_url, product.badge)
+            f"INSERT INTO products ({cols}) VALUES ({placeholders})",
+            tuple(fields.values())
         )
         product_id = cursor.lastrowid
         for v in variants:

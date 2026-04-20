@@ -4872,8 +4872,15 @@ const LANG = {
 
 let currentLang = 'fr';
 
+// DB-driven UI string overrides. Fetched at boot from /api/v1/i18n; takes
+// precedence over the hardcoded LANG fallback above.
+let UI_STRINGS_DB = { fr: {}, ar: {}, en: {} };
+
 function T(key) {
-  return LANG[currentLang][key] || LANG['fr'][key] || key;
+  return (UI_STRINGS_DB[currentLang] && UI_STRINGS_DB[currentLang][key])
+      || (LANG[currentLang] && LANG[currentLang][key])
+      || LANG['fr'][key]
+      || key;
 }
 
 // ═══════════════════════════════════════════
@@ -4882,7 +4889,7 @@ function T(key) {
 // are rendered only when the user switches language. Brand names stay Latin
 // in all langs (luxury convention); AR localises the city suffix.
 // ═══════════════════════════════════════════
-const PRODUCT_I18N = {
+let PRODUCT_I18N = {
   // ── MATCH — Paris ──────────────────────────
   match_mateir: {
     fr: { brand: 'MATCH — Paris', name: 'Mateir', notes: 'Bois ambré · Épices · Musc' },
@@ -5055,7 +5062,7 @@ function applyProductI18n(lang) {
 // ═══════════════════════════════════════════
 // PRODUCT META (price / image / category) — used by quiz recommender
 // ═══════════════════════════════════════════
-const PRODUCT_META = {
+let PRODUCT_META = {
   match_mateir:           { price: 750,  img: 'images/match_mateir.png',           cat: 'orient' },
   match_mineral_oud:      { price: 780,  img: 'images/match_mineral_oud.png',      cat: 'orient' },
   match_lun_felyn:        { price: 720,  img: 'images/match_lun_felyn.png',        cat: 'orient' },
@@ -5095,6 +5102,58 @@ const QUIZ_PARFUMS = {
   citrus: ['ao_woody_style',    'tk_n4',            'match_mateir'],
   soft:   ['gh_kin_musk',       'musk_bridal',      'lattafa_sehr_alkalimat']
 };
+
+// ═══════════════════════════════════════════
+// DB-DRIVEN BOOT — fetch products + ui_strings and merge into the local dicts.
+// Hardcoded dicts above remain as fallbacks if the API is unreachable.
+// ═══════════════════════════════════════════
+const CATALOG_API_BASE = (typeof window !== 'undefined' && window.location.origin) || '';
+
+async function bootCatalog() {
+  try {
+    const [prodRes, i18nRes] = await Promise.all([
+      fetch(CATALOG_API_BASE + '/api/v1/products/').then(r => r.ok ? r.json() : []),
+      fetch(CATALOG_API_BASE + '/api/v1/i18n/').then(r => r.ok ? r.json() : { fr:{}, ar:{}, en:{} })
+    ]);
+
+    // Merge i18n — DB keys override LANG fallbacks
+    for (const L of ['fr','ar','en']) {
+      if (i18nRes[L]) UI_STRINGS_DB[L] = i18nRes[L];
+    }
+
+    // Merge products: slug → pkey (replace '-' with '_')
+    for (const p of prodRes) {
+      const pkey = (p.slug || '').replace(/-/g, '_');
+      if (!pkey) continue;
+      PRODUCT_I18N[pkey] = {
+        fr: { brand: p.brand_fr || p.brand, name: p.name_fr || p.name, notes: p.notes_fr || p.notes || '' },
+        ar: { brand: p.brand_ar || p.brand, name: p.name_ar || p.name, notes: p.notes_ar || p.notes || '' },
+        en: { brand: p.brand_en || p.brand, name: p.name_en || p.name, notes: p.notes_en || p.notes || '' }
+      };
+      if (p.price_mad != null) {
+        PRODUCT_META[pkey] = {
+          price: p.price_mad,
+          img: p.image_url || '',
+          cat: p.category || 'orient',
+          slot: p.carousel_slot || null
+        };
+      }
+    }
+
+    // Re-apply current language so fresh DB data shows immediately
+    if (typeof setLang === 'function') setLang(currentLang);
+  } catch (err) {
+    console.warn('[catalog] API unreachable, using hardcoded fallback', err);
+  }
+}
+
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootCatalog);
+  } else {
+    bootCatalog();
+  }
+}
 
 function setLang(lang) {
   currentLang = lang;

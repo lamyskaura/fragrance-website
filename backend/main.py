@@ -13,7 +13,7 @@ from fastapi.responses import FileResponse
 from pathlib import Path
 
 from .database import init_db
-from .routers import products, orders, misc, auth
+from .routers import products, orders, misc, auth, i18n
 
 # ── APP SETUP ─────────────────────────────────────────────────────────────────
 
@@ -26,8 +26,7 @@ FRONTEND    = BACKEND_DIR.parent
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_db()
-    from .services.seed import seed
-    await seed()
+    # Seeding is manual now: `python -m backend.services.seed_v2` (wipes + re-imports).
     yield
 
 
@@ -57,6 +56,7 @@ app.include_router(products.router, prefix="/api/v1")
 app.include_router(orders.router,   prefix="/api/v1")
 app.include_router(misc.router,     prefix="/api/v1")
 app.include_router(auth.router,     prefix="/api/v1")
+app.include_router(i18n.router,     prefix="/api/v1")
 
 
 # ── HEALTH CHECK ──────────────────────────────────────────────────────────────

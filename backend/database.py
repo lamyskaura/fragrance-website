@@ -56,17 +56,25 @@ async def init_db():
         # ── PRODUCTS ──────────────────────────────────────────────
         await db.execute("""
             CREATE TABLE IF NOT EXISTS products (
-                id          INTEGER PRIMARY KEY AUTOINCREMENT,
-                slug        TEXT    NOT NULL UNIQUE,
-                name        TEXT    NOT NULL,
-                brand       TEXT    NOT NULL DEFAULT 'Lamysk Aura Selection',
-                category    TEXT    NOT NULL,           -- orient | occident | absolus | ecrins | essentiels
-                notes       TEXT,
-                description TEXT,
-                image_url   TEXT,
-                badge       TEXT,
-                active      INTEGER NOT NULL DEFAULT 1,
-                created_at  TEXT    NOT NULL DEFAULT (datetime('now'))
+                id             INTEGER PRIMARY KEY AUTOINCREMENT,
+                slug           TEXT    NOT NULL UNIQUE,
+                name           TEXT    NOT NULL,
+                brand          TEXT    NOT NULL DEFAULT 'Lamysk Aura Selection',
+                category       TEXT    NOT NULL,           -- orient | occident | absolus | ecrins | essentiels
+                carousel_slot  TEXT,                       -- match | arabian_oud | ghawali | lattafa | niche | absolus | essentiels
+                notes          TEXT,
+                description    TEXT,
+                image_url      TEXT,
+                badge          TEXT,
+                price_mad      INTEGER,                    -- display price shown on the card (primary variant)
+                sort_order     INTEGER NOT NULL DEFAULT 0,
+                -- i18n overrides (nullable; fallback to the language-neutral column above)
+                brand_fr       TEXT,  brand_ar       TEXT,  brand_en       TEXT,
+                name_fr        TEXT,  name_ar        TEXT,  name_en        TEXT,
+                notes_fr       TEXT,  notes_ar       TEXT,  notes_en       TEXT,
+                description_fr TEXT,  description_ar TEXT,  description_en TEXT,
+                active         INTEGER NOT NULL DEFAULT 1,
+                created_at     TEXT    NOT NULL DEFAULT (datetime('now'))
             )
         """)
 
@@ -200,12 +208,40 @@ async def init_db():
             )
         """)
 
+        # ── UI STRINGS (i18n, editable from admin) ────────────────
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS ui_strings (
+                key        TEXT    PRIMARY KEY,
+                fr         TEXT,
+                ar         TEXT,
+                en         TEXT,
+                group_name TEXT,                                  -- nav | hero | quiz | footer | checkout | ...
+                updated_at TEXT    NOT NULL DEFAULT (datetime('now'))
+            )
+        """)
+
         # ── MIGRATIONS ────────────────────────────────────────────
         # Older DBs may miss user_id on orders — add it if absent.
         cur = await db.execute("PRAGMA table_info(orders)")
         cols = {r["name"] for r in await cur.fetchall()}
         if "user_id" not in cols:
             await db.execute("ALTER TABLE orders ADD COLUMN user_id INTEGER REFERENCES users(id)")
+
+        # Older DBs may miss the new product columns — add each if absent.
+        cur = await db.execute("PRAGMA table_info(products)")
+        pcols = {r["name"] for r in await cur.fetchall()}
+        new_product_cols = [
+            ("carousel_slot",  "TEXT"),
+            ("price_mad",      "INTEGER"),
+            ("sort_order",     "INTEGER NOT NULL DEFAULT 0"),
+            ("brand_fr",       "TEXT"), ("brand_ar",       "TEXT"), ("brand_en",       "TEXT"),
+            ("name_fr",        "TEXT"), ("name_ar",        "TEXT"), ("name_en",        "TEXT"),
+            ("notes_fr",       "TEXT"), ("notes_ar",       "TEXT"), ("notes_en",       "TEXT"),
+            ("description_fr", "TEXT"), ("description_ar", "TEXT"), ("description_en", "TEXT"),
+        ]
+        for col, coltype in new_product_cols:
+            if col not in pcols:
+                await db.execute(f"ALTER TABLE products ADD COLUMN {col} {coltype}")
 
         await db.commit()
         print(f"✅ Database initialized at {DB_PATH}")
