@@ -3038,7 +3038,7 @@ nav.scrolled .nav-account { color: var(--text-body); }
       <button class="carousel-arrow prev" onclick="scrollCarousel('orient-track',-1)" aria-label="Précédent">&#8592;</button>
       <button class="carousel-arrow next" onclick="scrollCarousel('orient-track',1)" aria-label="Suivant">&#8594;</button>
     <div class="products-track" id="orient-track">
-      <div class="product-card" data-head="Rose de Taïf, Bergamote" data-heart="Oud, Iris" data-base="Ambre, Musc blanc" data-desc="L'éclair olfactif. Une composition audacieuse qui s'ouvre sur la fraîcheur de la rose de Taïf avant de plonger dans les profondeurs chaleureuses de l'oud marocain et de l'ambre précieux. Un sillage puissant, enveloppant.">
+      <div class="product-card" data-pkey="ibraq" data-head="Rose de Taïf, Bergamote" data-heart="Oud, Iris" data-base="Ambre, Musc blanc" data-desc="L'éclair olfactif. Une composition audacieuse qui s'ouvre sur la fraîcheur de la rose de Taïf avant de plonger dans les profondeurs chaleureuses de l'oud marocain et de l'ambre précieux. Un sillage puissant, enveloppant.">
         <div class="product-img" style="background:linear-gradient(135deg,#3d2010,#6b3a20)">
           <span class="product-badge">Orient</span>
           <button class="product-wish" onclick="event.stopPropagation();toggleWishlist(this,'Ibraq')" title="Ajouter aux favoris">♡</button>
@@ -5183,9 +5183,11 @@ async function bootCatalog() {
     }
 
     // Merge products: slug → pkey (replace '-' with '_')
+    const activeKeys = new Set();
     for (const p of prodRes) {
       const pkey = (p.slug || '').replace(/-/g, '_');
       if (!pkey) continue;
+      activeKeys.add(pkey);
       PRODUCT_I18N[pkey] = {
         fr: { brand: p.brand_fr || p.brand, name: p.name_fr || p.name, notes: p.notes_fr || p.notes || '' },
         ar: { brand: p.brand_ar || p.brand, name: p.name_ar || p.name, notes: p.notes_ar || p.notes || '' },
@@ -5199,6 +5201,15 @@ async function bootCatalog() {
           slot: p.carousel_slot || null
         };
       }
+    }
+
+    // Hide product cards whose pkey is not in the active set (deactivated in admin).
+    // Cards without data-pkey are untouched (legacy static content).
+    if (activeKeys.size > 0) {
+      document.querySelectorAll('.product-card[data-pkey]').forEach(card => {
+        const k = card.getAttribute('data-pkey');
+        card.style.display = activeKeys.has(k) ? '' : 'none';
+      });
     }
 
     // Re-apply current language so fresh DB data shows immediately
