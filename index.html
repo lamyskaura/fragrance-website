@@ -245,7 +245,7 @@ nav.scrolled .nav-toggle span { background: var(--text-dark); }
 }
 .hero-content {
   position: relative; z-index: 2;
-  animation: heroFade 2s ease-out;
+  animation: heroFade 2s ease-out both;
 }
 @keyframes heroFade {
   from { opacity:0; transform: translateY(30px); }
@@ -1921,8 +1921,25 @@ html[dir="rtl"] .mobile-close { right: auto; left: 2rem; }
   .nav-logo-img { height: 44px; }
 
   /* Hero */
-  .hero { min-height: 100svh; }
+  .hero { min-height: 100svh; min-height: 100dvh; padding-bottom: 4vh; }
+  .hero-bg {
+    background-size: cover;
+    background-position: center 30%;
+    filter: saturate(0.85) brightness(0.92) contrast(1.02);
+  }
+  .hero-bg::after {
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 55%, rgba(4,3,2,0.45) 0%, rgba(4,3,2,0.25) 60%, rgba(4,3,2,0.10) 100%),
+      linear-gradient(180deg,
+        rgba(8,6,4,0.35) 0%,
+        rgba(8,6,4,0.15) 30%,
+        rgba(8,6,4,0.35) 70%,
+        rgba(6,4,2,0.75) 100%);
+  }
   .hero-content { padding: 0 1.2rem; width: 100%; box-sizing: border-box; }
+  .hero-pre,
+  .hero-tagline,
+  .hero h1 { text-shadow: 0 2px 12px rgba(0,0,0,0.55), 0 1px 2px rgba(0,0,0,0.7); }
   .hero-pre { letter-spacing: 0.2em; margin-bottom: 0.8rem; }
   .hero-tagline { font-size: 1.1rem; margin-bottom: 1.2rem; }
   .hero-cta { flex-direction: column; align-items: center; gap: 0.7rem; width: 100%; }
@@ -5764,21 +5781,41 @@ function scrollToProduct(pkey) {
 // ═══════════════════════════════════════════
 async function subscribeNL() {
   const input = document.getElementById('nlEmail');
+  const btn = document.querySelector('.newsletter-form button');
   const email = input.value.trim();
-  if (!email || !email.includes('@')) { input.focus(); return; }
-
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    input.focus();
+    input.placeholder = currentLang === 'ar' ? 'بريد إلكتروني غير صالح' : currentLang === 'en' ? 'Invalid email' : 'Email invalide';
+    return;
+  }
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; }
+  const prevPh = input.dataset.placeholder || input.placeholder;
+  let msg;
   try {
-    await fetch(CONFIG.apiBase + '/newsletter', {
+    const res = await fetch(CONFIG.apiBase + '/newsletter', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, lang: currentLang })
     });
-  } catch (e) {}
-
-  const msg = currentLang === 'ar' ? 'مرحباً في عالم LAMYSK AURA! 🌹' : currentLang === 'en' ? 'Welcome to the LAMYSK AURA world! 🌹' : 'Bienvenue dans l\'univers LAMYSK AURA ! 🌹';
-  input.value = '';
+    if (res.ok) {
+      const data = await res.json().catch(() => ({}));
+      const already = (data.detail || '').toLowerCase().includes('already');
+      if (already) {
+        msg = currentLang === 'ar' ? 'أنت مشترك بالفعل 🌹' : currentLang === 'en' ? 'Already subscribed 🌹' : 'Déjà inscrit(e) 🌹';
+      } else {
+        msg = currentLang === 'ar' ? 'مرحباً في عالم LAMYSK AURA! 🌹' : currentLang === 'en' ? 'Welcome to the LAMYSK AURA world! 🌹' : 'Bienvenue dans l\'univers LAMYSK AURA ! 🌹';
+      }
+      input.value = '';
+    } else {
+      msg = currentLang === 'ar' ? 'خطأ، حاول مرة أخرى' : currentLang === 'en' ? 'Error, please retry' : 'Erreur, réessayez';
+    }
+  } catch (e) {
+    msg = currentLang === 'ar' ? 'تحقق من اتصالك' : currentLang === 'en' ? 'Check your connection' : 'Vérifiez votre connexion';
+  } finally {
+    if (btn) { btn.disabled = false; btn.style.opacity = ''; }
+  }
   input.placeholder = msg;
-  setTimeout(() => { input.placeholder = input.dataset.placeholder || 'Votre adresse email'; }, 4000);
+  setTimeout(() => { input.placeholder = prevPh; }, 4000);
 }
 
 // ═══════════════════════════════════════════
@@ -5791,16 +5828,44 @@ function loadWishlist() {
 function saveWishlist() { try { localStorage.setItem('la_wishlist', JSON.stringify(wishlist)); } catch(e) {} }
 function toggleWishlist(btn, name) {
   const idx = wishlist.indexOf(name);
-  if (idx >= 0) { wishlist.splice(idx, 1); btn.classList.remove('wished'); btn.textContent = '♡'; }
-  else { wishlist.push(name); btn.classList.add('wished'); btn.textContent = '♥'; }
+  const adding = idx < 0;
+  if (adding) { wishlist.push(name); btn.classList.add('wished'); btn.textContent = '♥'; }
+  else { wishlist.splice(idx, 1); btn.classList.remove('wished'); btn.textContent = '♡'; }
   saveWishlist();
+  if (typeof _authUser !== 'undefined' && _authUser) {
+    fetch('/api/v1/auth/wishlist/' + encodeURIComponent(name), {
+      method: adding ? 'POST' : 'DELETE',
+      headers: getAuthHeaders()
+    }).catch(() => {});
+  }
 }
 function applyWishlistState() {
   document.querySelectorAll('.product-wish').forEach(btn => {
     const card = btn.closest('.product-card');
     const name = card ? card.querySelector('.product-name')?.textContent : null;
-    if (name && wishlist.includes(name)) { btn.classList.add('wished'); btn.textContent = '♥'; }
+    const wished = name && wishlist.includes(name);
+    btn.classList.toggle('wished', !!wished);
+    btn.textContent = wished ? '♥' : '♡';
   });
+}
+async function syncWishlistFromServer() {
+  if (typeof _authUser === 'undefined' || !_authUser) return;
+  try {
+    const res = await fetch('/api/v1/auth/wishlist', { headers: getAuthHeaders() });
+    if (!res.ok) return;
+    const items = await res.json();
+    const serverNames = items.map(i => i.product_name);
+    const toPush = wishlist.filter(n => !serverNames.includes(n));
+    for (const n of toPush) {
+      fetch('/api/v1/auth/wishlist/' + encodeURIComponent(n), {
+        method: 'POST', headers: getAuthHeaders()
+      }).catch(() => {});
+    }
+    const merged = Array.from(new Set([...serverNames, ...wishlist]));
+    wishlist = merged;
+    saveWishlist();
+    applyWishlistState();
+  } catch(e) {}
 }
 
 // ═══════════════════════════════════════════
@@ -6350,12 +6415,13 @@ let _authPanelView = 'login'; // 'login' | 'register' | 'orders' | 'wishlist'
 
 function openAuthPanel(view) {
   view = view || 'login';
+  const tabs = document.querySelector('.auth-tabs');
   if (_authUser) {
-    // Logged in — show account panels
-    if (view === 'orders') _showOrdersPanel();
-    else if (view === 'wishlist') _showWishlistPanel();
+    if (tabs) tabs.style.display = 'none';
+    if (view === 'wishlist') _showWishlistPanel();
     else _showOrdersPanel();
   } else {
+    if (tabs) tabs.style.display = '';
     switchAuthTab(view === 'register' ? 'register' : 'login');
   }
   document.getElementById('authOverlay').classList.add('active');
@@ -6541,6 +6607,7 @@ function _updateNavAuth() {
 function _onAuthSuccess() {
   _updateNavAuth();
   closeAuthPanel();
+  syncWishlistFromServer();
 }
 
 // ── Re-check token on load ────────────────────────
@@ -6550,7 +6617,11 @@ async function _checkStoredToken() {
   if (!t) return;
   try {
     const res = await fetch(API + '/auth/me', { headers: getAuthHeaders() });
-    if (res.ok) { _authUser = await res.json(); _updateNavAuth(); }
+    if (res.ok) {
+      _authUser = await res.json();
+      _updateNavAuth();
+      syncWishlistFromServer();
+    }
     else clearToken();
   } catch(e) { /* offline, keep token for later */ }
 }
