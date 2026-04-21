@@ -209,5 +209,31 @@ async def my_orders(
         "SELECT * FROM orders WHERE user_id=? ORDER BY created_at DESC",
         (current_user["id"],),
     )
-    rows = await cursor.fetchall()
-    return [dict(r) for r in rows]
+    orders = [dict(r) for r in await cursor.fetchall()]
+    for o in orders:
+        c = await db.execute(
+            "SELECT name, brand, size_label, unit_price, quantity, line_total FROM order_items WHERE order_id=?",
+            (o["id"],),
+        )
+        o["items"] = [dict(r) for r in await c.fetchall()]
+    return orders
+
+
+@router.post("/change-password")
+async def change_password(
+    body: dict,
+    current_user=Depends(get_current_user),
+    db: aiosqlite.Connection = Depends(get_db),
+):
+    current = (body or {}).get("current_password") or ""
+    new_pw  = (body or {}).get("new_password") or ""
+    if len(new_pw) < 6:
+        raise HTTPException(status_code=400, detail="Le nouveau mot de passe doit faire au moins 6 caractères")
+    if not _verify_pw(current, current_user["password_hash"]):
+        raise HTTPException(status_code=401, detail="Mot de passe actuel incorrect")
+    await db.execute(
+        "UPDATE users SET password_hash=?, updated_at=datetime('now') WHERE id=?",
+        (_hash_pw(new_pw), current_user["id"]),
+    )
+    await db.commit()
+    return {"detail": "Password updated"}

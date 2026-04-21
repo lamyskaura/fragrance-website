@@ -138,12 +138,12 @@ nav.scrolled {
   transition: filter 0.4s;
 }
 nav.scrolled .nav-logo-img {
-  filter: none;
+  filter: brightness(0) saturate(100%) invert(55%) sepia(30%) saturate(532%) hue-rotate(352deg) brightness(90%) contrast(88%);
 }
 .pdp-logo-img {
   height: 72px;
   width: auto;
-  filter: brightness(0) invert(1);
+  filter: brightness(0) saturate(100%) invert(55%) sepia(30%) saturate(532%) hue-rotate(352deg) brightness(90%) contrast(88%);
 }
 @media (max-width: 768px) {
   .nav-logo-img { height: 72px; }
@@ -2907,7 +2907,7 @@ nav.scrolled .nav-account { color: var(--text-body); }
     <img src="images/logo.png" alt="LAMYSK AURA" class="nav-logo-img">
   </a>
   <ul class="nav-links">
-    <li><a href="#selection" data-i18n="nav_selection">La Sélection</a></li>
+    <li><a href="#selection" data-i18n="nav_selection">Sélection</a></li>
     <li><a href="#chronicle" data-i18n="nav_chronicle">La Chronique</a></li>
     <li><a href="#quiz" data-i18n="nav_diagnostic">Diagnostic</a></li>
     <li><a href="#bio" data-i18n="nav_about">À Propos</a></li>
@@ -2928,6 +2928,7 @@ nav.scrolled .nav-account { color: var(--text-body); }
         <div class="account-dropdown-header" id="accountDropdownEmail"></div>
         <a href="#" onclick="openAuthPanel('orders');return false" data-i18n="account_orders">Mes Commandes</a>
         <a href="#" onclick="openAuthPanel('wishlist');return false" data-i18n="account_wishlist">Ma Liste de Souhaits</a>
+        <a href="#" onclick="openAuthPanel('profile');return false" data-i18n="account_profile">Mon Profil</a>
         <button onclick="authLogout()" data-i18n="account_logout">Déconnexion</button>
       </div>
     </div>
@@ -2944,7 +2945,7 @@ nav.scrolled .nav-account { color: var(--text-body); }
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
   <button class="mobile-close" onclick="toggleMobile()">&times;</button>
-  <a href="#selection" onclick="toggleMobile()" data-i18n="nav_selection">La Sélection</a>
+  <a href="#selection" onclick="toggleMobile()" data-i18n="nav_selection">Sélection</a>
   <a href="#chronicle" onclick="toggleMobile()" data-i18n="nav_chronicle">La Chronique</a>
   <a href="#quiz" onclick="toggleMobile()" data-i18n="nav_diagnostic">Diagnostic</a>
   <a href="#bio" onclick="toggleMobile()" data-i18n="nav_about">À Propos</a>
@@ -2958,7 +2959,7 @@ nav.scrolled .nav-account { color: var(--text-body); }
   <div class="hero-grain"></div>
   <div class="hero-content">
     <p class="hero-pre" data-i18n="hero_pre">Votre Maison de Parfum de Niche</p>
-    <p class="hero-tagline" data-i18n="hero_tagline">Là où le parfum devient présence</p>
+    <p class="hero-tagline" data-i18n="hero_tagline">Where Scent Becomes Presence</p>
     <div class="hero-search" id="heroSearchWrap">
       <svg class="hero-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" id="heroSearch" data-i18n-placeholder="hero_search_ph" placeholder="Rechercher un parfum, une note..." autocomplete="off" oninput="heroSearchInput(this.value)" onkeydown="heroSearchKey(event)">
@@ -2999,7 +3000,7 @@ nav.scrolled .nav-account { color: var(--text-body); }
 <!-- THE SELECTION -->
 <section class="selection" id="selection">
   <div class="selection-header reveal">
-    <span class="section-label" data-i18n="sel_label">La Sélection</span>
+    <span class="section-label" data-i18n="sel_label">Sélection</span>
     <h2 class="section-title" data-i18n="sel_title">Curée avec <em>Dévotion</em></h2>
     <p data-i18n="sel_desc">Nous ne vendons pas de parfums. Nous composons des rituels. Nous guidons, orientons, éduquons — pour que chaque parfum devienne une seconde nature.</p>
   </div>
@@ -4135,7 +4136,7 @@ nav.scrolled .nav-account { color: var(--text-body); }
   <div class="footer-grid">
     <div class="footer-brand">
       <img src="images/logo.png" alt="LAMYSK AURA" style="height:150px;width:auto;margin-bottom:1rem;display:block;filter:brightness(0) invert(1);">
-      <p data-i18n="footer_tagline">Votre Maison de Parfum de Niche.<br>Là où le parfum devient présence.</p>
+      <p data-i18n="footer_tagline">Votre Maison de Parfum de Niche.<br>Where Scent Becomes Presence.</p>
     </div>
     <div class="footer-col">
       <h4 data-i18n="footer_explore">Explorer</h4>
@@ -4451,7 +4452,7 @@ function formatPrice(amount) {
 // ═══════════════════════════════════════════
 const LANG = {
   fr: {
-    nav_about: 'À Propos', nav_story: 'Notre Univers', nav_selection: 'La Sélection',
+    nav_about: 'À Propos', nav_story: 'Notre Univers', nav_selection: 'Sélection',
     nav_ecrins: 'Coffrets', nav_chronicle: 'Chronique', nav_diagnostic: 'Diagnostic', nav_contact: 'Contact',
     nav_account: 'Compte',
     hero_search_ph: 'Rechercher un parfum, une note...', hero_cta3: 'Découvrir mon profil',
@@ -4461,8 +4462,13 @@ const LANG = {
     auth_login_btn: 'Se connecter', auth_register_btn: 'Créer mon compte',
     auth_no_account: 'Pas encore de compte ?', auth_create: 'Créer un compte',
     auth_have_account: 'Déjà un compte ?', auth_signin: 'Se connecter',
-    account_orders: 'Mes Commandes', account_wishlist: 'Ma Liste de Souhaits', account_logout: 'Déconnexion',
-    hero_pre: 'Votre Maison de Parfum de Niche', hero_tagline: 'Là où le parfum devient présence',
+    account_orders: 'Mes Commandes', account_wishlist: 'Ma Liste de Souhaits', account_profile: 'Mon Profil', account_logout: 'Déconnexion',
+    profile_save: 'Enregistrer', profile_password_title: 'Changer le mot de passe',
+    profile_current_pw: 'Mot de passe actuel', profile_new_pw: 'Nouveau mot de passe',
+    profile_change_pw: 'Mettre à jour', profile_saved: 'Profil mis à jour.', profile_pw_changed: 'Mot de passe modifié.',
+    orders_empty: 'Aucune commande pour l\'instant.', orders_loading: 'Chargement…',
+    orders_details: 'Détails', orders_address: 'Adresse', orders_delivery: 'Livraison', orders_payment: 'Paiement',
+    hero_pre: 'Votre Maison de Parfum de Niche', hero_tagline: 'Where Scent Becomes Presence',
     hero_cta1: 'Découvrir la Sélection', hero_cta2: 'Voir les Écrins', hero_scroll: 'Défiler pour découvrir',
     ecrins_label: 'Les Écrins', ecrins_title: 'L\'expérience parfum complète — réunie dans un écrin',
     ecrins_sub: 'Le parfum parfait ne se porte pas. Il se compose.', ecrins_cta: 'Voir les Coffrets',
@@ -4493,7 +4499,7 @@ const LANG = {
     val1_title: 'Authenticité', val1_text: 'Chaque parfum existe parce qu\'il est vrai. Vrai dans ses origines, ses matières, les mains qui l\'ont créé.',
     val2_title: 'Rareté', val2_text: 'Pas rare par exclusivité. Rare parce que certaines choses ne se produisent pas en masse. Le confidentiel, le discrètement extraordinaire.',
     val3_title: 'Révélation', val3_text: 'Le bon parfum ne s\'annonce pas. Il vous dévoile. Notre rôle n\'est pas de vous vendre un parfum — c\'est de vous aider à trouver celui qui a toujours été le vôtre.',
-    sel_label: 'La Sélection', sel_title: 'Curée avec <em>Dévotion</em>',
+    sel_label: 'Sélection', sel_title: 'Curée avec <em>Dévotion</em>',
     sel_desc: 'Nous ne vendons pas de parfums. Nous composons des rituels. Nous guidons, orientons, éduquons — pour que chaque parfum devienne une seconde nature.',
     cat_orient: 'Orient', cat_occident: 'Occident',
     orient_title: 'Parfums d\'Orient', orient_desc: 'De la Péninsule Arabique aux médinas du Maghreb — oud souverain, musc blanc, rose de Taïf, ambre, bakhour. Pour celles et ceux qui portent leur parfum comme une présence.',
@@ -4559,7 +4565,7 @@ const LANG = {
     faq7_q: 'Comment fonctionne la commande ?', faq7_a: 'Ajoutez vos produits au panier, remplissez le formulaire de commande, et c\'est fait. Notre équipe vous contacte sous 2h par WhatsApp pour confirmer les détails et organiser la livraison. Paiement à la livraison disponible.',
     nl_title: 'Rejoignez l\'univers LAMYSK AURA', nl_desc: 'Recevez en avant-première nos nouveautés et coffrets exclusifs.',
     nl_placeholder: 'Votre adresse email', nl_btn: 'S\'inscrire',
-    footer_tagline: 'Votre Maison de Parfum de Niche.<br>Là où le parfum devient présence.',
+    footer_tagline: 'Votre Maison de Parfum de Niche.<br>Where Scent Becomes Presence.',
     footer_explore: 'Explorer', footer_shop: 'Boutique', footer_connect: 'Contact',
     cart_title: 'Votre Panier', cart_empty: 'Votre panier est vide.<br>Commencez votre voyage olfactif.',
     cart_total: 'Total', cart_checkout: 'Passer la Commande', cart_wa_note: 'Confirmation de commande par WhatsApp',
@@ -4611,8 +4617,13 @@ const LANG = {
     auth_login_btn: 'تسجيل الدخول', auth_register_btn: 'إنشاء حسابي',
     auth_no_account: 'ليس لديكِ حساب؟', auth_create: 'إنشاء حساب',
     auth_have_account: 'لديكِ حساب بالفعل؟', auth_signin: 'تسجيل الدخول',
-    account_orders: 'طلباتي', account_wishlist: 'قائمة أمنياتي', account_logout: 'تسجيل الخروج',
-    hero_pre: 'بيتك للعطور الراقية', hero_tagline: 'حيث يصبح العطر حضوراً',
+    account_orders: 'طلباتي', account_wishlist: 'قائمة أمنياتي', account_profile: 'ملفي الشخصي', account_logout: 'تسجيل الخروج',
+    profile_save: 'حفظ', profile_password_title: 'تغيير كلمة المرور',
+    profile_current_pw: 'كلمة المرور الحالية', profile_new_pw: 'كلمة المرور الجديدة',
+    profile_change_pw: 'تحديث', profile_saved: 'تم تحديث الملف الشخصي.', profile_pw_changed: 'تم تغيير كلمة المرور.',
+    orders_empty: 'لا توجد طلبات بعد.', orders_loading: 'جارٍ التحميل…',
+    orders_details: 'التفاصيل', orders_address: 'العنوان', orders_delivery: 'التوصيل', orders_payment: 'الدفع',
+    hero_pre: 'بيتك للعطور الراقية', hero_tagline: 'Where Scent Becomes Presence',
     hero_cta1: 'اكتشف التشكيلة', hero_cta2: 'اكتشف الأطقم', hero_scroll: 'مرّر للاكتشاف',
     ecrins_label: 'الأطقم', ecrins_title: 'تجربة العطر الكاملة — مجتمعة في طقم واحد',
     ecrins_sub: 'العطر المثالي لا يُلبس. بل يُؤلف.', ecrins_cta: 'اكتشف الأطقم',
@@ -4709,7 +4720,7 @@ const LANG = {
     faq7_q: 'كيف تتم عملية الطلب؟', faq7_a: 'أضيفي المنتجات إلى السلة، املأي نموذج الطلب، وانتهى الأمر. فريقنا يتواصل معكِ خلال ساعتين عبر واتساب لتأكيد التفاصيل وترتيب التوصيل. الدفع عند الاستلام متاح.',
     nl_title: 'انضمّوا إلى عالم LAMYSK AURA', nl_desc: 'كونوا أول من يكتشف الجديد والأطقم الحصرية.',
     nl_placeholder: 'بريدكِ الإلكتروني', nl_btn: 'اشتراك',
-    footer_tagline: 'بيتك للعطور الراقية.<br>حيث يصبح العطر حضوراً.',
+    footer_tagline: 'بيتك للعطور الراقية.<br>Where Scent Becomes Presence.',
     footer_explore: 'استكشف', footer_shop: 'المتجر', footer_connect: 'تواصل',
     cart_title: 'حقيبتكِ', cart_empty: 'حقيبتكِ فارغة.<br>ابدئي رحلتكِ العطرية.',
     cart_total: 'المجموع', cart_checkout: 'إتمام الطلب', cart_wa_note: 'تأكيد الطلب عبر واتساب',
@@ -4751,7 +4762,7 @@ const LANG = {
     profile_soft_title: 'ملف ناعم', profile_soft_desc: 'المسك الأبيض، السوسن، السنتال — شرنقة من الحنان. ننصحكِ بطقم الدوسور.',
   },
   en: {
-    nav_about: 'About', nav_story: 'Our Universe', nav_selection: 'The Selection',
+    nav_about: 'About', nav_story: 'Our Universe', nav_selection: 'Selection',
     nav_ecrins: 'Coffrets', nav_chronicle: 'Chronicle', nav_diagnostic: 'Diagnostic', nav_contact: 'Contact',
     nav_account: 'Account',
     hero_search_ph: 'Search a fragrance, a note...', hero_cta3: 'Discover my profile',
@@ -4761,7 +4772,12 @@ const LANG = {
     auth_login_btn: 'Sign In', auth_register_btn: 'Create my account',
     auth_no_account: 'No account yet?', auth_create: 'Create Account',
     auth_have_account: 'Already have an account?', auth_signin: 'Sign In',
-    account_orders: 'My Orders', account_wishlist: 'My Wishlist', account_logout: 'Sign Out',
+    account_orders: 'My Orders', account_wishlist: 'My Wishlist', account_profile: 'My Profile', account_logout: 'Sign Out',
+    profile_save: 'Save', profile_password_title: 'Change password',
+    profile_current_pw: 'Current password', profile_new_pw: 'New password',
+    profile_change_pw: 'Update', profile_saved: 'Profile updated.', profile_pw_changed: 'Password changed.',
+    orders_empty: 'No orders yet.', orders_loading: 'Loading…',
+    orders_details: 'Details', orders_address: 'Address', orders_delivery: 'Delivery', orders_payment: 'Payment',
     hero_pre: 'Your Niche Fragrance Home', hero_tagline: 'Where Scent Becomes Presence',
     hero_cta1: 'Explore the Selection', hero_cta2: 'Discover the Écrins', hero_scroll: 'Scroll to discover',
     ecrins_label: 'Les Écrins', ecrins_title: 'The complete fragrance experience — in one écrin',
@@ -4793,7 +4809,7 @@ const LANG = {
     val1_title: 'Authenticity', val1_text: 'Every fragrance exists because it is true. True in its origins, its materials, the hands that created it.',
     val2_title: 'Rarity', val2_text: 'Not rare for exclusivity. Rare because some things cannot be mass-produced. The quietly extraordinary.',
     val3_title: 'Revelation', val3_text: 'The right fragrance doesn\'t announce itself. It unveils you. Our role is to help you find the one that was always yours.',
-    sel_label: 'The Selection', sel_title: 'Curated with <em>Devotion</em>',
+    sel_label: 'Selection', sel_title: 'Curated with <em>Devotion</em>',
     sel_desc: 'We don\'t sell fragrances. We compose rituals. We guide, orient, educate — so every fragrance becomes second nature.',
     cat_orient: 'Orient', cat_occident: 'Occident',
     orient_title: 'Fragrances of the Orient', orient_desc: 'From the Arabian Peninsula to the Maghreb medinas — sovereign oud, white musk, Taif rose, amber, bakhour. For those who wear their fragrance as a presence.',
@@ -6468,6 +6484,7 @@ function openAuthPanel(view) {
   if (_authUser) {
     if (tabs) tabs.style.display = 'none';
     if (view === 'wishlist') _showWishlistPanel();
+    else if (view === 'profile') _showProfilePanel();
     else _showOrdersPanel();
   } else {
     if (tabs) tabs.style.display = '';
@@ -6491,6 +6508,7 @@ function switchAuthTab(tab) {
   document.getElementById('registerForm').style.display = tab === 'register' ? 'flex' : 'none';
   document.getElementById('ordersPanel').style.display  = 'none';
   document.getElementById('wishlistPanel').style.display = 'none';
+  const pp = document.getElementById('profilePanel'); if (pp) pp.style.display = 'none';
   document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
   document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
   _authPanelView = tab;
@@ -6589,29 +6607,147 @@ document.addEventListener('click', function(e) {
 
 // ── Orders & Wishlist panels ──────────────────────
 
+const ORDER_STATUS_COLORS = {
+  pending:   { bg:'#fff3e0', fg:'#8a5a00' },
+  confirmed: { bg:'#e8f1ff', fg:'#1e4a8c' },
+  shipped:   { bg:'#e6f4ea', fg:'#1e6b3a' },
+  delivered: { bg:'#dcefe0', fg:'#14532d' },
+  cancelled: { bg:'#fde8e8', fg:'#8a1f1f' }
+};
+
 async function _showOrdersPanel() {
   document.getElementById('loginForm').style.display = 'none';
   document.getElementById('registerForm').style.display = 'none';
   document.getElementById('wishlistPanel').style.display = 'none';
+  const pp = document.getElementById('profilePanel'); if (pp) pp.style.display = 'none';
   document.getElementById('ordersPanel').style.display = 'flex';
   document.getElementById('tabLogin').classList.remove('active');
   document.getElementById('tabRegister').classList.remove('active');
   const listEl = document.getElementById('ordersList');
-  listEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">Chargement…</p>';
+  listEl.innerHTML = `<p style="color:var(--text-muted);font-size:0.85rem">${T('orders_loading')||'Chargement…'}</p>`;
   try {
     const res = await fetch(API + '/auth/orders', { headers: getAuthHeaders() });
     const orders = await res.json();
-    if (!orders.length) { listEl.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem">Aucune commande pour l\'instant.</p>'; return; }
-    listEl.innerHTML = orders.map(o => `
-      <div style="border:1px solid rgba(0,0,0,0.08);border-radius:2px;padding:0.8rem 1rem;background:#fff">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem">
-          <span style="font-family:var(--font-serif);font-size:0.95rem">${o.reference}</span>
-          <span style="font-size:0.72rem;padding:2px 8px;background:var(--bg-section);border-radius:10px;letter-spacing:0.05em">${o.status}</span>
-        </div>
-        <div style="font-size:0.78rem;color:var(--text-muted)">${o.total} MAD · ${o.created_at.slice(0,10)}</div>
-      </div>
-    `).join('');
+    if (!orders.length) { listEl.innerHTML = `<p style="color:var(--text-muted);font-size:0.85rem">${T('orders_empty')||'Aucune commande pour l\'instant.'}</p>`; return; }
+    listEl.innerHTML = orders.map((o, idx) => {
+      const c = ORDER_STATUS_COLORS[o.status] || { bg:'var(--bg-section)', fg:'var(--text)' };
+      const items = (o.items || []).map(it => `
+        <div style="display:flex;justify-content:space-between;gap:0.6rem;padding:0.35rem 0;border-bottom:1px dashed rgba(0,0,0,0.06);font-size:0.78rem">
+          <span style="flex:1">${it.name}${it.size_label?` · ${it.size_label}`:''}${it.quantity>1?` ×${it.quantity}`:''}</span>
+          <span style="color:var(--text-muted)">${it.line_total} MAD</span>
+        </div>`).join('');
+      return `
+        <div style="border:1px solid rgba(0,0,0,0.08);border-radius:2px;background:#fff">
+          <button onclick="_toggleOrder(${idx})" style="all:unset;cursor:pointer;display:block;width:100%;padding:0.8rem 1rem;box-sizing:border-box">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem">
+              <span style="font-family:var(--font-serif);font-size:0.95rem">${o.reference}</span>
+              <span style="font-size:0.68rem;padding:2px 10px;background:${c.bg};color:${c.fg};border-radius:10px;letter-spacing:0.08em;text-transform:uppercase">${o.status}</span>
+            </div>
+            <div style="font-size:0.78rem;color:var(--text-muted);display:flex;justify-content:space-between">
+              <span>${o.total} MAD · ${(o.created_at||'').slice(0,10)}</span>
+              <span id="orderChev${idx}" style="font-size:0.7rem">▸</span>
+            </div>
+          </button>
+          <div id="orderDetail${idx}" style="display:none;padding:0 1rem 0.9rem">
+            <div style="margin:0.6rem 0 0.4rem;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted)">${T('orders_details')||'Détails'}</div>
+            ${items}
+            <div style="margin-top:0.7rem;font-size:0.78rem;color:var(--text-muted);line-height:1.5">
+              <div><strong style="color:var(--text)">${T('orders_address')||'Adresse'}:</strong> ${o.address||''}, ${o.city||''} ${o.zip_code||''}</div>
+              <div><strong style="color:var(--text)">${T('orders_delivery')||'Livraison'}:</strong> ${o.delivery_method||''} · ${o.delivery_cost||0} MAD</div>
+              <div><strong style="color:var(--text)">${T('orders_payment')||'Paiement'}:</strong> ${o.payment_method||''}</div>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
   } catch(e) { listEl.innerHTML = '<p style="color:#c0392b;font-size:0.8rem">Erreur de chargement.</p>'; }
+}
+
+function _toggleOrder(idx) {
+  const d = document.getElementById('orderDetail'+idx);
+  const ch = document.getElementById('orderChev'+idx);
+  if (!d) return;
+  const open = d.style.display === 'block';
+  d.style.display = open ? 'none' : 'block';
+  if (ch) ch.textContent = open ? '▸' : '▾';
+}
+
+// ── Profile panel ─────────────────────────────────
+
+function _showProfilePanel() {
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('registerForm').style.display = 'none';
+  document.getElementById('ordersPanel').style.display = 'none';
+  document.getElementById('wishlistPanel').style.display = 'none';
+  const pp = document.getElementById('profilePanel'); if (!pp) return;
+  pp.style.display = 'flex';
+  document.getElementById('tabLogin').classList.remove('active');
+  document.getElementById('tabRegister').classList.remove('active');
+  const u = _authUser || {};
+  document.getElementById('profFirstName').value = u.first_name || '';
+  document.getElementById('profLastName').value  = u.last_name  || '';
+  document.getElementById('profEmail').value     = u.email      || '';
+  document.getElementById('profPhone').value     = u.phone      || '';
+  ['profileError','profileSuccess','pwError','pwSuccess'].forEach(id => {
+    const el = document.getElementById(id); if (el) { el.classList.remove('visible'); el.textContent=''; }
+  });
+  document.getElementById('pwCurrent').value = '';
+  document.getElementById('pwNew').value = '';
+}
+
+async function profileSave() {
+  const errEl = document.getElementById('profileError');
+  const sucEl = document.getElementById('profileSuccess');
+  const btn = document.getElementById('profileSubmit');
+  errEl.classList.remove('visible'); sucEl.classList.remove('visible');
+  const body = {
+    first_name: document.getElementById('profFirstName').value.trim() || null,
+    last_name:  document.getElementById('profLastName').value.trim() || null,
+    phone:      document.getElementById('profPhone').value.trim() || null
+  };
+  if (!body.first_name) { _authErr(errEl, 'Prénom requis.'); return; }
+  btn.disabled = true;
+  try {
+    const res = await fetch(API + '/auth/me', {
+      method: 'PATCH',
+      headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (!res.ok) { _authErr(errEl, data.detail || 'Erreur.'); return; }
+    _authUser = data;
+    _updateNavAuth();
+    sucEl.textContent = T('profile_saved') || 'Profil mis à jour.';
+    sucEl.classList.add('visible');
+  } catch(e) {
+    _authErr(errEl, 'Erreur réseau.');
+  } finally { btn.disabled = false; }
+}
+
+async function changePassword() {
+  const errEl = document.getElementById('pwError');
+  const sucEl = document.getElementById('pwSuccess');
+  const btn = document.getElementById('pwSubmit');
+  errEl.classList.remove('visible'); sucEl.classList.remove('visible');
+  const current_password = document.getElementById('pwCurrent').value;
+  const new_password     = document.getElementById('pwNew').value;
+  if (!current_password || !new_password) { _authErr(errEl, 'Remplissez les deux champs.'); return; }
+  if (new_password.length < 6) { _authErr(errEl, '6 caractères minimum.'); return; }
+  btn.disabled = true;
+  try {
+    const res = await fetch(API + '/auth/change-password', {
+      method: 'POST',
+      headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ current_password, new_password })
+    });
+    const data = await res.json();
+    if (!res.ok) { _authErr(errEl, data.detail || 'Erreur.'); return; }
+    document.getElementById('pwCurrent').value = '';
+    document.getElementById('pwNew').value = '';
+    sucEl.textContent = T('profile_pw_changed') || 'Mot de passe modifié.';
+    sucEl.classList.add('visible');
+  } catch(e) {
+    _authErr(errEl, 'Erreur réseau.');
+  } finally { btn.disabled = false; }
 }
 
 async function _showWishlistPanel() {
@@ -6619,6 +6755,7 @@ async function _showWishlistPanel() {
   document.getElementById('registerForm').style.display = 'none';
   document.getElementById('ordersPanel').style.display = 'none';
   document.getElementById('wishlistPanel').style.display = 'flex';
+  const pp = document.getElementById('profilePanel'); if (pp) pp.style.display = 'none';
   document.getElementById('tabLogin').classList.remove('active');
   document.getElementById('tabRegister').classList.remove('active');
   const listEl = document.getElementById('wishlistList');
@@ -6828,6 +6965,47 @@ if (document.readyState === 'loading') {
     <div class="auth-form-wrap" id="wishlistPanel" style="display:none">
       <h3 style="font-family:var(--font-serif);font-size:1.2rem;font-weight:400;margin:0 0 1rem" data-i18n="account_wishlist">Ma Liste de Souhaits</h3>
       <div id="wishlistList" style="display:flex;flex-direction:column;gap:0.8rem"></div>
+    </div>
+
+    <!-- MY PROFILE (logged in) -->
+    <div class="auth-form-wrap" id="profilePanel" style="display:none">
+      <h3 style="font-family:var(--font-serif);font-size:1.2rem;font-weight:400;margin:0 0 1rem" data-i18n="account_profile">Mon Profil</h3>
+      <div class="auth-error" id="profileError"></div>
+      <div class="auth-success" id="profileSuccess"></div>
+      <div class="auth-row">
+        <div class="auth-field">
+          <label data-i18n="auth_firstname">Prénom</label>
+          <input type="text" id="profFirstName" autocomplete="given-name">
+        </div>
+        <div class="auth-field">
+          <label data-i18n="auth_lastname">Nom</label>
+          <input type="text" id="profLastName" autocomplete="family-name">
+        </div>
+      </div>
+      <div class="auth-field">
+        <label data-i18n="auth_email">Email</label>
+        <input type="email" id="profEmail" disabled style="opacity:0.6;cursor:not-allowed">
+      </div>
+      <div class="auth-field">
+        <label data-i18n="auth_phone">Téléphone</label>
+        <input type="tel" id="profPhone" autocomplete="tel">
+      </div>
+      <button class="auth-submit" id="profileSubmit" onclick="profileSave()" data-i18n="profile_save">Enregistrer</button>
+
+      <div style="height:1px;background:rgba(0,0,0,0.08);margin:1.6rem 0"></div>
+
+      <h4 style="font-family:var(--font-serif);font-size:1rem;font-weight:400;margin:0 0 0.8rem" data-i18n="profile_password_title">Changer le mot de passe</h4>
+      <div class="auth-error" id="pwError"></div>
+      <div class="auth-success" id="pwSuccess"></div>
+      <div class="auth-field">
+        <label data-i18n="profile_current_pw">Mot de passe actuel</label>
+        <input type="password" id="pwCurrent" autocomplete="current-password">
+      </div>
+      <div class="auth-field">
+        <label data-i18n="profile_new_pw">Nouveau mot de passe</label>
+        <input type="password" id="pwNew" autocomplete="new-password" placeholder="6 caractères minimum">
+      </div>
+      <button class="auth-submit" id="pwSubmit" onclick="changePassword()" data-i18n="profile_change_pw">Mettre à jour</button>
     </div>
   </div>
 </div>
