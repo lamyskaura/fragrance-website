@@ -47,6 +47,9 @@ async def lifespan(app: FastAPI):
     # only runs when the products table is empty, so admin edits are never
     # overwritten. Manual reseed: `python -m backend.services.seed_v2`.
     await _auto_seed_if_empty()
+    # Insert any catalog slugs missing from the DB. Idempotent — existing
+    # products (with potential admin edits) are never touched.
+    await _sync_missing_catalog_slugs()
     yield
 
 
@@ -63,6 +66,59 @@ async def _auto_seed_if_empty():
             await wipe_and_seed()
     except Exception as e:
         print(f"⚠️  Auto-seed skipped: {e}")
+
+
+async def _sync_missing_catalog_slugs():
+    """Insert catalog slugs absent from the DB without touching existing rows."""
+    import aiosqlite
+    from .database import DB_PATH
+    from .services.seed_v2 import PRODUCTS
+    try:
+        async with aiosqlite.connect(DB_PATH) as db:
+            cur = await db.execute("SELECT slug FROM products")
+            existing = {r[0] for r in await cur.fetchall()}
+            cur = await db.execute("SELECT COALESCE(MAX(sort_order), -1) FROM products")
+            next_order = (await cur.fetchone())[0] + 1
+            missing = [p for p in PRODUCTS if p["slug"] not in existing]
+            if not missing:
+                return
+            for p in missing:
+                await db.execute("""
+                    INSERT INTO products (
+                        slug, name, brand, category, carousel_slot,
+                        notes, image_url, badge, price_mad, sort_order,
+                        brand_fr, brand_ar, brand_en,
+                        name_fr,  name_ar,  name_en,
+                        notes_fr, notes_ar, notes_en,
+                        active
+                    ) VALUES (
+                        :slug, :name, :brand, :category, :carousel_slot,
+                        :notes, :image_url, :badge, :price_mad, :sort_order,
+                        :brand_fr, :brand_ar, :brand_en,
+                        :name_fr,  :name_ar,  :name_en,
+                        :notes_fr, :notes_ar, :notes_en,
+                        1
+                    )
+                """, {
+                    "slug": p["slug"],
+                    "name": p["fr"]["name"],
+                    "brand": p["fr"]["brand"],
+                    "category": p["category"],
+                    "carousel_slot": p["carousel_slot"],
+                    "notes": p["fr"]["notes"],
+                    "image_url": p.get("image_url"),
+                    "badge": p.get("badge"),
+                    "price_mad": p["price_mad"],
+                    "sort_order": next_order,
+                    "brand_fr": p["fr"]["brand"], "brand_ar": p["ar"]["brand"], "brand_en": p["en"]["brand"],
+                    "name_fr":  p["fr"]["name"],  "name_ar":  p["ar"]["name"],  "name_en":  p["en"]["name"],
+                    "notes_fr": p["fr"]["notes"], "notes_ar": p["ar"]["notes"], "notes_en": p["en"]["notes"],
+                })
+                next_order += 1
+            await db.commit()
+            print(f"ℹ️  Synced {len(missing)} missing catalog slug(s): {', '.join(p['slug'] for p in missing)}")
+    except Exception as e:
+        print(f"⚠️  Slug sync skipped: {e}")
 
 
 app = FastAPI(

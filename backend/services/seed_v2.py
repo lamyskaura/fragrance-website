@@ -16,7 +16,7 @@ from backend.database import init_db, DB_PATH
 
 
 # ══════════════════════════════════════════════════════════════════════
-# FULL CATALOG (51 products, grouped by carousel_slot)
+# FULL CATALOG (56 products, grouped by carousel_slot)
 # ══════════════════════════════════════════════════════════════════════
 PRODUCTS = [
     # ── ORIENT · LAMYSK AURA SELECTION (house) ───────────────
@@ -27,6 +27,26 @@ PRODUCTS = [
         "ar": {"brand": "لاميسك أورا",              "name": "إبراق",       "notes": "عود · عنبر · وردة الطائف"},
         "en": {"brand": "Lamysk Aura Selection", "name": "Ibraq",        "notes": "Oud · Amber · Taif Rose"},
     },
+    {"slug":"sig-sehr-kalimat","carousel_slot":"signature","category":"orient","price_mad":420,
+        "fr":{"brand":"Lamysk Aura Selection","name":"Sehr Kalimat","notes":"Musc Blanc · Santal · Vanille"},
+        "ar":{"brand":"لاميسك أورا","name":"سحر الكلمات","notes":"مسك أبيض · صندل · فانيليا"},
+        "en":{"brand":"Lamysk Aura Selection","name":"Sehr Kalimat","notes":"White Musk · Sandalwood · Vanilla"}},
+    {"slug":"sig-ghawali","carousel_slot":"signature","category":"orient","price_mad":380,
+        "fr":{"brand":"Lamysk Aura Selection","name":"Ghawali","notes":"Bakhour · Safran · Ambre"},
+        "ar":{"brand":"لاميسك أورا","name":"غوالي","notes":"بخور · زعفران · عنبر"},
+        "en":{"brand":"Lamysk Aura Selection","name":"Ghawali","notes":"Bakhoor · Saffron · Amber"}},
+    {"slug":"sig-match","carousel_slot":"signature","category":"orient","price_mad":350,
+        "fr":{"brand":"Lamysk Aura Selection","name":"Match","notes":"Oud · Musc · Cèdre"},
+        "ar":{"brand":"لاميسك أورا","name":"ماتش","notes":"عود · مسك · أرز"},
+        "en":{"brand":"Lamysk Aura Selection","name":"Match","notes":"Oud · Musk · Cedar"}},
+    {"slug":"sig-woody-intense","carousel_slot":"signature","category":"orient","price_mad":320,
+        "fr":{"brand":"Lamysk Aura Selection","name":"Woody Intense","notes":"Oud · Vétiver · Patchouli"},
+        "ar":{"brand":"لاميسك أورا","name":"وودي إنتنس","notes":"عود · فيتيفر · باتشولي"},
+        "en":{"brand":"Lamysk Aura Selection","name":"Woody Intense","notes":"Oud · Vetiver · Patchouli"}},
+    {"slug":"sig-woody-style","carousel_slot":"signature","category":"orient","price_mad":280,
+        "fr":{"brand":"Lamysk Aura Selection","name":"Woody Style","notes":"Santal · Cèdre · Musc"},
+        "ar":{"brand":"لاميسك أورا","name":"وودي ستايل","notes":"صندل · أرز · مسك"},
+        "en":{"brand":"Lamysk Aura Selection","name":"Woody Style","notes":"Sandalwood · Cedar · Musk"}},
 
     # ── ORIENT · MATCH — Paris (8) ───────────────────────────
     {"slug":"match-mateir","carousel_slot":"match","category":"orient","price_mad":750,"image_url":"images/match_mateir.png","badge":"Orient",
