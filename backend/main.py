@@ -43,8 +43,26 @@ UPLOAD_DIR = DATA_DIR / "images"
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await init_db()
-    # Seeding is manual now: `python -m backend.services.seed_v2` (wipes + re-imports).
+    # Auto-seed the product catalog on first boot (empty DB). Safe on redeploy:
+    # only runs when the products table is empty, so admin edits are never
+    # overwritten. Manual reseed: `python -m backend.services.seed_v2`.
+    await _auto_seed_if_empty()
     yield
+
+
+async def _auto_seed_if_empty():
+    import aiosqlite
+    from .database import DB_PATH
+    try:
+        async with aiosqlite.connect(DB_PATH) as db:
+            cur = await db.execute("SELECT COUNT(*) FROM products")
+            count = (await cur.fetchone())[0]
+        if count == 0:
+            print("ℹ️  Products table empty — seeding catalog…")
+            from .services.seed_v2 import wipe_and_seed
+            await wipe_and_seed()
+    except Exception as e:
+        print(f"⚠️  Auto-seed skipped: {e}")
 
 
 app = FastAPI(

@@ -5559,8 +5559,28 @@ async function ckSubmit(btn) {
     if (res.ok) {
       const data = await res.json();
       ref = data.reference;
+    } else {
+      // Surface server validation errors so the order isn't silently lost.
+      let msg = 'Erreur ' + res.status;
+      try {
+        const err = await res.json();
+        if (err.detail) {
+          msg = Array.isArray(err.detail)
+            ? err.detail.map(d => d.msg || JSON.stringify(d)).join(' · ')
+            : err.detail;
+        }
+      } catch {}
+      console.error('[checkout] order save failed:', msg);
+      alert('La commande n\'a pas pu être enregistrée : ' + msg + '\n\nVeuillez corriger et réessayer.');
+      if (btn) { btn.disabled = false; btn.textContent = T('ck_confirm') || 'Confirmer la commande'; }
+      return;
     }
-  } catch (e) { /* API unreachable — use client-side ref */ }
+  } catch (e) {
+    console.error('[checkout] network error:', e);
+    alert('Connexion au serveur impossible. Veuillez réessayer dans un instant.');
+    if (btn) { btn.disabled = false; btn.textContent = T('ck_confirm') || 'Confirmer la commande'; }
+    return;
+  }
 
   document.getElementById('ck-order-ref').textContent = ref;
   const viewOrders = document.getElementById('ck-view-orders');

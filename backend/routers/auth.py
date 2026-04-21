@@ -12,6 +12,7 @@ from jose import jwt, JWTError
 import aiosqlite
 
 from ..database import get_db
+from ..deps import require_admin
 from ..schemas.auth import UserRegister, UserLogin, UserProfileUpdate
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
@@ -217,6 +218,25 @@ async def my_orders(
         )
         o["items"] = [dict(r) for r in await c.fetchall()]
     return orders
+
+
+# ── ADMIN: LIST REGISTERED USERS ──────────────────────────────────
+
+@router.get("/users", dependencies=[Depends(require_admin)])
+async def list_users(db: aiosqlite.Connection = Depends(get_db)):
+    """Admin-only: list all registered accounts with order count/spend."""
+    cursor = await db.execute(
+        """SELECT u.id, u.email, u.first_name, u.last_name, u.phone, u.city,
+                  u.lang, u.created_at,
+                  COUNT(o.id) as order_count,
+                  COALESCE(SUM(o.total), 0) as total_spent
+           FROM users u
+           LEFT JOIN orders o ON o.user_id = u.id AND o.status != 'cancelled'
+           GROUP BY u.id
+           ORDER BY u.created_at DESC"""
+    )
+    rows = await cursor.fetchall()
+    return [dict(r) for r in rows]
 
 
 @router.post("/change-password")
