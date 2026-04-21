@@ -2718,16 +2718,27 @@ input.invalid, select.invalid { border-color: var(--rose); }
   border-color: var(--amber); color: var(--text-dark);
   background: rgba(184,132,90,0.06);
 }
+.pdp-add-row {
+  display: flex; gap: 0.8rem; margin-top: auto; align-items: stretch;
+}
 .pdp-add {
-  width: 100%; padding: 1rem 2rem;
+  flex: 1; padding: 1rem 2rem;
   background: var(--text-dark); color: #fff;
   font-family: 'Jost', sans-serif; font-size: 0.7rem;
   letter-spacing: 0.22em; text-transform: uppercase;
   border: none; cursor: pointer; transition: all 0.35s;
-  margin-top: auto;
 }
 .pdp-add:hover { background: var(--amber); }
 .pdp-add.added { background: #4a8a60; }
+.pdp-wish {
+  width: 52px; flex: 0 0 52px;
+  background: #fff; border: 1px solid rgba(0,0,0,0.12);
+  color: var(--text-dark); font-size: 1.3rem; line-height: 1;
+  cursor: pointer; transition: all 0.25s;
+  display: flex; align-items: center; justify-content: center;
+}
+.pdp-wish:hover { border-color: #e05a5a; color: #e05a5a; }
+.pdp-wish.wished { color: #e05a5a; border-color: #e05a5a; background: #fff; }
 
 @media (max-width: 800px) {
   .pdp-body { grid-template-columns: 1fr; overflow-y: auto; }
@@ -4401,6 +4412,7 @@ nav.scrolled .nav-account { color: var(--text-body); }
             <span data-i18n="ck_wa_send">Envoyer la commande sur WhatsApp</span>
           </button>
           <p style="margin-top:1.2rem;font-family:'Jost',sans-serif;font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em;" data-i18n="ck_confirmed_note">Nous vous contacterons dans les 2h pour confirmer votre commande.</p>
+          <a href="#" id="ck-view-orders" onclick="closeCheckout();openAuthPanel('orders');return false" style="display:none;margin-top:0.8rem;font-family:'Jost',sans-serif;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--amber);border-bottom:1px solid var(--amber);padding-bottom:2px;" data-i18n="ck_view_orders">Voir mes commandes</a>
         </div>
       </div>
 
@@ -4581,6 +4593,7 @@ const LANG = {
     ck_confirmed_desc: 'Votre commande a été enregistrée. Cliquez ci-dessous pour finaliser via WhatsApp et recevoir une confirmation directe.',
     ck_wa_send: 'Envoyer la commande sur WhatsApp',
     ck_confirmed_note: 'Nous vous contacterons dans les 2h pour confirmer votre commande.',
+    ck_view_orders: 'Voir mes commandes',
     profile_woody_title: 'Profil Boisé', profile_woody_desc: 'Vous êtes attirée par la profondeur et l\'authenticité. Oud, santal, cèdre, vétiver — on vous recommande le Coffret Noblesse.',
     profile_floral_title: 'Profil Floral', profile_floral_desc: 'Rose, jasmin, tubéreuse, fleur d\'oranger — élégance intemporelle. On vous recommande le Coffret Royal Woman.',
     profile_spicy_title: 'Profil Épicé & Oriental', profile_spicy_desc: 'Audacieuse et magnétique. Safran, cardamome, oud, ambre — on vous recommande le Coffret Noblesse.',
@@ -4730,6 +4743,7 @@ const LANG = {
     ck_confirmed_desc: 'تم تسجيل طلبكِ. اضغطي أدناه لإرساله عبر واتساب للتأكيد الفوري.',
     ck_wa_send: 'إرسال الطلب عبر واتساب',
     ck_confirmed_note: 'سنتواصل معكِ خلال ساعتين لتأكيد الطلب.',
+    ck_view_orders: 'عرض طلباتي',
     profile_woody_title: 'ملف خشبي', profile_woody_desc: 'تجذبكِ العمق والأصالة. العود، السنتال، الأرز — ننصحكِ بطقم النبل.',
     profile_floral_title: 'ملف زهري', profile_floral_desc: 'الورد، الياسمين، زهر البرتقال — أنوثة خالدة. ننصحكِ بطقم رويال.',
     profile_spicy_title: 'ملف حار وشرقي', profile_spicy_desc: 'جريئة وجاذبة. الزعفران، الهال، العود — ننصحكِ بطقم النبل.',
@@ -4879,6 +4893,7 @@ const LANG = {
     ck_confirmed_desc: 'Your order has been recorded. Click below to finalise via WhatsApp for direct confirmation.',
     ck_wa_send: 'Send order on WhatsApp',
     ck_confirmed_note: 'We will contact you within 2 hours to confirm your order.',
+    ck_view_orders: 'View my orders',
     profile_woody_title: 'Woody Profile', profile_woody_desc: 'You are drawn to depth and authenticity. Oud, sandalwood, cedar — we recommend the Coffret Noblesse.',
     profile_floral_title: 'Floral Profile', profile_floral_desc: 'Rose, jasmine, orange blossom — timeless elegance. We recommend the Coffret Royal Woman.',
     profile_spicy_title: 'Spicy & Oriental Profile', profile_spicy_desc: 'Bold and magnetic. Saffron, cardamom, oud — we recommend the Coffret Noblesse.',
@@ -5406,6 +5421,13 @@ function openCheckout() {
     return;
   }
   toggleCart(false);
+  if (typeof _authUser !== 'undefined' && _authUser) {
+    const fill = (id, v) => { const el = document.getElementById(id); if (el && !el.value && v) el.value = v; };
+    fill('ck-fname', _authUser.first_name);
+    fill('ck-lname', _authUser.last_name);
+    fill('ck-email', _authUser.email);
+    fill('ck-phone', _authUser.phone);
+  }
   currentCkStep = 1;
   showCkStep(1);
   document.getElementById('checkoutOverlay').classList.add('open');
@@ -5525,6 +5547,8 @@ async function ckSubmit(btn) {
   } catch (e) { /* API unreachable — use client-side ref */ }
 
   document.getElementById('ck-order-ref').textContent = ref;
+  const viewOrders = document.getElementById('ck-view-orders');
+  if (viewOrders) viewOrders.style.display = (typeof _authUser !== 'undefined' && _authUser) ? 'inline-block' : 'none';
   showCkStep(4);
   if (btn) { btn.disabled = false; btn.textContent = T('ck_confirm') || 'Confirmer la commande'; }
 }
@@ -6342,6 +6366,13 @@ function openPDP(card) {
   addBtn.textContent = T('add_bag') || 'Ajouter au Panier';
   addBtn.classList.remove('added');
 
+  const wishBtn = document.getElementById('pdpWishBtn');
+  if (wishBtn) {
+    const wished = wishlist.includes(pd.name);
+    wishBtn.classList.toggle('wished', wished);
+    wishBtn.innerHTML = wished ? '&#9829;' : '&#9825;';
+  }
+
   overlay.classList.add('active');
   document.body.style.overflow = 'hidden';
 
@@ -6349,7 +6380,7 @@ function openPDP(card) {
                       .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
   history.pushState({ pdp: true, category: pd.category }, pd.name, '#produit/' + slug);
 
-  applyLang(currentLang);
+  if (typeof setLang === 'function') setLang(currentLang);
 }
 
 function closePDP() {
@@ -6379,6 +6410,24 @@ function pdpAddToCart() {
     btn.textContent = T('add_bag') || 'Ajouter au Panier';
     btn.classList.remove('added');
   }, 1800);
+}
+
+function pdpToggleWishlist() {
+  if (!_pdpData) return;
+  const name = _pdpData.name;
+  const wishBtn = document.getElementById('pdpWishBtn');
+  toggleWishlist(wishBtn, name);
+  const wished = wishlist.includes(name);
+  wishBtn.innerHTML = wished ? '&#9829;' : '&#9825;';
+  wishBtn.classList.toggle('wished', wished);
+  document.querySelectorAll('.product-card .product-wish').forEach(b => {
+    const card = b.closest('.product-card');
+    const cardName = card?.querySelector('.product-name')?.textContent.trim();
+    if (cardName === name) {
+      b.classList.toggle('wished', wished);
+      b.innerHTML = wished ? '&#9829;' : '&#9825;';
+    }
+  });
 }
 
 window.addEventListener('popstate', function() {
@@ -6822,7 +6871,10 @@ if (document.readyState === 'loading') {
       </div>
       <p class="pdp-desc" id="pdpDesc"></p>
       <div class="pdp-sizes" id="pdpSizes"></div>
-      <button class="pdp-add" id="pdpAddBtn" onclick="pdpAddToCart()" data-i18n="add_bag">Ajouter au Panier</button>
+      <div class="pdp-add-row">
+        <button class="pdp-add" id="pdpAddBtn" onclick="pdpAddToCart()" data-i18n="add_bag">Ajouter au Panier</button>
+        <button class="pdp-wish" id="pdpWishBtn" onclick="pdpToggleWishlist()" aria-label="Wishlist" title="Ajouter aux favoris">&#9825;</button>
+      </div>
     </div>
   </div>
 </div>
