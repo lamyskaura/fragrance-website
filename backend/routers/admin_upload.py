@@ -16,9 +16,21 @@ from ..deps import require_admin
 
 router = APIRouter(prefix="/admin", tags=["Admin"], dependencies=[Depends(require_admin)])
 
-DATA_DIR = Path(os.getenv("DATA_DIR") or (Path(__file__).parent.parent.parent / "data"))
-UPLOAD_DIR = DATA_DIR / "images"
-UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+_PROJECT_ROOT = Path(__file__).parent.parent.parent
+
+
+def _resolve_upload_dir() -> Path:
+    candidate = Path(os.getenv("DATA_DIR") or (_PROJECT_ROOT / "data")) / "images"
+    try:
+        candidate.mkdir(parents=True, exist_ok=True)
+        return candidate
+    except (PermissionError, OSError):
+        fallback = _PROJECT_ROOT / "data" / "images"
+        fallback.mkdir(parents=True, exist_ok=True)
+        return fallback
+
+
+UPLOAD_DIR = _resolve_upload_dir()
 
 ALLOWED_MIME = {"image/jpeg", "image/png", "image/webp"}
 EXT_BY_MIME = {"image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp"}
