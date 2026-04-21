@@ -4072,7 +4072,7 @@ nav.scrolled .nav-account { color: var(--text-body); }
         </div>
         <div class="contact-detail-text">
           <strong data-i18n="contact_email_label">Email</strong>
-          <a href="mailto:lamyskaurafragrance@gmail.com">lamyskaurafragrance@gmail.com</a>
+          <a href="mailto:contact@lamyskaura.com">contact@lamyskaura.com</a>
         </div>
       </div>
 
@@ -5630,7 +5630,7 @@ function sendOrderWhatsApp() {
   msg += `${sep}\n`;
   msg += `💳 ${payLabel}\n`;
   if (notes) msg += `📝 ${notes}\n`;
-  msg += `\n_${CONFIG.storeName} — lamyskaurafragrance.com_`;
+  msg += `\n_${CONFIG.storeName} — lamyskaura.com_`;
 
   window.open(`https://wa.me/${waNum()}?text=${encodeURIComponent(msg)}`, '_blank');
 
@@ -5668,7 +5668,7 @@ async function sendContactWhatsApp() {
   let text = `✉️ *MESSAGE — ${CONFIG.storeName}*\n${sep}\n`;
   if (name)  text += `👤 *${name}*\n`;
   if (phone) text += `📱 ${phone}\n`;
-  text += `\n💬 ${msg}\n${sep}\n_lamyskaurafragrance.com_`;
+  text += `\n💬 ${msg}\n${sep}\n_lamyskaura.com_`;
   window.open(`https://wa.me/${waNum()}?text=${encodeURIComponent(text)}`, '_blank');
 }
 
