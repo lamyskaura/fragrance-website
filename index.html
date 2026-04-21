@@ -2815,6 +2815,19 @@ input.invalid, select.invalid { border-color: var(--rose); }
   width: 100%; box-sizing: border-box;
 }
 .auth-field input:focus { border-color: var(--amber); }
+.pw-wrap { position: relative; }
+.pw-wrap input { padding-right: 2.6rem !important; }
+.pw-toggle {
+  position: absolute; right: 0.6rem; top: 50%; transform: translateY(-50%);
+  width: 1.8rem; height: 1.8rem; padding: 0; border: 0; background: transparent;
+  cursor: pointer; color: var(--text-muted); display: inline-flex;
+  align-items: center; justify-content: center;
+}
+.pw-toggle:hover { color: var(--amber); }
+.pw-toggle svg { width: 1.1rem; height: 1.1rem; }
+.pw-toggle .pw-icon-off { display: none; }
+.pw-toggle.shown .pw-icon-on { display: none; }
+.pw-toggle.shown .pw-icon-off { display: inline-block; }
 
 .auth-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
@@ -6534,6 +6547,17 @@ function switchAuthTab(tab) {
   _authPanelView = tab;
 }
 
+// ── Show/hide password ────────────────────────────
+
+function togglePw(btn) {
+  const input = btn.previousElementSibling;
+  if (!input || input.tagName !== 'INPUT') return;
+  const shown = input.type === 'text';
+  input.type = shown ? 'password' : 'text';
+  btn.classList.toggle('shown', !shown);
+  btn.setAttribute('aria-label', shown ? 'Afficher le mot de passe' : 'Masquer le mot de passe');
+}
+
 // ── Login ─────────────────────────────────────────
 
 async function authLogin() {
@@ -6933,7 +6957,13 @@ if (document.readyState === 'loading') {
       </div>
       <div class="auth-field">
         <label data-i18n="auth_password">Mot de passe</label>
-        <input type="password" id="loginPassword" autocomplete="current-password" placeholder="••••••" onkeydown="if(event.key==='Enter')authLogin()">
+        <div class="pw-wrap">
+          <input type="password" id="loginPassword" autocomplete="current-password" placeholder="••••••" onkeydown="if(event.key==='Enter')authLogin()">
+          <button type="button" class="pw-toggle" aria-label="Afficher le mot de passe" onclick="togglePw(this)">
+            <svg class="pw-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="pw-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-11-8-11-8a19.47 19.47 0 015.06-5.94M9.9 4.24A10.93 10.93 0 0112 4c7 0 11 8 11 8a19.49 19.49 0 01-2.16 3.19M14.12 14.12a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
       </div>
       <button class="auth-submit" id="loginSubmit" onclick="authLogin()" data-i18n="auth_login_btn">Se connecter</button>
       <p style="text-align:center;font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem">
@@ -6966,7 +6996,13 @@ if (document.readyState === 'loading') {
       </div>
       <div class="auth-field">
         <label data-i18n="auth_password">Mot de passe</label>
-        <input type="password" id="regPassword" autocomplete="new-password" placeholder="6 caractères minimum" onkeydown="if(event.key==='Enter')authRegister()">
+        <div class="pw-wrap">
+          <input type="password" id="regPassword" autocomplete="new-password" placeholder="6 caractères minimum" onkeydown="if(event.key==='Enter')authRegister()">
+          <button type="button" class="pw-toggle" aria-label="Afficher le mot de passe" onclick="togglePw(this)">
+            <svg class="pw-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="pw-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-11-8-11-8a19.47 19.47 0 015.06-5.94M9.9 4.24A10.93 10.93 0 0112 4c7 0 11 8 11 8a19.49 19.49 0 01-2.16 3.19M14.12 14.12a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
       </div>
       <button class="auth-submit" id="registerSubmit" onclick="authRegister()" data-i18n="auth_register_btn">Créer mon compte</button>
       <p style="text-align:center;font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem">
@@ -7019,11 +7055,23 @@ if (document.readyState === 'loading') {
       <div class="auth-success" id="pwSuccess"></div>
       <div class="auth-field">
         <label data-i18n="profile_current_pw">Mot de passe actuel</label>
-        <input type="password" id="pwCurrent" autocomplete="current-password">
+        <div class="pw-wrap">
+          <input type="password" id="pwCurrent" autocomplete="current-password">
+          <button type="button" class="pw-toggle" aria-label="Afficher le mot de passe" onclick="togglePw(this)">
+            <svg class="pw-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="pw-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-11-8-11-8a19.47 19.47 0 015.06-5.94M9.9 4.24A10.93 10.93 0 0112 4c7 0 11 8 11 8a19.49 19.49 0 01-2.16 3.19M14.12 14.12a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
       </div>
       <div class="auth-field">
         <label data-i18n="profile_new_pw">Nouveau mot de passe</label>
-        <input type="password" id="pwNew" autocomplete="new-password" placeholder="6 caractères minimum">
+        <div class="pw-wrap">
+          <input type="password" id="pwNew" autocomplete="new-password" placeholder="6 caractères minimum">
+          <button type="button" class="pw-toggle" aria-label="Afficher le mot de passe" onclick="togglePw(this)">
+            <svg class="pw-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="pw-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-11-8-11-8a19.47 19.47 0 015.06-5.94M9.9 4.24A10.93 10.93 0 0112 4c7 0 11 8 11 8a19.49 19.49 0 01-2.16 3.19M14.12 14.12a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
       </div>
       <button class="auth-submit" id="pwSubmit" onclick="changePassword()" data-i18n="profile_change_pw">Mettre à jour</button>
     </div>

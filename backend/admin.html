@@ -75,18 +75,30 @@ body {
   margin: 0 auto 28px;
 }
 
-.login-card input[type="password"] {
+.login-card input[type="password"],
+.login-card input[type="text"] {
   width: 100%;
-  padding: 12px 16px;
+  padding: 12px 44px 12px 16px;
   border: 1.5px solid var(--border);
   border-radius: 8px;
   font-size: 14px;
   font-family: 'Inter', sans-serif;
   outline: none;
   transition: border-color .2s;
-  margin-bottom: 12px;
 }
-.login-card input[type="password"]:focus { border-color: var(--gold); }
+.login-card input:focus { border-color: var(--gold); }
+.login-card .pw-wrap { position: relative; margin-bottom: 12px; }
+.login-card .pw-toggle {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  width: 28px; height: 28px; padding: 0; border: 0; background: transparent;
+  cursor: pointer; color: var(--muted); display: inline-flex;
+  align-items: center; justify-content: center;
+}
+.login-card .pw-toggle:hover { color: var(--gold); }
+.login-card .pw-toggle svg { width: 18px; height: 18px; }
+.login-card .pw-toggle .pw-icon-off { display: none; }
+.login-card .pw-toggle.shown .pw-icon-on { display: none; }
+.login-card .pw-toggle.shown .pw-icon-off { display: inline-block; }
 
 .btn-login {
   width: 100%;
@@ -624,8 +636,14 @@ a { color: inherit; }
     </div>
     <div class="login-divider"></div>
     <div id="login-error" class="login-error"></div>
-    <input type="password" id="admin-key-input" placeholder="Clé administrateur"
-           onkeydown="if(event.key==='Enter') login()">
+    <div class="pw-wrap">
+      <input type="password" id="admin-key-input" placeholder="Clé administrateur"
+             onkeydown="if(event.key==='Enter') login()">
+      <button type="button" class="pw-toggle" aria-label="Afficher la clé" onclick="togglePw(this)">
+        <svg class="pw-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        <svg class="pw-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-11-8-11-8a19.47 19.47 0 015.06-5.94M9.9 4.24A10.93 10.93 0 0112 4c7 0 11 8 11 8a19.49 19.49 0 01-2.16 3.19M14.12 14.12a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+      </button>
+    </div>
     <button class="btn-login" onclick="login()">Accéder au tableau de bord</button>
   </div>
 </div>
@@ -1162,6 +1180,15 @@ function toast(msg, type = 'success') {
 }
 
 // ═══════════════════════════════════════════════════════════ AUTH
+
+function togglePw(btn) {
+  const input = btn.previousElementSibling
+  if (!input || input.tagName !== 'INPUT') return
+  const shown = input.type === 'text'
+  input.type = shown ? 'password' : 'text'
+  btn.classList.toggle('shown', !shown)
+  btn.setAttribute('aria-label', shown ? 'Afficher la clé' : 'Masquer la clé')
+}
 
 async function login() {
   const key = document.getElementById('admin-key-input').value.trim()
