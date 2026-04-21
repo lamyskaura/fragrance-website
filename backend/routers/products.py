@@ -74,7 +74,6 @@ async def get_product(slug: str, db: aiosqlite.Connection = Depends(get_db)):
 @router.post("/", response_model=ProductOut, dependencies=[Depends(require_admin)])
 async def create_product(
     product: ProductCreate,
-    variants: List[VariantCreate] = [],
     db: aiosqlite.Connection = Depends(get_db)
 ):
     try:
@@ -86,11 +85,6 @@ async def create_product(
             tuple(fields.values())
         )
         product_id = cursor.lastrowid
-        for v in variants:
-            await db.execute(
-                "INSERT INTO product_variants (product_id, size_label, price_mad, stock, sku) VALUES (?,?,?,?,?)",
-                (product_id, v.size_label, v.price_mad, v.stock, v.sku)
-            )
         await db.commit()
     except aiosqlite.IntegrityError as e:
         raise HTTPException(status_code=409, detail=f"Slug already exists: {e}")

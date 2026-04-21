@@ -492,6 +492,119 @@ tbody td { padding: 11px 16px; font-size: 13px; }
 .toast.error   { border-left: 3px solid var(--cancelled); }
 .toast.show { display: block; }
 
+/* ── PRODUCT GRID (admin) ────────────────────────────────────────── */
+.prod-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 18px;
+  margin-top: 4px;
+}
+.prod-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+.prod-card:hover { border-color: var(--gold); box-shadow: 0 6px 18px rgba(0,0,0,.05); transform: translateY(-1px); }
+.prod-card.inactive { opacity: 0.55; }
+.prod-thumb {
+  aspect-ratio: 1 / 1;
+  background: #f5efe4 center/cover no-repeat;
+  position: relative;
+}
+.prod-thumb.empty::after {
+  content: 'Pas d\'image';
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); font-size: 12px;
+}
+.prod-thumb .prod-badge {
+  position: absolute; top: 8px; left: 8px;
+  background: rgba(0,0,0,.72); color: #fff;
+  font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 100px;
+}
+.prod-thumb .prod-inactive-pill {
+  position: absolute; top: 8px; right: 8px;
+  background: #fee2e2; color: #991b1b;
+  font-size: 10px; letter-spacing: .05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 100px;
+}
+.prod-body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.prod-name { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--navy); line-height: 1.25; }
+.prod-brand { font-size: 11px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+.prod-price { margin-top: auto; font-size: 13px; color: var(--gold); font-weight: 600; padding-top: 6px; }
+.prod-actions { display: flex; gap: 6px; padding: 0 14px 12px; }
+.prod-actions button {
+  flex: 1;
+  padding: 7px 0; font-size: 12px; border-radius: 6px; border: 1px solid var(--border);
+  background: var(--white); color: var(--navy); cursor: pointer;
+  transition: background .12s ease, color .12s ease, border-color .12s ease;
+}
+.prod-actions button:hover { background: #f7f2eb; }
+.prod-actions button.danger { color: #a66; }
+.prod-actions button.danger:hover { background: #fee2e2; border-color: #fca5a5; color: #991b1b; }
+
+/* ── DRAG-DROP UPLOAD ────────────────────────────────────────────── */
+.uploader {
+  border: 2px dashed #d1c4a8;
+  border-radius: 10px;
+  padding: 18px;
+  background: #fdfbf6;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease;
+  position: relative;
+}
+.uploader:hover, .uploader.drag { border-color: var(--gold); background: #f9f3e3; }
+.uploader input[type=file] { display: none; }
+.uploader-hint { color: var(--muted); font-size: 12px; margin-top: 6px; }
+.uploader-preview {
+  width: 110px; height: 110px;
+  margin: 0 auto 10px;
+  border-radius: 8px;
+  background: #f5efe4 center/cover no-repeat;
+  border: 1px solid var(--border);
+}
+.uploader-preview.empty::after {
+  content: '🖼';
+  display: flex; align-items: center; justify-content: center;
+  height: 100%;
+  font-size: 34px; opacity: .35;
+}
+.uploader-filename {
+  font-size: 11px; color: var(--muted); margin-top: 4px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* ── MODAL FORM POLISH ───────────────────────────────────────────── */
+.modal .pm-pane label {
+  display: block; margin-bottom: 10px;
+  font-size: 12px; color: var(--muted); letter-spacing: .03em;
+}
+.modal .pm-pane label input,
+.modal .pm-pane label select,
+.modal .pm-pane label textarea {
+  display: block; width: 100%; margin-top: 4px;
+  padding: 8px 10px;
+  border: 1px solid var(--border); border-radius: 6px;
+  font-size: 13px; color: var(--navy); background: var(--white);
+  font-family: inherit;
+}
+.modal .pm-pane label input:focus,
+.modal .pm-pane label select:focus,
+.modal .pm-pane label textarea:focus { outline: none; border-color: var(--gold); }
+.modal .pm-pane label input[type=file] { display: none; }
+.modal .pm-pane label input[type=checkbox] { display: inline-block; width: auto; margin: 0; }
+.modal .pm-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* ── CONFIRM DIALOG ──────────────────────────────────────────────── */
+.confirm-modal .modal { max-width: 440px; text-align: center; }
+.confirm-modal .modal h3 { margin-bottom: 6px; }
+.confirm-modal .modal p { color: var(--muted); font-size: 13px; margin-bottom: 18px; }
+
 /* ── MISC ────────────────────────────────────────────────────────── */
 a { color: inherit; }
 .text-muted { color: var(--muted); }
@@ -765,12 +878,7 @@ a { color: inherit; }
           <span id="products-count" class="stat-pill"></span>
           <button class="btn btn-gold" onclick="openProductEditor(null)">+ Nouveau produit</button>
         </div>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr><th></th><th>Slug</th><th>Marque</th><th>Nom</th><th>Rangée</th><th class="text-right">Prix</th><th>Actif</th><th></th></tr></thead>
-            <tbody id="tbl-products"><tr><td colspan="8" class="loading">Chargement</td></tr></tbody>
-          </table>
-        </div>
+        <div id="prod-grid" class="prod-grid"><div class="loading" style="grid-column:1/-1">Chargement</div></div>
       </section>
 
       <!-- ── I18N (UI strings) ──────────────────────────────────── -->
@@ -813,7 +921,7 @@ a { color: inherit; }
 
 <!-- ─────────────────────────────────── PRODUCT EDITOR MODAL -->
 <div id="product-modal" class="modal-overlay" onclick="closeProductEditor()">
-  <div class="modal" style="max-width:720px" onclick="event.stopPropagation()">
+  <div class="modal" style="max-width:760px;max-height:90vh;overflow-y:auto" onclick="event.stopPropagation()">
     <h3 id="pm-title">Nouveau produit</h3>
     <div class="pm-tabs" style="display:flex;gap:0.5rem;margin:0.75rem 0 1rem;border-bottom:1px solid #e5d9c6;padding-bottom:0.5rem">
       <button class="btn btn-outline pm-tab-btn active" onclick="pmTab('base')">Base</button>
@@ -823,56 +931,104 @@ a { color: inherit; }
     </div>
 
     <div class="pm-pane" data-pane="base">
-      <label>Slug <span style="color:#a66">*</span><input id="pm-slug" placeholder="ex. match-mateir"></label>
-      <label>Catégorie <select id="pm-category">
-        <option value="orient">Orient</option>
-        <option value="occident">Occident</option>
-        <option value="absolus">Absolus</option>
-        <option value="ecrins">Écrins</option>
-        <option value="essentiels">Essentiels</option>
-      </select></label>
-      <label>Rangée (carousel_slot) <select id="pm-slot">
-        <option value="">—</option>
-        <option value="signature">Signature</option>
-        <option value="match">MATCH</option>
-        <option value="match_musks">MATCH Musks</option>
-        <option value="lattafa">Lattafa</option>
-        <option value="arabian_oud">Arabian Oud</option>
-        <option value="ghawali">Ghawali</option>
-        <option value="niche">Niche Occident</option>
-        <option value="absolus">Absolus</option>
-        <option value="essentiels">Essentiels</option>
-      </select></label>
-      <label>Prix (MAD) <input id="pm-price" type="number" min="0"></label>
-      <label>Image URL <input id="pm-image" placeholder="images/match_mateir.png"></label>
-      <label>Badge <input id="pm-badge" placeholder="Orient / Occident / Absolu"></label>
-      <label>Ordre <input id="pm-sort" type="number" value="0"></label>
-      <label style="display:flex;align-items:center;gap:0.5rem;margin-top:0.5rem">
-        <input id="pm-active" type="checkbox" checked> Actif (visible sur le site)
+      <!-- Image uploader -->
+      <label style="display:block">Image du produit
+        <div id="pm-uploader" class="uploader" onclick="document.getElementById('pm-file').click()">
+          <div id="pm-preview" class="uploader-preview empty"></div>
+          <strong style="font-size:13px;color:var(--navy)">Cliquer ou glisser une image ici</strong>
+          <div class="uploader-hint">JPG, PNG ou WEBP · 5 Mo max</div>
+          <div id="pm-filename" class="uploader-filename"></div>
+          <input type="file" id="pm-file" accept="image/jpeg,image/png,image/webp">
+        </div>
+      </label>
+      <input id="pm-image" type="hidden">
+
+      <div class="pm-row">
+        <label>Nom (référence interne) <span style="color:#a66">*</span>
+          <input id="pm-slug" placeholder="ex. match-mateir">
+        </label>
+        <label>Prix (MAD)
+          <input id="pm-price" type="number" min="0" placeholder="490">
+        </label>
+      </div>
+      <div class="pm-row">
+        <label>Catégorie
+          <select id="pm-category">
+            <option value="orient">Orient</option>
+            <option value="occident">Occident</option>
+            <option value="absolus">Absolus</option>
+            <option value="ecrins">Écrins</option>
+            <option value="essentiels">Essentiels</option>
+          </select>
+        </label>
+        <label>Rangée d'affichage
+          <select id="pm-slot">
+            <option value="">— aucune —</option>
+            <option value="signature">Signature</option>
+            <option value="match">MATCH</option>
+            <option value="match_musks">MATCH Musks</option>
+            <option value="lattafa">Lattafa</option>
+            <option value="arabian_oud">Arabian Oud</option>
+            <option value="ghawali">Ghawali</option>
+            <option value="niche">Niche Occident</option>
+            <option value="absolus">Absolus</option>
+            <option value="essentiels">Essentiels</option>
+          </select>
+        </label>
+      </div>
+      <div class="pm-row">
+        <label>Étiquette (badge)
+          <input id="pm-badge" placeholder="Orient / Occident / Absolu">
+        </label>
+        <label>Ordre d'affichage
+          <input id="pm-sort" type="number" value="0">
+        </label>
+      </div>
+      <label style="display:flex;align-items:center;gap:0.5rem;margin-top:0.5rem;font-size:13px;color:var(--navy)">
+        <input id="pm-active" type="checkbox" checked style="width:auto;margin:0">
+        Actif — visible sur le site
       </label>
     </div>
     <div class="pm-pane" data-pane="fr" style="display:none">
-      <label>Marque FR <input id="pm-brand-fr"></label>
-      <label>Nom FR <input id="pm-name-fr"></label>
-      <label>Notes FR <input id="pm-notes-fr"></label>
-      <label>Description FR <textarea id="pm-desc-fr" rows="3"></textarea></label>
+      <div class="pm-row">
+        <label>Marque <input id="pm-brand-fr"></label>
+        <label>Nom affiché <input id="pm-name-fr"></label>
+      </div>
+      <label>Notes olfactives <input id="pm-notes-fr" placeholder="Oud · Rose · Safran"></label>
+      <label>Description <textarea id="pm-desc-fr" rows="4"></textarea></label>
     </div>
     <div class="pm-pane" data-pane="ar" style="display:none" dir="rtl">
-      <label>العلامة التجارية <input id="pm-brand-ar"></label>
-      <label>الاسم <input id="pm-name-ar"></label>
+      <div class="pm-row">
+        <label>العلامة التجارية <input id="pm-brand-ar"></label>
+        <label>الاسم <input id="pm-name-ar"></label>
+      </div>
       <label>النوتات <input id="pm-notes-ar"></label>
-      <label>الوصف <textarea id="pm-desc-ar" rows="3"></textarea></label>
+      <label>الوصف <textarea id="pm-desc-ar" rows="4"></textarea></label>
     </div>
     <div class="pm-pane" data-pane="en" style="display:none">
-      <label>Brand EN <input id="pm-brand-en"></label>
-      <label>Name EN <input id="pm-name-en"></label>
-      <label>Notes EN <input id="pm-notes-en"></label>
-      <label>Description EN <textarea id="pm-desc-en" rows="3"></textarea></label>
+      <div class="pm-row">
+        <label>Brand <input id="pm-brand-en"></label>
+        <label>Display name <input id="pm-name-en"></label>
+      </div>
+      <label>Olfactory notes <input id="pm-notes-en"></label>
+      <label>Description <textarea id="pm-desc-en" rows="4"></textarea></label>
     </div>
 
     <div class="modal-actions" style="margin-top:1rem">
       <button class="btn btn-outline" onclick="closeProductEditor()">Annuler</button>
-      <button class="btn btn-primary" onclick="saveProduct()">Enregistrer</button>
+      <button class="btn btn-primary" id="pm-save-btn" onclick="saveProduct()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────── CONFIRM DIALOG -->
+<div id="confirm-modal" class="modal-overlay confirm-modal" onclick="closeConfirm()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h3 id="confirm-title">Confirmer</h3>
+    <p id="confirm-body">Êtes-vous sûre ?</p>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeConfirm()">Annuler</button>
+      <button class="btn btn-primary" id="confirm-ok" style="background:#c0392b;border-color:#c0392b">Supprimer</button>
     </div>
   </div>
 </div>
@@ -916,13 +1072,24 @@ const API = {
   h() {
     return { 'Content-Type': 'application/json', 'X-Admin-Key': S.key }
   },
-  async get(path) {
-    const r = await fetch(this.base + path, { headers: this.h() })
+  async _send(method, path, body) {
+    const opts = { method, headers: this.h() }
+    if (body !== undefined) opts.body = JSON.stringify(body)
+    const r = await fetch(this.base + path, opts)
     if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.detail || r.status) }
+    if (r.status === 204) return null
     return r.json()
   },
-  async patch(path, body) {
-    const r = await fetch(this.base + path, { method: 'PATCH', headers: this.h(), body: JSON.stringify(body) })
+  get(path)         { return this._send('GET',    path) },
+  post(path, body)  { return this._send('POST',   path, body || {}) },
+  patch(path, body) { return this._send('PATCH',  path, body || {}) },
+  put(path, body)   { return this._send('PUT',    path, body || {}) },
+  del(path)         { return this._send('DELETE', path) },
+  async upload(path, file, extra = {}) {
+    const fd = new FormData()
+    fd.append('file', file)
+    for (const [k, v] of Object.entries(extra)) fd.append(k, v)
+    const r = await fetch(this.base + path, { method: 'POST', headers: { 'X-Admin-Key': S.key }, body: fd })
     if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.detail || r.status) }
     return r.json()
   }
@@ -1365,7 +1532,7 @@ function filterCustomers() {
 // ═══════════════════════════════════════════════════════════ PRODUCTS (CRUD)
 
 async function loadProducts() {
-  document.getElementById('tbl-products').innerHTML = '<tr><td colspan="8" class="loading">Chargement</td></tr>'
+  document.getElementById('prod-grid').innerHTML = '<div class="loading" style="grid-column:1/-1">Chargement</div>'
   try {
     S.raw.products = await API.get('/api/v1/products/?include_inactive=true')
     const cnt = document.getElementById('products-count')
@@ -1386,24 +1553,28 @@ function filterProducts() {
     (r.name_ar||'').toLowerCase().includes(q) ||
     (r.name_en||'').toLowerCase().includes(q)
   )
-  const tbody = document.getElementById('tbl-products')
-  if (!rows.length) { tbody.innerHTML = '<tr><td colspan="8" class="tbl-empty">Aucun produit</td></tr>'; return }
-  tbody.innerHTML = rows.map(r => `
-    <tr>
-      <td style="width:48px">${r.image_url
-        ? `<img src="/${esc(r.image_url)}" style="width:40px;height:40px;object-fit:cover;border-radius:4px;background:#f7f2eb">`
-        : '<div style="width:40px;height:40px;background:#ede4d5;border-radius:4px"></div>'}</td>
-      <td class="text-muted" style="font-size:12px"><code>${esc(r.slug)}</code></td>
-      <td>${esc(r.brand||'—')}</td>
-      <td>${esc(r.name||'—')}</td>
-      <td class="text-muted">${esc(r.carousel_slot||'—')}</td>
-      <td class="text-right nowrap">${r.price_mad ? mad(r.price_mad) : '—'}</td>
-      <td>${r.active ? '✓' : '<span style="color:#a66">✕</span>'}</td>
-      <td class="nowrap">
-        <button class="btn btn-outline" style="padding:4px 10px;font-size:12px" onclick="openProductEditor('${esc(r.slug)}')">Éditer</button>
-        <button class="btn btn-outline" style="padding:4px 10px;font-size:12px;color:#a66" onclick="deleteProduct('${esc(r.slug)}')">Désactiver</button>
-      </td>
-    </tr>`).join('')
+  const grid = document.getElementById('prod-grid')
+  if (!rows.length) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px;font-size:13px">Aucun produit</div>'; return }
+  grid.innerHTML = rows.map(r => {
+    const img = r.image_url ? `background-image:url('/${esc(r.image_url)}')` : ''
+    const empty = r.image_url ? '' : 'empty'
+    return `
+      <div class="prod-card ${r.active ? '' : 'inactive'}">
+        <div class="prod-thumb ${empty}" style="${img}">
+          ${r.badge ? `<span class="prod-badge">${esc(r.badge)}</span>` : ''}
+          ${r.active ? '' : '<span class="prod-inactive-pill">Inactif</span>'}
+        </div>
+        <div class="prod-body">
+          <div class="prod-brand">${esc(r.brand||'')}</div>
+          <div class="prod-name">${esc(r.name||r.slug)}</div>
+          <div class="prod-price">${r.price_mad ? mad(r.price_mad) : '—'}</div>
+        </div>
+        <div class="prod-actions">
+          <button onclick="openProductEditor('${esc(r.slug)}')">Éditer</button>
+          <button class="danger" onclick="deleteProduct('${esc(r.slug)}', '${esc(r.name||r.slug)}')">${r.active ? 'Désactiver' : 'Supprimer'}</button>
+        </div>
+      </div>`
+  }).join('')
 }
 
 let _editingSlug = null
@@ -1448,9 +1619,53 @@ function openProductEditor(slug) {
   set('pm-name-en',  p?.name_en  || '')
   set('pm-notes-en', p?.notes_en || '')
   set('pm-desc-en',  p?.description_en || '')
+  _pmSyncPreview(p?.image_url || '')
+  document.getElementById('pm-filename').textContent = ''
+  document.getElementById('pm-file').value = ''
   pmTab('base')
   document.getElementById('product-modal').classList.add('open')
 }
+
+function _pmSyncPreview(url) {
+  const prev = document.getElementById('pm-preview')
+  if (url) {
+    prev.classList.remove('empty')
+    prev.style.backgroundImage = `url('/${url.replace(/^\//,'')}')`
+  } else {
+    prev.classList.add('empty')
+    prev.style.backgroundImage = ''
+  }
+}
+
+async function _pmHandleFile(file) {
+  if (!file) return
+  if (!/^image\/(jpeg|png|webp)$/.test(file.type)) { toast('Format non supporté (JPG, PNG ou WEBP)', 'error'); return }
+  if (file.size > 5 * 1024 * 1024) { toast('Image trop lourde (5 Mo max)', 'error'); return }
+  const filenameEl = document.getElementById('pm-filename')
+  filenameEl.textContent = 'Envoi en cours…'
+  try {
+    const slug = document.getElementById('pm-slug').value.trim() || ''
+    const r = await API.upload('/api/v1/admin/upload', file, { slug })
+    document.getElementById('pm-image').value = r.url
+    _pmSyncPreview(r.url)
+    filenameEl.textContent = r.filename
+    toast('Image téléchargée', 'success')
+  } catch (e) {
+    filenameEl.textContent = ''
+    toast('Échec: ' + e.message, 'error')
+  }
+}
+
+// Wire drag-drop + file picker once (run after DOM is ready via first openProductEditor call).
+document.addEventListener('DOMContentLoaded', () => {
+  const up = document.getElementById('pm-uploader')
+  const file = document.getElementById('pm-file')
+  if (!up || !file) return
+  file.addEventListener('change', e => _pmHandleFile(e.target.files[0]))
+  ;['dragenter','dragover'].forEach(ev => up.addEventListener(ev, e => { e.preventDefault(); up.classList.add('drag') }))
+  ;['dragleave','drop'].forEach(ev => up.addEventListener(ev, e => { e.preventDefault(); up.classList.remove('drag') }))
+  up.addEventListener('drop', e => _pmHandleFile(e.dataTransfer.files[0]))
+})
 
 function closeProductEditor() {
   document.getElementById('product-modal').classList.remove('open')
@@ -1496,13 +1711,35 @@ async function saveProduct() {
   } catch (e) { toast('Échec: ' + e.message, 'error') }
 }
 
-async function deleteProduct(slug) {
-  if (!confirm(`Désactiver "${slug}" ?`)) return
-  try {
-    await API.del(`/api/v1/products/${encodeURIComponent(slug)}`)
-    toast('Produit désactivé', 'success')
-    await loadProducts()
-  } catch (e) { toast('Échec: ' + e.message, 'error') }
+function deleteProduct(slug, name) {
+  openConfirm({
+    title: 'Désactiver ce produit ?',
+    body: `« ${name || slug} » ne sera plus visible sur la boutique. Vous pouvez le réactiver à tout moment depuis l'onglet "Éditer".`,
+    okLabel: 'Désactiver',
+    onOk: async () => {
+      try {
+        await API.del(`/api/v1/products/${encodeURIComponent(slug)}`)
+        toast('Produit désactivé', 'success')
+        await loadProducts()
+      } catch (e) { toast('Échec: ' + e.message, 'error') }
+    }
+  })
+}
+
+// ─── Confirm dialog helpers ──────────────────────────────
+let _confirmResolver = null
+function openConfirm({ title, body, okLabel = 'Confirmer', onOk }) {
+  document.getElementById('confirm-title').textContent = title
+  document.getElementById('confirm-body').textContent  = body
+  const okBtn = document.getElementById('confirm-ok')
+  okBtn.textContent = okLabel
+  _confirmResolver = onOk
+  document.getElementById('confirm-modal').classList.add('open')
+  okBtn.onclick = async () => { closeConfirm(); if (_confirmResolver) await _confirmResolver() }
+}
+function closeConfirm() {
+  document.getElementById('confirm-modal').classList.remove('open')
+  _confirmResolver = null
 }
 
 // ═══════════════════════════════════════════════════════════ I18N (UI strings)
