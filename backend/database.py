@@ -11,11 +11,16 @@ load_dotenv()
 
 def _resolve_db_path() -> Path:
     """
-    Resolve the database path with fallback logic:
-    1. Use DATA_DIR env var if set AND the directory is writable.
-    2. Fall back to ./data/ inside the project root (always works).
+    Resolve the database path:
+      • If DATA_DIR is set and writable → <DATA_DIR>/lamyskaura.db (persistent disk on Render).
+      • In production, a set-but-unwritable DATA_DIR is fatal — we refuse to
+        fall back silently to ephemeral storage (that's how accounts get wiped
+        on redeploy).
+      • In dev (ENV!=production), fall back to <repo>/data/ for convenience.
     """
+    env = os.getenv("ENV", "development")
     candidate = os.environ.get("DATA_DIR")
+
     if candidate:
         p = Path(candidate)
         try:
@@ -24,16 +29,22 @@ def _resolve_db_path() -> Path:
             probe.touch()
             probe.unlink()
             return p / "lamyskaura.db"
-        except (PermissionError, OSError):
-            pass  # not writable — fall through to default
+        except (PermissionError, OSError) as e:
+            if env == "production":
+                raise RuntimeError(
+                    f"DATA_DIR='{candidate}' is not writable ({e}). "
+                    f"Refusing to fall back to ephemeral storage in production. "
+                    f"Check that the Render persistent disk is attached and mounted at this path."
+                ) from e
+            print(f"⚠️  DATA_DIR '{candidate}' not writable ({e}); dev fallback → ./data/")
 
-    # Default: <project_root>/data/
     default = Path(__file__).parent.parent / "data"
     default.mkdir(parents=True, exist_ok=True)
     return default / "lamyskaura.db"
 
 
 DB_PATH = _resolve_db_path()
+print(f"📂 DB_PATH resolved → {DB_PATH} (exists={DB_PATH.exists()}, DATA_DIR={os.getenv('DATA_DIR')!r})")
 
 
 async def get_db() -> aiosqlite.Connection:

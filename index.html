@@ -5204,11 +5204,13 @@ async function bootCatalog() {
     }
 
     // Hide product cards whose pkey is not in the active set (deactivated in admin).
-    // Cards without data-pkey are untouched (legacy static content).
+    // Tag them with .is-inactive so search/filter functions skip them too.
     if (activeKeys.size > 0) {
       document.querySelectorAll('.product-card[data-pkey]').forEach(card => {
         const k = card.getAttribute('data-pkey');
-        card.style.display = activeKeys.has(k) ? '' : 'none';
+        const on = activeKeys.has(k);
+        card.classList.toggle('is-inactive', !on);
+        card.style.display = on ? '' : 'none';
       });
     }
 
@@ -5962,20 +5964,23 @@ let _heroFocusIdx = -1;
 
 function _buildProductIndex() {
   const index = [];
-  document.querySelectorAll('.product-card').forEach(card => {
+  document.querySelectorAll('.product-card:not(.is-inactive)').forEach(card => {
     const name  = card.querySelector('.product-name')?.textContent.trim()  || '';
     const brand = card.querySelector('.product-brand')?.textContent.trim() || '';
     const notes = card.querySelector('.product-notes')?.textContent.trim() || '';
     const cat   = card.closest('.cat-panel')?.id || '';
     if (name) index.push({ name, brand, notes, cat, card });
   });
-  document.querySelectorAll('.coffret-card').forEach(card => {
+  document.querySelectorAll('.coffret-card:not(.is-inactive)').forEach(card => {
     const name  = card.querySelector('h4')?.textContent.trim() || '';
     const notes = card.querySelector('p')?.textContent.trim()  || '';
     if (name) index.push({ name, brand: '', notes, cat: 'ecrins', card });
   });
   return index;
 }
+
+// Invalidate the search index when the catalog changes (e.g., after admin deactivation).
+window.invalidateProductIndex = () => { _productIndex = null; };
 
 let _productIndex = null;
 
@@ -6094,14 +6099,16 @@ function filterProducts(val) {
   });
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
 
-  // Show/hide individual cards
+  // Show/hide individual cards — inactive cards stay hidden no matter what.
   document.querySelectorAll('.product-card').forEach(card => {
+    if (card.classList.contains('is-inactive')) { card.style.display = 'none'; return; }
     const name  = card.querySelector('.product-name')?.textContent.toLowerCase()  || '';
     const notes = card.querySelector('.product-notes')?.textContent.toLowerCase() || '';
     const brand = card.querySelector('.product-brand')?.textContent.toLowerCase() || '';
     card.style.display = (name.includes(q) || notes.includes(q) || brand.includes(q)) ? '' : 'none';
   });
   document.querySelectorAll('.coffret-card').forEach(card => {
+    if (card.classList.contains('is-inactive')) { card.style.display = 'none'; return; }
     const name  = card.querySelector('h4')?.textContent.toLowerCase() || '';
     const notes = card.querySelector('p')?.textContent.toLowerCase()  || '';
     card.style.display = (name.includes(q) || notes.includes(q)) ? '' : 'none';
@@ -6111,7 +6118,10 @@ function filterProducts(val) {
 function _resetSearch() {
   // Restore normal tab view — hide all panels, re-activate the current one
   document.querySelectorAll('.cat-panel').forEach(p => { p.style.display = ''; });
-  document.querySelectorAll('.product-card, .coffret-card').forEach(c => c.style.display = '');
+  document.querySelectorAll('.product-card, .coffret-card').forEach(c => {
+    // Leave inactive cards hidden — only restore the active ones.
+    c.style.display = c.classList.contains('is-inactive') ? 'none' : '';
+  });
   // Re-activate whatever cat-btn is marked active, defaulting to orient
   const activeBtn = document.querySelector('.cat-btn.active');
   if (activeBtn) {

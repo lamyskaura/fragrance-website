@@ -23,21 +23,27 @@ BACKEND_DIR = Path(__file__).parent
 FRONTEND    = BACKEND_DIR.parent
 
 # Persistent disk for user uploads (Render disk in prod, ./data locally).
-# Fall back to a local dir if the configured DATA_DIR isn't writable —
-# this keeps the app bootable even when the Render disk isn't mounted yet.
+# In production we refuse to fall back to ephemeral storage — silently writing
+# to the project dir is what wipes uploads/accounts on every redeploy.
 def _resolve_data_dir() -> Path:
     candidate = Path(os.getenv("DATA_DIR") or (FRONTEND / "data"))
     try:
         (candidate / "images").mkdir(parents=True, exist_ok=True)
         return candidate
     except (PermissionError, OSError) as e:
-        print(f"⚠️  DATA_DIR '{candidate}' not writable ({e}); falling back to {FRONTEND/'data'}")
+        if ENV == "production":
+            raise RuntimeError(
+                f"DATA_DIR '{candidate}' not writable ({e}). "
+                f"Refusing ephemeral fallback in production — check the Render disk mount."
+            ) from e
+        print(f"⚠️  DATA_DIR '{candidate}' not writable ({e}); dev fallback → {FRONTEND/'data'}")
         fallback = FRONTEND / "data"
         (fallback / "images").mkdir(parents=True, exist_ok=True)
         return fallback
 
 DATA_DIR = _resolve_data_dir()
 UPLOAD_DIR = DATA_DIR / "images"
+print(f"📂 DATA_DIR={DATA_DIR}  UPLOAD_DIR={UPLOAD_DIR}  ENV={ENV}")
 
 
 @asynccontextmanager

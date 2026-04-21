@@ -24,7 +24,12 @@ def _resolve_upload_dir() -> Path:
     try:
         candidate.mkdir(parents=True, exist_ok=True)
         return candidate
-    except (PermissionError, OSError):
+    except (PermissionError, OSError) as e:
+        if os.getenv("ENV") == "production":
+            raise RuntimeError(
+                f"UPLOAD_DIR '{candidate}' not writable ({e}). "
+                f"Refusing ephemeral fallback in production."
+            ) from e
         fallback = _PROJECT_ROOT / "data" / "images"
         fallback.mkdir(parents=True, exist_ok=True)
         return fallback
