@@ -1783,19 +1783,16 @@ function deleteProduct(slug, name) {
 }
 
 // ─── Confirm dialog helpers ──────────────────────────────
-let _confirmResolver = null
 function openConfirm({ title, body, okLabel = 'Confirmer', onOk }) {
   document.getElementById('confirm-title').textContent = title
   document.getElementById('confirm-body').textContent  = body
   const okBtn = document.getElementById('confirm-ok')
   okBtn.textContent = okLabel
-  _confirmResolver = onOk
   document.getElementById('confirm-modal').classList.add('open')
-  okBtn.onclick = async () => { closeConfirm(); if (_confirmResolver) await _confirmResolver() }
+  okBtn.onclick = async () => { closeConfirm(); if (onOk) await onOk() }
 }
 function closeConfirm() {
   document.getElementById('confirm-modal').classList.remove('open')
-  _confirmResolver = null
 }
 
 // ═══════════════════════════════════════════════════════════ I18N (UI strings)
