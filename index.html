@@ -5184,10 +5184,12 @@ async function bootCatalog() {
 
     // Merge products: slug → pkey (replace '-' with '_')
     const activeKeys = new Set();
+    const imageByKey = new Map();
     for (const p of prodRes) {
       const pkey = (p.slug || '').replace(/-/g, '_');
       if (!pkey) continue;
       activeKeys.add(pkey);
+      if (p.image_url) imageByKey.set(pkey, p.image_url);
       PRODUCT_I18N[pkey] = {
         fr: { brand: p.brand_fr || p.brand, name: p.name_fr || p.name, notes: p.notes_fr || p.notes || '' },
         ar: { brand: p.brand_ar || p.brand, name: p.name_ar || p.name, notes: p.notes_ar || p.notes || '' },
@@ -5203,14 +5205,31 @@ async function bootCatalog() {
       }
     }
 
+    // Normalize an image_url ('images/x.png', '/images/x.png', 'http…') for CSS url().
+    const normUrl = (u) => /^https?:\/\//i.test(u) ? u : (u.startsWith('/') ? u : '/' + u);
+
     // Hide product cards whose pkey is not in the active set (deactivated in admin).
     // Tag them with .is-inactive so search/filter functions skip them too.
+    // Also overlay admin-uploaded images on top of the hardcoded card background.
     if (activeKeys.size > 0) {
       document.querySelectorAll('.product-card[data-pkey]').forEach(card => {
         const k = card.getAttribute('data-pkey');
         const on = activeKeys.has(k);
         card.classList.toggle('is-inactive', !on);
         card.style.display = on ? '' : 'none';
+        const url = imageByKey.get(k);
+        if (url) {
+          const imgEl = card.querySelector('.product-img');
+          if (imgEl) {
+            imgEl.style.backgroundImage = `url('${normUrl(url)}')`;
+            imgEl.style.backgroundSize = 'contain';
+            imgEl.style.backgroundRepeat = 'no-repeat';
+            imgEl.style.backgroundPosition = 'center';
+            imgEl.style.backgroundColor = '#f7f2eb';
+            const txt = imgEl.querySelector('.product-img-text');
+            if (txt) txt.style.display = 'none';
+          }
+        }
       });
     }
 
