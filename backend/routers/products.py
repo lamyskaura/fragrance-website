@@ -121,13 +121,37 @@ async def update_product(
 
 @router.delete("/{slug}", dependencies=[Depends(require_admin)])
 async def delete_product(slug: str, db: aiosqlite.Connection = Depends(get_db)):
-    cursor = await db.execute("SELECT id FROM products WHERE slug=?", (slug,))
+    """
+    Two-step delete:
+      • Active product → soft-delete (active=0). Reversible.
+      • Already-inactive product → hard-delete the row, unless any order
+        references it (in which case it stays soft-deleted to preserve
+        the historical record).
+    """
+    cursor = await db.execute("SELECT id, active FROM products WHERE slug=?", (slug,))
     row = await cursor.fetchone()
     if not row:
         raise HTTPException(status_code=404, detail="Product not found")
-    await db.execute("UPDATE products SET active=0 WHERE slug=?", (slug,))
+    pid, active = row["id"], row["active"]
+
+    if active:
+        await db.execute("UPDATE products SET active=0 WHERE slug=?", (slug,))
+        await db.commit()
+        return {"detail": "deactivated", "mode": "soft"}
+
+    cursor = await db.execute("SELECT COUNT(*) FROM order_items WHERE product_id=?", (pid,))
+    used_in_orders = (await cursor.fetchone())[0]
+    if used_in_orders:
+        return {
+            "detail": "kept_for_orders",
+            "mode": "soft",
+            "message": "Conservé : ce produit apparaît dans des commandes passées."
+        }
+
+    await db.execute("DELETE FROM product_variants WHERE product_id=?", (pid,))
+    await db.execute("DELETE FROM products WHERE id=?", (pid,))
     await db.commit()
-    return {"detail": f"Product '{slug}' deactivated"}
+    return {"detail": "deleted", "mode": "hard"}
 
 
 @router.post("/{slug}/variants", response_model=VariantOut, dependencies=[Depends(require_admin)])

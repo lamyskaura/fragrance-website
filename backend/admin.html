@@ -502,6 +502,7 @@ tbody td { padding: 11px 16px; font-size: 13px; }
 }
 .toast.success { border-left: 3px solid var(--delivered); }
 .toast.error   { border-left: 3px solid var(--cancelled); }
+.toast.info    { border-left: 3px solid var(--gold); }
 .toast.show { display: block; }
 
 /* ── PRODUCT GRID (admin) ────────────────────────────────────────── */
@@ -1654,7 +1655,7 @@ function filterProducts() {
         </div>
         <div class="prod-actions">
           <button onclick="openProductEditor('${esc(r.slug)}')">Éditer</button>
-          <button class="danger" onclick="deleteProduct('${esc(r.slug)}', '${esc(r.name||r.slug)}')">${r.active ? 'Désactiver' : 'Supprimer'}</button>
+          <button class="danger" onclick="deleteProduct('${esc(r.slug)}', '${esc(r.name||r.slug)}', ${r.active ? 1 : 0})">${r.active ? 'Désactiver' : 'Supprimer'}</button>
         </div>
       </div>`
   }).join('')
@@ -1794,15 +1795,20 @@ async function saveProduct() {
   } catch (e) { toast('Échec: ' + e.message, 'error') }
 }
 
-function deleteProduct(slug, name) {
+function deleteProduct(slug, name, isActive) {
+  const active = !!isActive
   openConfirm({
-    title: 'Désactiver ce produit ?',
-    body: `« ${name || slug} » ne sera plus visible sur la boutique. Vous pouvez le réactiver à tout moment depuis l'onglet "Éditer".`,
-    okLabel: 'Désactiver',
+    title: active ? 'Désactiver ce produit ?' : 'Supprimer définitivement ?',
+    body: active
+      ? `« ${name || slug} » ne sera plus visible sur la boutique. Vous pouvez le réactiver à tout moment depuis l'onglet "Éditer".`
+      : `« ${name || slug} » sera supprimé de façon permanente. Cette action est irréversible. (Les produits présents dans des commandes passées sont conservés automatiquement.)`,
+    okLabel: active ? 'Désactiver' : 'Supprimer définitivement',
     onOk: async () => {
       try {
-        await API.del(`/api/v1/products/${encodeURIComponent(slug)}`)
-        toast('Produit désactivé', 'success')
+        const r = await API.del(`/api/v1/products/${encodeURIComponent(slug)}`)
+        if (r && r.detail === 'deleted')           toast('Produit supprimé définitivement', 'success')
+        else if (r && r.detail === 'kept_for_orders') toast(r.message || 'Conservé pour les commandes passées', 'info')
+        else                                          toast('Produit désactivé', 'success')
         await loadProducts()
       } catch (e) { toast('Échec: ' + e.message, 'error') }
     }
