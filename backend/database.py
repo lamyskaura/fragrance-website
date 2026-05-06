@@ -75,6 +75,9 @@ async def init_db():
                 carousel_slot  TEXT,                       -- match | arabian_oud | ghawali | lattafa | niche | absolus | essentiels
                 notes          TEXT,
                 description    TEXT,
+                head_notes     TEXT,
+                heart_notes    TEXT,
+                base_notes     TEXT,
                 image_url      TEXT,
                 badge          TEXT,
                 price_mad      INTEGER,                    -- display price shown on the card (primary variant)
@@ -247,6 +250,9 @@ async def init_db():
             ("price_mad",      "INTEGER"),
             ("discount_pct",   "INTEGER NOT NULL DEFAULT 0"),
             ("sort_order",     "INTEGER NOT NULL DEFAULT 0"),
+            ("head_notes",     "TEXT"),
+            ("heart_notes",    "TEXT"),
+            ("base_notes",     "TEXT"),
             ("brand_fr",       "TEXT"), ("brand_ar",       "TEXT"), ("brand_en",       "TEXT"),
             ("name_fr",        "TEXT"), ("name_ar",        "TEXT"), ("name_en",        "TEXT"),
             ("notes_fr",       "TEXT"), ("notes_ar",       "TEXT"), ("notes_en",       "TEXT"),

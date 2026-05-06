@@ -174,6 +174,32 @@ async def add_variant(
     return VariantOut(**dict(v))
 
 
+@router.put("/{slug}/variants", response_model=List[VariantOut], dependencies=[Depends(require_admin)])
+async def replace_variants(
+    slug: str,
+    variants: List[VariantCreate],
+    db: aiosqlite.Connection = Depends(get_db)
+):
+    """Atomic replace: deletes all existing variants for this product and
+    inserts the supplied list. Used by the admin "save sizes" flow."""
+    cursor = await db.execute("SELECT id FROM products WHERE slug=?", (slug,))
+    row = await cursor.fetchone()
+    if not row:
+        raise HTTPException(status_code=404, detail="Product not found")
+    pid = row["id"]
+    await db.execute("DELETE FROM product_variants WHERE product_id=?", (pid,))
+    out = []
+    for v in variants:
+        cur = await db.execute(
+            "INSERT INTO product_variants (product_id, size_label, price_mad, stock, sku) VALUES (?,?,?,?,?)",
+            (pid, v.size_label, v.price_mad, v.stock, v.sku)
+        )
+        sel = await db.execute("SELECT * FROM product_variants WHERE id=?", (cur.lastrowid,))
+        out.append(VariantOut(**dict(await sel.fetchone())))
+    await db.commit()
+    return out
+
+
 @router.patch("/variants/{variant_id}", dependencies=[Depends(require_admin)])
 async def update_variant(
     variant_id: int,

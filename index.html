@@ -5350,10 +5350,12 @@ async function bootCatalog() {
     }
 
     // Build per-pkey maps from API data.
-    const activeKeys   = new Set();
-    const slotByKey    = new Map();
-    const imageByKey   = new Map();
+    const activeKeys    = new Set();
+    const slotByKey     = new Map();
+    const imageByKey    = new Map();
     const discountByKey = new Map();
+    const pyramidByKey  = new Map();
+    const variantsByKey = new Map();
     for (const p of prodRes) {
       const pkey = (p.slug || '').replace(/-/g, '_');
       if (!pkey) continue;
@@ -5361,6 +5363,17 @@ async function bootCatalog() {
       if (p.carousel_slot)              slotByKey.set(pkey, p.carousel_slot);
       if (p.image_url)                  imageByKey.set(pkey, p.image_url);
       if (p.discount_pct && p.discount_pct > 0) discountByKey.set(pkey, p.discount_pct);
+      if (p.head_notes || p.heart_notes || p.base_notes || p.description || p.description_fr) {
+        pyramidByKey.set(pkey, {
+          head:  p.head_notes  || '',
+          heart: p.heart_notes || '',
+          base:  p.base_notes  || '',
+          desc:  p.description_fr || p.description || ''
+        });
+      }
+      if (Array.isArray(p.variants) && p.variants.length) {
+        variantsByKey.set(pkey, p.variants);
+      }
       PRODUCT_I18N[pkey] = {
         fr: { brand: p.brand_fr || p.brand, name: p.name_fr || p.name, notes: p.notes_fr || p.notes || '' },
         ar: { brand: p.brand_ar || p.brand, name: p.name_ar || p.name, notes: p.notes_ar || p.notes || '' },
@@ -5409,7 +5422,14 @@ async function bootCatalog() {
       const name   = p.name_fr  || p.name  || pkey;
       const brand  = p.brand_fr || p.brand || 'Lamysk Aura Selection';
       const notes  = p.notes_fr || p.notes || '';
-      const price  = p.price_mad || 0;
+      const desc   = p.description_fr || p.description || '';
+      const head   = p.head_notes  || '';
+      const heart  = p.heart_notes || '';
+      const baseN  = p.base_notes  || '';
+      const variants = Array.isArray(p.variants) ? p.variants : [];
+      const defaultPrice = p.price_mad || 0;
+      const firstVariantPrice = variants.length ? variants[0].price_mad : null;
+      const price  = firstVariantPrice ?? defaultPrice;
       const pct    = p.discount_pct || 0;
       const finalP = pct > 0 ? Math.round(price * (100 - pct) / 100) : price;
       const imgStyle = p.image_url
@@ -5418,8 +5438,18 @@ async function bootCatalog() {
       const card = document.createElement('div');
       card.className = 'product-card';
       card.setAttribute('data-pkey', pkey);
-      card.setAttribute('data-desc', notes);
+      card.setAttribute('data-desc', desc || notes);
+      if (head)  card.setAttribute('data-head',  head);
+      if (heart) card.setAttribute('data-heart', heart);
+      if (baseN) card.setAttribute('data-base',  baseN);
       if (p.carousel_slot) card.setAttribute('data-slot', p.carousel_slot);
+      const sizesHtml = variants.length
+        ? `<div class="product-sizes" data-product="${escHtml(name)}">${
+            variants.map((v, i) =>
+              `<button class="size-btn${i===0?' selected':''}" data-size="${escHtml(v.size_label)}" data-price="${v.price_mad}">${escHtml(v.size_label)}</button>`
+            ).join('')
+          }</div>`
+        : '';
       card.innerHTML = `
         <div class="product-img" style="${imgStyle}">
           <button class="product-wish" title="Ajouter aux favoris">♡</button>
@@ -5429,8 +5459,9 @@ async function bootCatalog() {
           <div class="product-brand">${escHtml(brand)}</div>
           <div class="product-name">${escHtml(name)}</div>
           <div class="product-notes">${escHtml(notes)}</div>
+          ${sizesHtml}
           <div class="product-footer">
-            <span class="product-price price-tag" data-price-original="${price}">${price} MAD</span>
+            <span class="product-price price-tag" data-product="${escHtml(name)}" data-price-original="${price}">${price} MAD</span>
             <button class="product-add" data-i18n="add_bag">Ajouter</button>
           </div>
         </div>`;
@@ -5443,13 +5474,18 @@ async function bootCatalog() {
       });
       card.querySelector('.product-add').addEventListener('click', (ev) => {
         ev.stopPropagation();
-        if (typeof addToCart === 'function') addToCart(name, brand, finalP);
+        if (variants.length && typeof addToCartFromCard === 'function') {
+          addToCartFromCard(ev.currentTarget, name, brand);
+        } else if (typeof addToCart === 'function') {
+          addToCart(name, brand, finalP);
+        }
       });
       track.appendChild(card);
       hardcodedKeys.add(pkey);
     }
 
-    // Pass 1 — hide deactivated cards, overlay admin-uploaded images.
+    // Pass 1 — hide deactivated cards, overlay admin-uploaded images,
+    // and overlay admin-edited pyramid notes / description.
     if (activeKeys.size > 0) {
       document.querySelectorAll('.product-card[data-pkey]').forEach(card => {
         const k = card.getAttribute('data-pkey');
@@ -5467,6 +5503,38 @@ async function bootCatalog() {
             imgEl.style.backgroundColor = '#f7f2eb';
             const txt = imgEl.querySelector('.product-img-text');
             if (txt) txt.style.display = 'none';
+          }
+        }
+        const pyr = pyramidByKey.get(k);
+        if (pyr) {
+          if (pyr.head)  card.setAttribute('data-head',  pyr.head);
+          if (pyr.heart) card.setAttribute('data-heart', pyr.heart);
+          if (pyr.base)  card.setAttribute('data-base',  pyr.base);
+          if (pyr.desc)  card.setAttribute('data-desc',  pyr.desc);
+        }
+        const vs = variantsByKey.get(k);
+        if (vs) {
+          const sizesEl = card.querySelector('.product-sizes');
+          const productName = card.querySelector('.product-name')?.textContent || '';
+          const html = vs.map((v, i) =>
+            `<button class="size-btn${i===0?' selected':''}" data-size="${String(v.size_label).replace(/"/g,'&quot;')}" data-price="${v.price_mad}">${String(v.size_label).replace(/</g,'&lt;')}</button>`
+          ).join('');
+          if (sizesEl) {
+            sizesEl.innerHTML = html;
+          } else {
+            const footer = card.querySelector('.product-footer');
+            if (footer) {
+              const wrap = document.createElement('div');
+              wrap.className = 'product-sizes';
+              wrap.setAttribute('data-product', productName);
+              wrap.innerHTML = html;
+              footer.parentNode.insertBefore(wrap, footer);
+            }
+          }
+          const tag = card.querySelector('.price-tag');
+          if (tag) {
+            tag.textContent = `${vs[0].price_mad} MAD`;
+            tag.dataset.priceOriginal = String(vs[0].price_mad);
           }
         }
       });

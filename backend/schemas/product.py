@@ -19,6 +19,9 @@ class ProductOut(BaseModel):
     carousel_slot: Optional[str] = None
     notes: Optional[str] = None
     description: Optional[str] = None
+    head_notes: Optional[str] = None
+    heart_notes: Optional[str] = None
+    base_notes: Optional[str] = None
     image_url: Optional[str] = None
     badge: Optional[str] = None
     price_mad: Optional[int] = None
@@ -49,6 +52,9 @@ class ProductCreate(BaseModel):
     carousel_slot: Optional[str] = None
     notes: Optional[str] = None
     description: Optional[str] = None
+    head_notes: Optional[str] = None
+    heart_notes: Optional[str] = None
+    base_notes: Optional[str] = None
     image_url: Optional[str] = None
     badge: Optional[str] = None
     price_mad: Optional[int] = None
@@ -82,6 +88,9 @@ class ProductUpdate(BaseModel):
     carousel_slot: Optional[str] = None
     notes: Optional[str] = None
     description: Optional[str] = None
+    head_notes: Optional[str] = None
+    heart_notes: Optional[str] = None
+    base_notes: Optional[str] = None
     image_url: Optional[str] = None
     badge: Optional[str] = None
     price_mad: Optional[int] = None
