@@ -5208,6 +5208,69 @@ async function bootCatalog() {
     // Normalize an image_url ('images/x.png', '/images/x.png', 'http…') for CSS url().
     const normUrl = (u) => /^https?:\/\//i.test(u) ? u : (u.startsWith('/') ? u : '/' + u);
 
+    // Inject cards for active products that have no hardcoded card on the page
+    // (i.e. perfumes the admin created from scratch). Place by category track.
+    const trackByCategory = {
+      orient:     document.getElementById('orient-track'),
+      occident:   document.getElementById('occident-track'),
+      absolus:    document.getElementById('absolus-track'),
+      essentiels: document.querySelector('#essentiels .products-grid'),
+    };
+    const hardcodedKeys = new Set();
+    document.querySelectorAll('.product-card[data-pkey]').forEach(c =>
+      hardcodedKeys.add(c.getAttribute('data-pkey'))
+    );
+    const escHtml = (s) => String(s ?? '')
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    for (const p of prodRes) {
+      const pkey = (p.slug || '').replace(/-/g, '_');
+      if (!pkey || hardcodedKeys.has(pkey)) continue;
+      const track = trackByCategory[p.category];
+      if (!track) continue;
+      const name  = p.name_fr  || p.name  || pkey;
+      const brand = p.brand_fr || p.brand || 'Lamysk Aura Selection';
+      const notes = p.notes_fr || p.notes || '';
+      const price = p.price_mad || 0;
+      const imgStyle = p.image_url
+        ? `background-image:url('${normUrl(p.image_url)}');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb`
+        : `background:linear-gradient(135deg,#3d2010,#6b3a20)`;
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.setAttribute('data-pkey', pkey);
+      card.setAttribute('data-desc', notes);
+      card.innerHTML = `
+        <div class="product-img" style="${imgStyle}">
+          <button class="product-wish" title="Ajouter aux favoris">♡</button>
+          <button class="product-qv-btn">Vue rapide</button>
+        </div>
+        <div class="product-info">
+          <div class="product-brand">${escHtml(brand)}</div>
+          <div class="product-name">${escHtml(name)}</div>
+          <div class="product-notes">${escHtml(notes)}</div>
+          <div class="product-footer">
+            <span class="product-price price-tag">${price} MAD</span>
+            <button class="product-add" data-i18n="add_bag">Ajouter</button>
+          </div>
+        </div>`;
+      card.querySelector('.product-wish').addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        if (typeof toggleWishlist === 'function') toggleWishlist(ev.currentTarget, name);
+      });
+      card.querySelector('.product-qv-btn').addEventListener('click', () => {
+        if (typeof openQV === 'function') openQV(card);
+      });
+      card.querySelector('.product-add').addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        if (typeof addToCart === 'function') addToCart(name, brand, price);
+      });
+      track.appendChild(card);
+      hardcodedKeys.add(pkey);
+    }
+    if (typeof window !== 'undefined' && typeof window.invalidateProductIndex === 'function') {
+      window.invalidateProductIndex();
+    }
+
     // Hide product cards whose pkey is not in the active set (deactivated in admin).
     // Tag them with .is-inactive so search/filter functions skip them too.
     // Also overlay admin-uploaded images on top of the hardcoded card background.
