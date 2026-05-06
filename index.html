@@ -696,6 +696,53 @@ html[dir="rtl"] .cat-intro p { font-family: 'Noto Naskh Arabic', serif; }
   margin: 0 -1rem;
   padding: 0 1rem;
 }
+/* Per-house sub-row inside a category panel */
+.subrow { margin: 2.2rem 0 0; }
+.subrow:first-of-type { margin-top: 1.2rem; }
+.subrow-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--navy);
+  letter-spacing: 0.03em;
+  margin: 0 0 0.9rem;
+  padding-left: 1rem;
+  position: relative;
+}
+.subrow-title::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  width: 3px; height: 60%;
+  background: var(--gold);
+  transform: translateY(-50%);
+}
+html[dir="rtl"] .subrow-title { padding-left: 0; padding-right: 1rem; }
+html[dir="rtl"] .subrow-title::before { left: auto; right: 0; }
+@media (max-width: 768px) {
+  .subrow-title { font-size: 1.1rem; }
+}
+
+/* ── DISCOUNT DISPLAY ── */
+.product-discount-badge {
+  position: absolute; bottom: 0.8rem; left: 0.8rem;
+  background: #b91c1c; color: #fff;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+  padding: 4px 10px; border-radius: 100px;
+  z-index: 3;
+  box-shadow: 0 2px 8px rgba(185,28,28,0.35);
+  font-family: 'Jost', sans-serif;
+}
+html[dir="rtl"] .product-discount-badge { left: auto; right: 0.8rem; }
+.price-original {
+  text-decoration: line-through;
+  color: var(--muted);
+  font-size: 0.85em;
+  margin-right: 0.4em;
+  font-weight: 400;
+}
+html[dir="rtl"] .price-original { margin-right: 0; margin-left: 0.4em; }
+.price-discounted { color: #b91c1c; font-weight: 600; }
 .carousel-arrow {
   position: absolute;
   top: 35%;
@@ -5170,6 +5217,126 @@ const QUIZ_PARFUMS = {
 // ═══════════════════════════════════════════
 const CATALOG_API_BASE = (typeof window !== 'undefined' && window.location.origin) || '';
 
+// Sub-row labels (per "house" / carousel_slot) used when regrouping cat-panels.
+const SLOT_LABELS = {
+  signature:    { fr: 'Sélection Lamysk Aura', ar: 'اختيار لاميسك أورا', en: 'Lamysk Aura Selection' },
+  match:        { fr: 'Maison MATCH',          ar: 'دار MATCH',           en: 'MATCH House' },
+  match_musks:  { fr: 'Les Musks — MATCH',     ar: 'مسك — MATCH',         en: 'Musks — MATCH' },
+  lattafa:      { fr: 'Maison Lattafa',        ar: 'دار لطافة',           en: 'Lattafa House' },
+  arabian_oud:  { fr: 'Arabian Oud',           ar: 'العود العربي',         en: 'Arabian Oud' },
+  ghawali:      { fr: 'Ghawali',               ar: 'غوالي',                en: 'Ghawali' },
+  niche:        { fr: 'Sélection Niche',       ar: 'اختيار نيش',          en: 'Niche Selection' },
+  absolus:      { fr: 'Les Absolus',           ar: 'المُطلَق',             en: 'The Absolutes' },
+  __new:        { fr: 'Nouveautés',            ar: 'جديد',                 en: 'New' },
+};
+const SLOT_ORDER = {
+  orient:   ['signature', 'match', 'match_musks', 'lattafa', 'arabian_oud', 'ghawali'],
+  occident: ['niche'],
+  absolus:  ['absolus'],
+};
+
+function applySubrowI18n(lang) {
+  document.querySelectorAll('.subrow-title[data-subrow-slot]').forEach(el => {
+    const slot = el.getAttribute('data-subrow-slot');
+    const lbl = SLOT_LABELS[slot];
+    if (lbl) el.textContent = lbl[lang] || lbl.fr;
+  });
+}
+
+// Apply (or refresh) discount visuals on a single card. Idempotent per pct value.
+function applyDiscountToCard(card, pct) {
+  if (!pct || pct <= 0) return;
+  card.dataset.discountPct = String(pct);
+  const sizeBtns = card.querySelectorAll('.product-sizes .size-btn');
+  let origForTag = null, discForTag = null;
+  if (sizeBtns.length) {
+    sizeBtns.forEach(b => {
+      if (!b.dataset.priceOriginal) b.dataset.priceOriginal = b.dataset.price || '0';
+      const orig = parseInt(b.dataset.priceOriginal, 10) || 0;
+      b.dataset.price = String(Math.round(orig * (100 - pct) / 100));
+    });
+    const selected = card.querySelector('.size-btn.selected') || sizeBtns[0];
+    origForTag = parseInt(selected.dataset.priceOriginal, 10);
+    discForTag = parseInt(selected.dataset.price, 10);
+  } else {
+    const priceTag = card.querySelector('.price-tag');
+    if (priceTag) {
+      if (!priceTag.dataset.priceOriginal) {
+        const m = priceTag.textContent.match(/\d+/);
+        if (m) priceTag.dataset.priceOriginal = m[0];
+      }
+      origForTag = parseInt(priceTag.dataset.priceOriginal, 10) || 0;
+      discForTag = Math.round(origForTag * (100 - pct) / 100);
+    }
+  }
+  const priceTag = card.querySelector('.price-tag');
+  if (priceTag && origForTag != null) {
+    priceTag.innerHTML =
+      `<span class="price-original">${formatPrice(origForTag)}</span>` +
+      `<span class="price-discounted">${formatPrice(discForTag)}</span>`;
+  }
+  const img = card.querySelector('.product-img');
+  if (img && !img.querySelector('.product-discount-badge')) {
+    const badge = document.createElement('span');
+    badge.className = 'product-discount-badge';
+    badge.textContent = `−${pct}%`;
+    img.appendChild(badge);
+  }
+}
+
+// Replace a cat-panel's flat .products-carousel with one .subrow per slot.
+function regroupCatPanel(panelId, slotOrder) {
+  const panel = document.getElementById(panelId);
+  if (!panel) return;
+  const oldCarousel = panel.querySelector('.products-carousel');
+  if (!oldCarousel) return;
+  const cards = Array.from(panel.querySelectorAll('.product-card[data-pkey]'));
+  const bySlot = new Map();
+  const others = [];
+  for (const c of cards) {
+    const slot = c.getAttribute('data-slot') || '';
+    if (slot && slotOrder.includes(slot)) {
+      if (!bySlot.has(slot)) bySlot.set(slot, []);
+      bySlot.get(slot).push(c);
+    } else {
+      others.push(c);
+    }
+  }
+  const wrap = document.createElement('div');
+  wrap.className = 'subrows-wrap';
+  const renderSubrow = (slot, slotCards) => {
+    if (!slotCards.length) return;
+    if (slotCards.every(c => c.classList.contains('is-inactive'))) return;
+    const trackId = `${panelId}-track-${slot.replace(/_/g,'-')}`;
+    const subrow = document.createElement('div');
+    subrow.className = 'subrow';
+    subrow.setAttribute('data-slot', slot);
+    const title = document.createElement('h3');
+    title.className = 'subrow-title';
+    title.setAttribute('data-subrow-slot', slot);
+    const lbl = SLOT_LABELS[slot] || SLOT_LABELS.__new;
+    title.textContent = lbl[currentLang] || lbl.fr;
+    const carousel = document.createElement('div');
+    carousel.className = 'products-carousel';
+    carousel.innerHTML =
+      `<button class="carousel-arrow prev" onclick="scrollCarousel('${trackId}',-1)" aria-label="Précédent">&#8592;</button>` +
+      `<button class="carousel-arrow next" onclick="scrollCarousel('${trackId}',1)" aria-label="Suivant">&#8594;</button>`;
+    const track = document.createElement('div');
+    track.className = 'products-track';
+    track.id = trackId;
+    for (const c of slotCards) track.appendChild(c);
+    carousel.appendChild(track);
+    subrow.appendChild(title);
+    subrow.appendChild(carousel);
+    wrap.appendChild(subrow);
+  };
+  for (const slot of slotOrder) renderSubrow(slot, bySlot.get(slot) || []);
+  if (others.length && others.some(c => !c.classList.contains('is-inactive'))) {
+    renderSubrow('__new', others);
+  }
+  oldCarousel.replaceWith(wrap);
+}
+
 async function bootCatalog() {
   try {
     const [prodRes, i18nRes] = await Promise.all([
@@ -5182,14 +5349,18 @@ async function bootCatalog() {
       if (i18nRes[L]) UI_STRINGS_DB[L] = i18nRes[L];
     }
 
-    // Merge products: slug → pkey (replace '-' with '_')
-    const activeKeys = new Set();
-    const imageByKey = new Map();
+    // Build per-pkey maps from API data.
+    const activeKeys   = new Set();
+    const slotByKey    = new Map();
+    const imageByKey   = new Map();
+    const discountByKey = new Map();
     for (const p of prodRes) {
       const pkey = (p.slug || '').replace(/-/g, '_');
       if (!pkey) continue;
       activeKeys.add(pkey);
-      if (p.image_url) imageByKey.set(pkey, p.image_url);
+      if (p.carousel_slot)              slotByKey.set(pkey, p.carousel_slot);
+      if (p.image_url)                  imageByKey.set(pkey, p.image_url);
+      if (p.discount_pct && p.discount_pct > 0) discountByKey.set(pkey, p.discount_pct);
       PRODUCT_I18N[pkey] = {
         fr: { brand: p.brand_fr || p.brand, name: p.name_fr || p.name, notes: p.notes_fr || p.notes || '' },
         ar: { brand: p.brand_ar || p.brand, name: p.name_ar || p.name, notes: p.notes_ar || p.notes || '' },
@@ -5200,16 +5371,23 @@ async function bootCatalog() {
           price: p.price_mad,
           img: p.image_url || '',
           cat: p.category || 'orient',
-          slot: p.carousel_slot || null
+          slot: p.carousel_slot || null,
+          discountPct: p.discount_pct || 0
         };
       }
     }
 
-    // Normalize an image_url ('images/x.png', '/images/x.png', 'http…') for CSS url().
     const normUrl = (u) => /^https?:\/\//i.test(u) ? u : (u.startsWith('/') ? u : '/' + u);
 
-    // Inject cards for active products that have no hardcoded card on the page
-    // (i.e. perfumes the admin created from scratch). Place by category track.
+    // Tag every existing hardcoded card with its data-slot so regroup can place it.
+    document.querySelectorAll('.product-card[data-pkey]').forEach(card => {
+      const slot = slotByKey.get(card.getAttribute('data-pkey'));
+      if (slot) card.setAttribute('data-slot', slot);
+    });
+
+    // Inject a card for every active product that has no hardcoded card yet
+    // (perfumes the admin created from scratch). Goes into the legacy flat
+    // track first; the regroup pass below moves it into the right sub-row.
     const trackByCategory = {
       orient:     document.getElementById('orient-track'),
       occident:   document.getElementById('occident-track'),
@@ -5228,10 +5406,12 @@ async function bootCatalog() {
       if (!pkey || hardcodedKeys.has(pkey)) continue;
       const track = trackByCategory[p.category];
       if (!track) continue;
-      const name  = p.name_fr  || p.name  || pkey;
-      const brand = p.brand_fr || p.brand || 'Lamysk Aura Selection';
-      const notes = p.notes_fr || p.notes || '';
-      const price = p.price_mad || 0;
+      const name   = p.name_fr  || p.name  || pkey;
+      const brand  = p.brand_fr || p.brand || 'Lamysk Aura Selection';
+      const notes  = p.notes_fr || p.notes || '';
+      const price  = p.price_mad || 0;
+      const pct    = p.discount_pct || 0;
+      const finalP = pct > 0 ? Math.round(price * (100 - pct) / 100) : price;
       const imgStyle = p.image_url
         ? `background-image:url('${normUrl(p.image_url)}');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#f7f2eb`
         : `background:linear-gradient(135deg,#3d2010,#6b3a20)`;
@@ -5239,6 +5419,7 @@ async function bootCatalog() {
       card.className = 'product-card';
       card.setAttribute('data-pkey', pkey);
       card.setAttribute('data-desc', notes);
+      if (p.carousel_slot) card.setAttribute('data-slot', p.carousel_slot);
       card.innerHTML = `
         <div class="product-img" style="${imgStyle}">
           <button class="product-wish" title="Ajouter aux favoris">♡</button>
@@ -5249,7 +5430,7 @@ async function bootCatalog() {
           <div class="product-name">${escHtml(name)}</div>
           <div class="product-notes">${escHtml(notes)}</div>
           <div class="product-footer">
-            <span class="product-price price-tag">${price} MAD</span>
+            <span class="product-price price-tag" data-price-original="${price}">${price} MAD</span>
             <button class="product-add" data-i18n="add_bag">Ajouter</button>
           </div>
         </div>`;
@@ -5262,18 +5443,13 @@ async function bootCatalog() {
       });
       card.querySelector('.product-add').addEventListener('click', (ev) => {
         ev.stopPropagation();
-        if (typeof addToCart === 'function') addToCart(name, brand, price);
+        if (typeof addToCart === 'function') addToCart(name, brand, finalP);
       });
       track.appendChild(card);
       hardcodedKeys.add(pkey);
     }
-    if (typeof window !== 'undefined' && typeof window.invalidateProductIndex === 'function') {
-      window.invalidateProductIndex();
-    }
 
-    // Hide product cards whose pkey is not in the active set (deactivated in admin).
-    // Tag them with .is-inactive so search/filter functions skip them too.
-    // Also overlay admin-uploaded images on top of the hardcoded card background.
+    // Pass 1 — hide deactivated cards, overlay admin-uploaded images.
     if (activeKeys.size > 0) {
       document.querySelectorAll('.product-card[data-pkey]').forEach(card => {
         const k = card.getAttribute('data-pkey');
@@ -5296,8 +5472,25 @@ async function bootCatalog() {
       });
     }
 
+    // Pass 2 — apply per-product discount (price strikethrough + −X% badge).
+    discountByKey.forEach((pct, pkey) => {
+      const card = document.querySelector(`.product-card[data-pkey="${CSS.escape(pkey)}"]`);
+      if (card) applyDiscountToCard(card, pct);
+    });
+
+    // Pass 3 — regroup category panels into per-house sub-rows.
+    for (const cat of Object.keys(SLOT_ORDER)) {
+      regroupCatPanel(cat, SLOT_ORDER[cat]);
+    }
+
+    if (typeof window !== 'undefined' && typeof window.invalidateProductIndex === 'function') {
+      window.invalidateProductIndex();
+    }
+
     // Re-apply current language so fresh DB data shows immediately
     if (typeof setLang === 'function') setLang(currentLang);
+    // Wire note-link clicks on any newly injected cards
+    if (typeof _makeInteractive === 'function') _makeInteractive();
   } catch (err) {
     console.warn('[catalog] API unreachable, using hardcoded fallback', err);
   }
@@ -5337,6 +5530,8 @@ function setLang(lang) {
 
   // Translate product cards (brand / name / notes) for stamped cards
   applyProductI18n(lang);
+  // Translate sub-row headers ("Maison MATCH", etc.) when language changes
+  if (typeof applySubrowI18n === 'function') applySubrowI18n(lang);
 
   // Search index depends on visible card text — rebuild so queries match current lang
   if (typeof _productIndex !== 'undefined') _productIndex = null;
@@ -5420,11 +5615,22 @@ document.addEventListener('click', function(e) {
     const container = e.target.closest('.product-sizes');
     container.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
     e.target.classList.add('selected');
-    // Update displayed price
+    // Update displayed price (discount-aware: strikethrough original + new)
     const productName = container.dataset.product;
     const price = parseInt(e.target.dataset.price);
     const priceEl = container.closest('.product-info').querySelector('.price-tag[data-product="' + productName + '"]');
-    if (priceEl) priceEl.textContent = formatPrice(price);
+    if (priceEl) {
+      const card = e.target.closest('.product-card');
+      const pct = card ? parseInt(card.dataset.discountPct || '0', 10) : 0;
+      const orig = parseInt(e.target.dataset.priceOriginal || e.target.dataset.price, 10);
+      if (pct > 0 && orig) {
+        priceEl.innerHTML =
+          `<span class="price-original">${formatPrice(orig)}</span>` +
+          `<span class="price-discounted">${formatPrice(price)}</span>`;
+      } else {
+        priceEl.textContent = formatPrice(price);
+      }
+    }
   }
 });
 
@@ -6261,15 +6467,37 @@ function openQV(card) {
   const priceEl = card.querySelector('.price-tag');
   const qvSizes = document.getElementById('qvSizes');
   const qvPrice = document.getElementById('qvPrice');
+  const cardPct = parseInt(card.dataset.discountPct || '0', 10);
+  const renderPriceCell = (orig, disc) => {
+    if (cardPct > 0 && orig) {
+      qvPrice.innerHTML =
+        `<span class="price-original">${formatPrice(orig)}</span>` +
+        `<span class="price-discounted">${formatPrice(disc)}</span>`;
+    } else {
+      qvPrice.textContent = formatPrice(disc);
+    }
+  };
   if (sizesContainer) {
     const selected = sizesContainer.querySelector('.size-btn.selected');
-    qvPrice.textContent = selected ? formatPrice(parseInt(selected.dataset.price)) : (priceEl ? priceEl.textContent : '');
+    if (selected) {
+      const o = parseInt(selected.dataset.priceOriginal || selected.dataset.price, 10);
+      const d = parseInt(selected.dataset.price, 10);
+      renderPriceCell(o, d);
+    } else {
+      qvPrice.textContent = priceEl ? priceEl.textContent : '';
+    }
     qvSizes.innerHTML = Array.from(sizesContainer.querySelectorAll('.size-btn')).map(btn =>
-      `<button class="size-btn ${btn.classList.contains('selected') ? 'selected' : ''}" data-size="${btn.dataset.size}" data-price="${btn.dataset.price}" onclick="qvSelectSize(this)">${btn.dataset.size}</button>`
+      `<button class="size-btn ${btn.classList.contains('selected') ? 'selected' : ''}" data-size="${btn.dataset.size}" data-price="${btn.dataset.price}" data-price-original="${btn.dataset.priceOriginal || btn.dataset.price}" onclick="qvSelectSize(this)">${btn.dataset.size}</button>`
     ).join('');
   } else {
     qvSizes.innerHTML = '';
-    qvPrice.textContent = priceEl ? priceEl.textContent : '';
+    if (priceEl && cardPct > 0) {
+      const o = parseInt(priceEl.dataset.priceOriginal || '0', 10);
+      const d = o ? Math.round(o * (100 - cardPct) / 100) : 0;
+      renderPriceCell(o, d);
+    } else {
+      qvPrice.textContent = priceEl ? priceEl.textContent : '';
+    }
   }
 
   document.getElementById('qvOverlay').classList.add('open');
@@ -6279,7 +6507,17 @@ function openQV(card) {
 function qvSelectSize(btn) {
   btn.closest('.qv-sizes').querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  document.getElementById('qvPrice').textContent = formatPrice(parseInt(btn.dataset.price));
+  const qvPrice = document.getElementById('qvPrice');
+  const pct = parseInt(qvCurrentCard?.dataset.discountPct || '0', 10);
+  const price = parseInt(btn.dataset.price);
+  const orig = parseInt(btn.dataset.priceOriginal || btn.dataset.price, 10);
+  if (pct > 0 && orig) {
+    qvPrice.innerHTML =
+      `<span class="price-original">${formatPrice(orig)}</span>` +
+      `<span class="price-discounted">${formatPrice(price)}</span>`;
+  } else {
+    qvPrice.textContent = formatPrice(price);
+  }
 }
 
 function addToCartFromQV() {

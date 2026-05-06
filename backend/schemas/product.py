@@ -22,6 +22,7 @@ class ProductOut(BaseModel):
     image_url: Optional[str] = None
     badge: Optional[str] = None
     price_mad: Optional[int] = None
+    discount_pct: int = 0
     sort_order: int = 0
     # i18n overrides
     brand_fr: Optional[str] = None
@@ -51,6 +52,7 @@ class ProductCreate(BaseModel):
     image_url: Optional[str] = None
     badge: Optional[str] = None
     price_mad: Optional[int] = None
+    discount_pct: int = 0
     sort_order: int = 0
     brand_fr: Optional[str] = None
     brand_ar: Optional[str] = None
@@ -83,6 +85,7 @@ class ProductUpdate(BaseModel):
     image_url: Optional[str] = None
     badge: Optional[str] = None
     price_mad: Optional[int] = None
+    discount_pct: Optional[int] = None
     sort_order: Optional[int] = None
     brand_fr: Optional[str] = None
     brand_ar: Optional[str] = None

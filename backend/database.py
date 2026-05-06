@@ -78,6 +78,7 @@ async def init_db():
                 image_url      TEXT,
                 badge          TEXT,
                 price_mad      INTEGER,                    -- display price shown on the card (primary variant)
+                discount_pct   INTEGER NOT NULL DEFAULT 0, -- 0–99; final price = price_mad * (1 - pct/100)
                 sort_order     INTEGER NOT NULL DEFAULT 0,
                 -- i18n overrides (nullable; fallback to the language-neutral column above)
                 brand_fr       TEXT,  brand_ar       TEXT,  brand_en       TEXT,
@@ -244,6 +245,7 @@ async def init_db():
         new_product_cols = [
             ("carousel_slot",  "TEXT"),
             ("price_mad",      "INTEGER"),
+            ("discount_pct",   "INTEGER NOT NULL DEFAULT 0"),
             ("sort_order",     "INTEGER NOT NULL DEFAULT 0"),
             ("brand_fr",       "TEXT"), ("brand_ar",       "TEXT"), ("brand_en",       "TEXT"),
             ("name_fr",        "TEXT"), ("name_ar",        "TEXT"), ("name_en",        "TEXT"),

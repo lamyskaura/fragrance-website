@@ -545,6 +545,12 @@ tbody td { padding: 11px 16px; font-size: 13px; }
   font-size: 10px; letter-spacing: .05em; text-transform: uppercase;
   padding: 3px 8px; border-radius: 100px;
 }
+.prod-thumb .prod-discount-pill {
+  position: absolute; bottom: 8px; right: 8px;
+  background: #b91c1c; color: #fff;
+  font-size: 11px; font-weight: 700; letter-spacing: .03em;
+  padding: 3px 8px; border-radius: 100px;
+}
 .prod-body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
 .prod-name { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--navy); line-height: 1.25; }
 .prod-brand { font-size: 11px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
@@ -987,6 +993,16 @@ a { color: inherit; }
         </label>
         <label>Prix (MAD)
           <input id="pm-price" type="number" min="0" placeholder="490">
+        </label>
+      </div>
+      <div class="pm-row">
+        <label>Réduction (%)
+          <input id="pm-discount" type="number" min="0" max="99" value="0" placeholder="0">
+        </label>
+        <label>&nbsp;
+          <div style="font-size:12px;color:var(--muted);padding-top:0.6rem">
+            0 = pas de promo · 25 = −25 % sur le prix affiché
+          </div>
         </label>
       </div>
       <div class="pm-row">
@@ -1646,12 +1662,17 @@ function filterProducts() {
       <div class="prod-card ${r.active ? '' : 'inactive'}">
         <div class="prod-thumb ${empty}" style="${img}">
           ${r.badge ? `<span class="prod-badge">${esc(r.badge)}</span>` : ''}
+          ${r.discount_pct ? `<span class="prod-discount-pill">−${r.discount_pct}%</span>` : ''}
           ${r.active ? '' : '<span class="prod-inactive-pill">Inactif</span>'}
         </div>
         <div class="prod-body">
           <div class="prod-brand">${esc(r.brand||'')}</div>
           <div class="prod-name">${esc(r.name||r.slug)}</div>
-          <div class="prod-price">${r.price_mad ? mad(r.price_mad) : '—'}</div>
+          <div class="prod-price">${r.price_mad
+            ? (r.discount_pct
+                ? `<span style="text-decoration:line-through;color:var(--muted);font-size:0.9em">${mad(r.price_mad)}</span> ${mad(Math.round(r.price_mad*(100-r.discount_pct)/100))}`
+                : mad(r.price_mad))
+            : '—'}</div>
         </div>
         <div class="prod-actions">
           <button onclick="openProductEditor('${esc(r.slug)}')">Éditer</button>
@@ -1687,6 +1708,7 @@ function openProductEditor(slug) {
   set('pm-category', p?.category || 'orient')
   set('pm-slot', p?.carousel_slot || '')
   set('pm-price', p?.price_mad ?? '')
+  set('pm-discount', p?.discount_pct ?? 0)
   set('pm-image', p?.image_url || '')
   set('pm-badge', p?.badge || '')
   set('pm-sort', p?.sort_order ?? 0)
@@ -1763,6 +1785,7 @@ async function saveProduct() {
     category:      val('pm-category'),
     carousel_slot: val('pm-slot'),
     price_mad:     num('pm-price'),
+    discount_pct:  Math.max(0, Math.min(99, num('pm-discount') ?? 0)),
     image_url:     val('pm-image'),
     badge:         val('pm-badge'),
     sort_order:    num('pm-sort') ?? 0,
